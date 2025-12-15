@@ -15,7 +15,6 @@ class LoginScreenBody extends StatefulWidget {
 }
 
 class _LoginScreenBodyState extends State<LoginScreenBody> {
-  int _selectedAppType = 0; // 0 = User App, 1 = Delivery App
   final TextEditingController _phoneController = TextEditingController();
   final String _selectedCountryCode = '+20';
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -65,12 +64,6 @@ class _LoginScreenBodyState extends State<LoginScreenBody> {
     }
   }
 
-  void _handleAppTypeChanged(int index) {
-    setState(() {
-      _selectedAppType = index;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
@@ -117,13 +110,11 @@ class _LoginScreenBodyState extends State<LoginScreenBody> {
                   ),
                   child: LoginFormContent(
                     formKey: _formKey,
-                    selectedAppType: _selectedAppType,
                     phoneController: _phoneController,
                     selectedCountryCode: _selectedCountryCode,
                     isDark: isDark,
                     phoneValidator: _validatePhoneNumber,
                     onSendVerificationCode: _handleSendVerificationCode,
-                    onAppTypeChanged: _handleAppTypeChanged,
                     onGoogleTap: () {
                       // Handle Google login
                     },

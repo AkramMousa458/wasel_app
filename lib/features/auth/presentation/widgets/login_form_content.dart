@@ -3,7 +3,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:wasel/core/utils/app_colors.dart';
 import 'package:wasel/core/utils/app_styles.dart';
-import 'package:wasel/features/auth/presentation/widgets/app_type_selector.dart';
 import 'package:wasel/features/auth/presentation/widgets/mobile_number_input.dart';
 import 'package:wasel/features/auth/presentation/widgets/send_verification_button.dart';
 import 'package:wasel/features/auth/presentation/widgets/social_login_section.dart';
@@ -11,7 +10,6 @@ import 'package:wasel/features/auth/presentation/widgets/privacy_terms_footer.da
 
 class LoginFormContent extends StatelessWidget {
   final GlobalKey<FormState> formKey;
-  final int selectedAppType;
   final TextEditingController phoneController;
   final String selectedCountryCode;
   final bool isDark;
@@ -22,12 +20,10 @@ class LoginFormContent extends StatelessWidget {
   final VoidCallback? onFacebookTap;
   final VoidCallback? onPrivacyPolicyTap;
   final VoidCallback? onTermsOfServiceTap;
-  final ValueChanged<int> onAppTypeChanged;
 
   const LoginFormContent({
     super.key,
     required this.formKey,
-    required this.selectedAppType,
     required this.phoneController,
     required this.selectedCountryCode,
     required this.isDark,
@@ -38,7 +34,6 @@ class LoginFormContent extends StatelessWidget {
     this.onFacebookTap,
     this.onPrivacyPolicyTap,
     this.onTermsOfServiceTap,
-    required this.onAppTypeChanged,
   });
 
   @override
@@ -49,12 +44,12 @@ class LoginFormContent extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           // App type selector
-          AppTypeSelector(
-            selectedAppType: selectedAppType,
-            isDark: isDark,
-            onAppTypeChanged: onAppTypeChanged,
-          ),
-          SizedBox(height: 32.h),
+          // AppTypeSelector(
+          //   selectedAppType: selectedAppType,
+          //   isDark: isDark,
+          //   onAppTypeChanged: onAppTypeChanged,
+          // ),
+          // SizedBox(height: 32.h),
 
           // Heading
           Text(
@@ -91,9 +86,7 @@ class LoginFormContent extends StatelessWidget {
           SizedBox(height: 24.h),
 
           // Send verification code button
-          SendVerificationButton(
-            onPressed: onSendVerificationCode,
-          ),
+          SendVerificationButton(onPressed: onSendVerificationCode),
           SizedBox(height: 32.h),
 
           // Social login section
@@ -103,7 +96,9 @@ class LoginFormContent extends StatelessWidget {
             onAppleTap: onAppleTap,
             onFacebookTap: onFacebookTap,
           ),
-          SizedBox(height: 32.h),
+
+          // Spacer to push footer to the bottom
+          SizedBox(height: MediaQuery.of(context).size.height * 0.1),
 
           // Privacy Policy and Terms of Service
           PrivacyTermsFooter(
@@ -116,4 +111,3 @@ class LoginFormContent extends StatelessWidget {
     );
   }
 }
-
