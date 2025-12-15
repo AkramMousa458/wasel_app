@@ -30,7 +30,7 @@ class LanguageToggleButton extends StatelessWidget {
                 ),
                 SizedBox(width: 4.w),
                 Text(
-                  isArabic ? 'AR' : 'EN',
+                  isArabic ? '🇪🇬' : '🇺🇸',
                   style: TextStyle(
                     fontSize: 14.sp,
                     fontWeight: FontWeight.w600,
