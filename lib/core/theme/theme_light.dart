@@ -13,7 +13,7 @@ final ThemeData lightTheme = ThemeData(
   // 2. Color Scheme (The core palette)
   colorScheme: const ColorScheme.light(
     primary: AppColors.primary,
-    secondary: AppColors.secondary,
+    secondary: AppColors.grey,
     surface: AppColors.lightCard, // The Card background (White)
     error: AppColors.error,
     onPrimary: AppColors.white, // Text on Blue button
@@ -99,23 +99,3 @@ final ThemeData lightTheme = ThemeData(
     ),
   ),
 );
-
-// final ThemeData lightTheme = ThemeData(
-//   brightness: Brightness.light,
-//   primaryColor: AppColors.primary,
-//   scaffoldBackgroundColor: AppColors.scaffoldBackground,
-//   appBarTheme: const AppBarTheme(
-//     backgroundColor: AppColors.appBarBackground,
-//     foregroundColor: AppColors.surface,
-//   ),
-//   colorScheme: ColorScheme.light(
-//     primary: AppColors.primary,
-//     secondary: AppColors.secondary,
-//     surface: AppColors.white,
-//     error: AppColors.error,
-//     onPrimary: AppColors.white,
-//     onSecondary: AppColors.white,
-//     onSurface: AppColors.surface,
-//     onError: AppColors.white,
-//   ),
-// );

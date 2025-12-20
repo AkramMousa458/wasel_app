@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:go_router/go_router.dart';
 import 'package:wasel/core/utils/app_colors.dart';
+import 'package:wasel/core/utils/theme_utils.dart';
 import 'package:wasel/features/auth/presentation/widgets/login_header.dart';
 import 'package:wasel/features/auth/presentation/widgets/login_form_content.dart';
 import 'package:wasel/features/base/presentation/screens/base_screen.dart';
@@ -66,7 +67,7 @@ class _LoginScreenBodyState extends State<LoginScreenBody> {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final isDark = ThemeUtils.isDark(context);
 
     return Container(
       decoration: BoxDecoration(
@@ -76,12 +77,12 @@ class _LoginScreenBodyState extends State<LoginScreenBody> {
           colors: isDark
               ? [
                   AppColors.primary,
-                  AppColors.primary.withOpacity(0.8),
+                  AppColors.primary.withValues(alpha: 0.8),
                   AppColors.darkScaffold,
                 ]
               : [
                   AppColors.primary,
-                  AppColors.primary.withOpacity(0.9),
+                  AppColors.primary.withValues(alpha: 0.9),
                   AppColors.lightScaffold,
                 ],
         ),

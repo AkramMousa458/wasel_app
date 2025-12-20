@@ -97,23 +97,3 @@ final ThemeData darkTheme = ThemeData(
     ),
   ),
 );
-
-// final ThemeData darkTheme = ThemeData(
-//   brightness: Brightness.dark,
-//   primaryColor: AppColors.primary,
-//   scaffoldBackgroundColor: AppColors.baseSurface,
-//   appBarTheme: const AppBarTheme(
-//     backgroundColor: AppColors.surface,
-//     foregroundColor: AppColors.white,
-//   ),
-//   colorScheme: ColorScheme.dark(
-//     primary: AppColors.primary,
-//     secondary: AppColors.secondary,
-//     surface: AppColors.surface,
-//     error: AppColors.error,
-//     onPrimary: AppColors.white,
-//     onSecondary: AppColors.white,
-//     onSurface: AppColors.white,
-//     onError: AppColors.white,
-//   ),
-// );

@@ -47,38 +47,32 @@ abstract class AppStyles {
     fontSize: 16.sp,
     fontWeight: FontWeight.w500,
     fontFamily: AppString.fontFamily,
-    // color: Colors.white,
   );
   static TextStyle textstyle12 = TextStyle(
     fontSize: 12.sp,
     fontWeight: FontWeight.w300,
     fontFamily: AppString.fontFamily,
-    // color: AppColors.secondary,
   );
   static TextStyle textstyle10 = TextStyle(
     fontSize: 10.sp,
     fontWeight: FontWeight.bold,
     fontFamily: AppString.fontFamily,
-    // color: AppColors.black,
   );
 
   static TextStyle textstyle14 = TextStyle(
     fontSize: 14.sp,
     fontFamily: AppString.fontFamily,
-    // color: AppColors.black,
   );
   static TextStyle textstyle14Bold = TextStyle(
     fontSize: 14.sp,
     fontWeight: FontWeight.bold,
     fontFamily: AppString.fontFamily,
-    // color: AppColors.black,
   );
 
   static TextStyle textstyle22 = TextStyle(
     fontSize: 22.sp,
     fontWeight: FontWeight.w700,
     fontFamily: AppString.fontFamily,
-    // color: Colors.white,
   );
 
   static TextStyle textstyle35Underline = TextStyle(

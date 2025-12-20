@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wasel/features/base/presentation/widgets/custom_bottom_nav_bar.dart';
 import 'package:wasel/features/home/presentation/screens/home_screen.dart';
 
 class BaseScreen extends StatefulWidget {
@@ -14,16 +15,26 @@ class _BaseScreenState extends State<BaseScreen> {
 
   final List<Widget> _screens = [
     const HomeScreen(),
-    // const HomeScreen(),
-    // const HomeScreen(),
-    // const MoreScreen(),
+    const Placeholder(), // My Orders - TODO: Replace with actual screen
+    const Placeholder(), // Add/Create - TODO: Replace with actual screen
+    const Placeholder(), // Chat - TODO: Replace with actual screen
+    const Placeholder(), // Profile - TODO: Replace with actual screen
   ];
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: _screens[_selectedIndex],
-      bottomNavigationBar: Text('Show Here Navigation Bar'),
+      bottomNavigationBar: CustomBottomNavBar(
+        selectedIndex: _selectedIndex,
+        onTap: _onItemTapped,
+      ),
     );
   }
 }

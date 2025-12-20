@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wasel/core/theme/theme_dark.dart';
@@ -32,7 +34,7 @@ class ThemeCubit extends Cubit<ThemeData> {
   }
 
   static Brightness getDeviceBrightness() {
-    return WidgetsBinding.instance.window.platformBrightness;
+    return PlatformDispatcher.instance.platformBrightness;
   }
 
   static Future<Brightness> getInitialBrightness(

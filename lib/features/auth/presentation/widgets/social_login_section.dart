@@ -29,8 +29,8 @@ class SocialLoginSection extends StatelessWidget {
             Expanded(
               child: Divider(
                 color: isDark
-                    ? AppColors.darkTextSecondary.withOpacity(0.3)
-                    : AppColors.lightTextSecondary.withOpacity(0.3),
+                    ? AppColors.darkTextSecondary.withValues(alpha: 0.3)
+                    : AppColors.lightTextSecondary.withValues(alpha: 0.3),
               ),
             ),
             Padding(
@@ -47,8 +47,8 @@ class SocialLoginSection extends StatelessWidget {
             Expanded(
               child: Divider(
                 color: isDark
-                    ? AppColors.darkTextSecondary.withOpacity(0.3)
-                    : AppColors.lightTextSecondary.withOpacity(0.3),
+                    ? AppColors.darkTextSecondary.withValues(alpha: 0.3)
+                    : AppColors.lightTextSecondary.withValues(alpha: 0.3),
               ),
             ),
           ],
