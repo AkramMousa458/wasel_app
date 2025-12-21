@@ -25,7 +25,7 @@ class CustomAppBar extends StatelessWidget {
 
       decoration: BoxDecoration(
         color: Theme.of(context).appBarTheme.backgroundColor,
-        boxShadow: [AppStyles.boxShadow],
+        // boxShadow: [AppStyles.boxShadow],
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,

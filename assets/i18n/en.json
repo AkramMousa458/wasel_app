@@ -20,5 +20,8 @@
   "phone_number_required": "Phone number is required",
   "phone_number_invalid": "Please enter a valid phone number",
   "phone_number_too_short": "Phone number is too short",
-  "phone_number_too_long": "Phone number is too long"
+  "phone_number_too_long": "Phone number is too long",
+  "welcome_back": "Welcome back,",
+  "what_do_you_want_to": "What do you want to",
+  "send_today": "send today?"
 }

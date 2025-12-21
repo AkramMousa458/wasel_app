@@ -16,8 +16,8 @@ class AppColors {
   static const Color white = Colors.white; // Pure white
   static const Color black = Colors.black; // Pure black
   static const Color transparent = Colors.transparent;
-  static const Color warning500= Color(0xFFF79009);
-  static const Color success500= Color(0xFF12B76A);
+  static const Color warning500 = Color(0xFFF79009);
+  static const Color success500 = Color(0xFF12B76A);
 
   // --------------------------------------------------------------------------
   // 2. DARK THEME PALETTE
