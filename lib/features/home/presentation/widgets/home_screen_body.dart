@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:wasel/core/utils/app_colors.dart';
 import 'package:wasel/core/utils/theme_utils.dart';
+import 'package:wasel/features/home/presentation/widgets/action_card.dart';
 import 'package:wasel/features/home/presentation/widgets/home_header.dart';
 import 'package:wasel/features/home/presentation/widgets/home_question_text.dart';
 import 'package:wasel/features/home/presentation/widgets/send_item_card.dart';
@@ -24,7 +27,33 @@ class HomeScreenBody extends StatelessWidget {
                   SizedBox(height: 20.h),
                   HomeQuestionText(isDark: isDark),
                   SizedBox(height: 20.h),
-                  const SendItemCard(),
+                  SendItemCard(isDark: isDark),
+                  SizedBox(height: 20.h),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: ActionCard(
+                          isDark: isDark,
+                          icon: FontAwesomeIcons.bagShopping,
+                          iconBg: const Color(0xFF6BFF7A),
+                          iconColor: AppColors.darkCard,
+                          topText: 'shop',
+                          bottomText: 'buy_something',
+                        ),
+                      ),
+                      const SizedBox(width: 16),
+                      Expanded(
+                        child: ActionCard(
+                          isDark: isDark,
+                          icon: FontAwesomeIcons.truckFast,
+                          iconBg: const Color(0xFF1F3C88),
+                          iconColor: const Color(0xFF3B82F6),
+                          topText: 'earn',
+                          bottomText: 'deliver_order',
+                        ),
+                      ),
+                    ],
+                  ),
                   // Text(
                   //   translate('what_do_you_want_to'),
                   //   textAlign: TextAlign.start,

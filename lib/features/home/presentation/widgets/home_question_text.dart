@@ -10,45 +10,41 @@ class HomeQuestionText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Text.rich(
+    return Text.rich(
+      TextSpan(
+        children: [
           TextSpan(
-            children: [
-              TextSpan(
-                text: '${translate('what_do_you_want_to')} ',
-                style: AppStyles.textstyle25.copyWith(
-                  fontWeight: FontWeight.bold,
-                  color: isDark
-                      ? AppColors.darkTextPrimary
-                      : AppColors.lightTextPrimary,
-                ),
-              ),
-
-              WidgetSpan(
-                alignment: PlaceholderAlignment.middle,
-                child: ShaderMask(
-                  shaderCallback: (bounds) {
-                    return const LinearGradient(
-                      colors: [
-                        AppColors.primary, // Blue
-                        AppColors.secondary, // Yellow
-                      ],
-                    ).createShader(bounds);
-                  },
-                  child: Text(
-                    translate('send_today'),
-                    style: AppStyles.textstyle25.copyWith(
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white, // REQUIRED
-                    ),
-                  ),
-                ),
-              ),
-            ],
+            text: '${translate('what_do_you_want_to')} ',
+            style: AppStyles.textstyle25.copyWith(
+              fontWeight: FontWeight.bold,
+              color: isDark
+                  ? AppColors.darkTextPrimary
+                  : AppColors.lightTextPrimary,
+            ),
           ),
-        ),
-      ],
+
+          WidgetSpan(
+            alignment: PlaceholderAlignment.middle,
+            child: ShaderMask(
+              shaderCallback: (bounds) {
+                return const LinearGradient(
+                  colors: [
+                    AppColors.primary, // Blue
+                    AppColors.secondary, // Yellow
+                  ],
+                ).createShader(bounds);
+              },
+              child: Text(
+                translate('send_today'),
+                style: AppStyles.textstyle28.copyWith(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white, // REQUIRED
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

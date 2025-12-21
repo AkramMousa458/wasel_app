@@ -23,5 +23,12 @@
   "phone_number_too_long": "رقم الهاتف طويل جداً",
   "welcome_back": "مرحباً بك,",
   "what_do_you_want_to": "ماذا تريد أن",
-  "send_today": "ترسل اليوم؟"
+  "send_today": "ترسل اليوم؟",
+  "send_item": "إرسال عنصر",
+  "courier_documents_gifts_or_anything_else": "بضاعة، وثائق، هدايا أو أي شيء آخر.",
+  "send_now": "إرسال الآن",
+  "shop": "تسوق",
+  "buy_something": "شراء\nشيء",
+  "earn": "كسب",
+  "deliver_order": "تسليم\nطلب"
 } 

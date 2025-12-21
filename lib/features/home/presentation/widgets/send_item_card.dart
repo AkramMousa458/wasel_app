@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:wasel/core/utils/theme_utils.dart';
+import 'package:flutter_translate/flutter_translate.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class SendItemCard extends StatelessWidget {
-  const SendItemCard({super.key});
+  const SendItemCard({super.key, required this.isDark});
+  final bool isDark;
 
   @override
   Widget build(BuildContext context) {
-    final isDark = ThemeUtils.isDark(context);
-
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
@@ -42,7 +42,7 @@ class SendItemCard extends StatelessWidget {
                     borderRadius: BorderRadius.circular(14),
                   ),
                   child: const Icon(
-                    Icons.inventory_2_outlined,
+                    FontAwesomeIcons.boxArchive,
                     color: Colors.white,
                     size: 28,
                   ),
@@ -51,8 +51,8 @@ class SendItemCard extends StatelessWidget {
                 const SizedBox(height: 16),
 
                 /// TITLE
-                const Text(
-                  'Send Item',
+                Text(
+                  translate('send_item'),
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 22,
@@ -64,7 +64,7 @@ class SendItemCard extends StatelessWidget {
 
                 /// SUBTITLE
                 Text(
-                  'Courier documents, gifts, or anything else.',
+                  translate('courier_documents_gifts_or_anything_else'),
                   style: TextStyle(
                     color: Colors.white.withValues(alpha: 0.9),
                     fontSize: 14,
@@ -86,11 +86,11 @@ class SendItemCard extends StatelessWidget {
                       color: Colors.white.withValues(alpha: 0.4),
                     ),
                   ),
-                  child: const Row(
+                  child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Text(
-                        'Send Now',
+                        translate('send_now'),
                         style: TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.w600,
@@ -106,9 +106,16 @@ class SendItemCard extends StatelessWidget {
           ),
 
           /// RIGHT DECOR ICON
-          Opacity(
-            opacity: 0.15,
-            child: Icon(Icons.inventory_2, size: 120, color: Colors.white),
+          Transform.rotate(
+            angle: 100,
+            child: Opacity(
+              opacity: 0.15,
+              child: Icon(
+                FontAwesomeIcons.boxOpen,
+                size: 120,
+                color: Colors.white,
+              ),
+            ),
           ),
         ],
       ),
