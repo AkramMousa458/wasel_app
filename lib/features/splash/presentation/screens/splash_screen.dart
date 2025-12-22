@@ -2,11 +2,11 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_translate/flutter_translate.dart';
 import 'package:go_router/go_router.dart';
 import 'package:wasel/core/utils/assets.dart';
 import 'package:wasel/core/utils/local_storage.dart';
 import 'package:wasel/core/utils/service_locator.dart';
+import 'package:wasel/core/utils/theme_utils.dart';
 import 'package:wasel/features/auth/presentation/screens/login_screen.dart';
 import 'package:wasel/features/base/presentation/screens/base_screen.dart';
 
@@ -58,6 +58,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = ThemeUtils.isDark(context);
     return Scaffold(
       body: Center(
         child: Padding(
@@ -69,7 +70,7 @@ class _SplashScreenState extends State<SplashScreen> {
             builder: (context, value, child) {
               return Transform.scale(
                 scale: value,
-                child: Image.asset(Assets.logo),
+                child: Image.asset(isDark ? Assets.logoWhite : Assets.logo),
               );
             },
           ),

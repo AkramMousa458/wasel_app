@@ -30,5 +30,11 @@
   "shop": "Shop",
   "buy_something": "Buy\nSomething",
   "earn": "Earn",
-  "deliver_order": "Deliver\nOrder"
+  "deliver_order": "Deliver\nOrder",
+  "recent_activity": "Recent Activity",
+  "see_all": "See all",
+  "min": "min",
+  "order": "Order",
+  "arriving_soon": "Arriving soon",
+  "sushi_master": "Sushi Master"
 }

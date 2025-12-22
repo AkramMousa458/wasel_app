@@ -7,6 +7,7 @@ import 'package:wasel/features/home/presentation/widgets/action_card.dart';
 import 'package:wasel/features/home/presentation/widgets/home_header.dart';
 import 'package:wasel/features/home/presentation/widgets/home_question_text.dart';
 import 'package:wasel/features/home/presentation/widgets/send_item_card.dart';
+import 'package:wasel/features/home/presentation/widgets/recent_activity_section.dart';
 
 class HomeScreenBody extends StatelessWidget {
   const HomeScreenBody({super.key});
@@ -54,22 +55,9 @@ class HomeScreenBody extends StatelessWidget {
                       ),
                     ],
                   ),
-                  // Text(
-                  //   translate('what_do_you_want_to'),
-                  //   textAlign: TextAlign.start,
-                  //   style: AppStyles.textstyle16.copyWith(
-                  //     fontWeight: FontWeight.bold,
-                  //     color: AppColors.lightTextPrimary,
-                  //   ),
-                  // ),
-                  // Text(
-                  //   translate('send_today?'),
-                  //   textAlign: TextAlign.start,
-                  //   style: AppStyles.textstyle16.copyWith(
-                  //     fontWeight: FontWeight.bold,
-                  //     color: AppColors.lightTextPrimary,
-                  //   ),
-                  // ),
+                  SizedBox(height: 20.h),
+                  RecentActivitySection(isDark: isDark),
+                  SizedBox(height: 60.h),
                 ],
               ),
             ),

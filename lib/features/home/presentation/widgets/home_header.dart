@@ -77,29 +77,36 @@ class HomeHeader extends StatelessWidget {
         IconButton(
           onPressed: () {},
           iconSize: 22.r,
-          icon: Stack(
-            clipBehavior: Clip.none,
-            children: [
-              Icon(FontAwesomeIcons.solidBell),
-              Positioned(
-                top: -5,
-                right: -3,
-                child: Container(
-                  width: 11.r,
-                  height: 11.r,
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      color: isDark
-                          ? AppColors.lightTextPrimary
-                          : AppColors.white,
-                      width: 2,
+          icon: Container(
+            padding: EdgeInsets.all(10.r),
+            decoration: BoxDecoration(
+              color: Colors.white.withValues(alpha: 0.1),
+              borderRadius: BorderRadius.circular(100),
+            ),
+            child: Stack(
+              clipBehavior: Clip.none,
+              children: [
+                Icon(FontAwesomeIcons.solidBell),
+                Positioned(
+                  top: -5,
+                  right: -3,
+                  child: Container(
+                    width: 11.r,
+                    height: 11.r,
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: isDark
+                            ? AppColors.lightTextPrimary
+                            : AppColors.white,
+                        width: 2,
+                      ),
+                      color: isDark ? AppColors.error500 : AppColors.error500,
+                      shape: BoxShape.circle,
                     ),
-                    color: isDark ? AppColors.error500 : AppColors.error500,
-                    shape: BoxShape.circle,
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ],

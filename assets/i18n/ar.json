@@ -30,5 +30,11 @@
   "shop": "تسوق",
   "buy_something": "شراء\nشيء",
   "earn": "كسب",
-  "deliver_order": "تسليم\nطلب"
+  "deliver_order": "تسليم\nطلب",
+  "recent_activity": "النشاط الأخير",
+  "see_all": "عرض الكل",
+  "min": "دقيقة",
+  "order": "الطلب",
+  "arriving_soon": "يصل قريبا",
+  "sushi_master": "سوشي ماستر"
 } 

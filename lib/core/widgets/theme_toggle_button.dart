@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:wasel/core/theme/theme_cubit.dart';
+import 'package:wasel/core/utils/theme_utils.dart';
 
 /// A reusable theme toggle button widget
 class ThemeToggleButton extends StatelessWidget {
@@ -11,7 +12,7 @@ class ThemeToggleButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<ThemeCubit, ThemeData>(
       builder: (context, theme) {
-        final isDark = theme.brightness == Brightness.dark;
+        final isDark = ThemeUtils.isDark(context);
 
         return InkWell(
           onTap: () {
