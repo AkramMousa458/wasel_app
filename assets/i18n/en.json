@@ -6,6 +6,9 @@
   "language": "Language",
   "login": "Login",
   "home": "Home",
+  "my_orders": "My Orders",
+  "wallet": "Wallet",
+  "profile": "Profile",
   "user_app": "User App",
   "delivery_app": "Delivery App",
   "lets_get_moving": "Let's get moving!",
@@ -36,5 +39,10 @@
   "min": "min",
   "order": "Order",
   "arriving_soon": "Arriving soon",
-  "sushi_master": "Sushi Master"
+  "sushi_master": "Sushi Master",
+  "invite_friends": "INVITE FRIENDS",
+  "get": "Get",
+  "off": "off",
+  "your_next_delivery": "your next delivery!",
+  "popular": "POPULAR"
 }

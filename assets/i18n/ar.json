@@ -6,6 +6,9 @@
   "language": "اللغة",
   "login": "تسجيل الدخول",
   "home": "الرئيسية",
+  "my_orders": "الطلبات",
+  "wallet": "المحفظة",
+  "profile": "حسابك",
   "user_app": "دخول كمستخدم",
   "delivery_app": "دخول كمندوب",
   "lets_get_moving": "جاهز!",
@@ -36,5 +39,10 @@
   "min": "دقيقة",
   "order": "الطلب",
   "arriving_soon": "يصل قريبا",
-  "sushi_master": "سوشي ماستر"
+  "sushi_master": "سوشي ماستر",
+  "invite_friends": "ادعُ الأصدقاء",
+  "get": "احصل على",
+  "off": "خصم",
+  "your_next_delivery": "على طلبك القادم!",
+  "popular": "الأكثر رواجاً"
 } 

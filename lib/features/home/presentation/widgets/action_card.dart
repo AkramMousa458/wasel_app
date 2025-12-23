@@ -24,7 +24,6 @@ class ActionCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(22),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(26),
         color: isDark ? AppColors.darkCard : AppColors.lightCard,
@@ -36,52 +35,66 @@ class ActionCard extends StatelessWidget {
           ),
         ],
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          /// ICON
-          Container(
-            padding: const EdgeInsets.all(14),
-            decoration: BoxDecoration(
-              color: iconBg,
-              borderRadius: BorderRadius.circular(14),
-              boxShadow: [
-                BoxShadow(
-                  color: iconBg.withValues(alpha: 0.6),
-                  blurRadius: 20,
-                  spreadRadius: 2,
+      child: Material(
+        color: Colors.transparent,
+        borderRadius: BorderRadius.circular(26),
+        clipBehavior: Clip.hardEdge,
+        child: InkWell(
+          borderRadius: BorderRadius.circular(26),
+          onTap: () {
+            print('${translate(bottomText)} Card Tapped');
+          },
+          child: Padding(
+            padding: const EdgeInsets.all(22),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                /// ICON
+                Container(
+                  padding: const EdgeInsets.all(14),
+                  decoration: BoxDecoration(
+                    color: iconBg,
+                    borderRadius: BorderRadius.circular(14),
+                    boxShadow: [
+                      BoxShadow(
+                        color: iconBg.withValues(alpha: 0.6),
+                        blurRadius: 20,
+                        spreadRadius: 2,
+                      ),
+                    ],
+                  ),
+                  child: Icon(icon, color: iconColor, size: 26),
+                ),
+
+                const SizedBox(height: 18),
+
+                /// TOP TEXT
+                Text(
+                  translate(topText),
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: isDark
+                        ? AppColors.white.withValues(alpha: 0.6)
+                        : AppColors.grey,
+                  ),
+                ),
+
+                const SizedBox(height: 6),
+
+                /// BOTTOM TEXT (MAIN TITLE)
+                Text(
+                  translate(bottomText),
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: AppStyles.textstyle18.copyWith(
+                    fontWeight: FontWeight.bold,
+                    color: isDark ? AppColors.white : AppColors.black,
+                  ),
                 ),
               ],
             ),
-            child: Icon(icon, color: iconColor, size: 26),
           ),
-
-          const SizedBox(height: 18),
-
-          /// TOP TEXT
-          Text(
-            translate(topText),
-            style: TextStyle(
-              fontSize: 14,
-              color: isDark
-                  ? AppColors.white.withValues(alpha: 0.6)
-                  : AppColors.grey,
-            ),
-          ),
-
-          const SizedBox(height: 6),
-
-          /// BOTTOM TEXT (MAIN TITLE)
-          Text(
-            translate(bottomText),
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
-            style: AppStyles.textstyle18.copyWith(
-              fontWeight: FontWeight.bold,
-              color: isDark ? AppColors.white : AppColors.black,
-            ),
-          ),
-        ],
+        ),
       ),
     );
   }

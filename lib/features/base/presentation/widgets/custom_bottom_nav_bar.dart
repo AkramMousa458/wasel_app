@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_translate/flutter_translate.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:wasel/core/utils/app_colors.dart';
 import 'package:wasel/core/utils/app_styles.dart';
@@ -49,7 +50,7 @@ class CustomBottomNavBar extends StatelessWidget {
                     context: context,
                     icon: FontAwesomeIcons.house,
                     selectedIcon: FontAwesomeIcons.houseChimney,
-                    label: 'Home',
+                    label: 'home',
                     index: 0,
                     isDark: isDark,
                   ),
@@ -57,7 +58,7 @@ class CustomBottomNavBar extends StatelessWidget {
                     context: context,
                     icon: Icons.inventory_2_outlined,
                     selectedIcon: Icons.inventory_2,
-                    label: 'My Orders',
+                    label: 'my_orders',
                     index: 1,
                     isDark: isDark,
                   ),
@@ -65,9 +66,9 @@ class CustomBottomNavBar extends StatelessWidget {
                   SizedBox(width: 50.w),
                   _buildNavItem(
                     context: context,
-                    icon: FontAwesomeIcons.commentDots,
-                    selectedIcon: FontAwesomeIcons.solidCommentDots,
-                    label: 'Chat',
+                    icon: FontAwesomeIcons.wallet,
+                    selectedIcon: FontAwesomeIcons.wallet,
+                    label: 'wallet',
                     index: 3,
                     isDark: isDark,
                   ),
@@ -75,7 +76,7 @@ class CustomBottomNavBar extends StatelessWidget {
                     context: context,
                     icon: FontAwesomeIcons.user,
                     selectedIcon: FontAwesomeIcons.solidUser,
-                    label: 'Profile',
+                    label: 'profile',
                     index: 4,
                     isDark: isDark,
                   ),
@@ -196,7 +197,7 @@ class CustomBottomNavBar extends StatelessWidget {
                           color: color,
                           fontWeight: FontWeight.normal,
                         ),
-                        child: Text(label),
+                        child: Text(translate(label)),
                       ),
               ),
             ],

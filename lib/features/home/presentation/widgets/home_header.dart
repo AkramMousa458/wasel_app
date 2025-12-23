@@ -58,7 +58,6 @@ class HomeHeader extends StatelessWidget {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(translate('welcome_back'), style: AppStyles.textstyle12),
                 Text(
                   translate('أكرم باشا!'),
                   style: AppStyles.textstyle16.copyWith(
@@ -66,6 +65,45 @@ class HomeHeader extends StatelessWidget {
                     color: isDark
                         ? AppColors.darkTextPrimary
                         : AppColors.lightTextPrimary,
+                  ),
+                ),
+                SizedBox(height: 4.h),
+                InkWell(
+                  borderRadius: BorderRadius.circular(100),
+                  onTap: () {},
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 6.0,
+                      vertical: 2.0,
+                    ),
+                    child: Row(
+                      children: [
+                        Icon(
+                          FontAwesomeIcons.locationDot,
+                          size: 14.r,
+                          color: isDark
+                              ? AppColors.darkTextSecondary
+                              : AppColors.lightTextSecondary,
+                        ),
+                        SizedBox(width: 4.w),
+                        Text(
+                          'Cairo, Egypt',
+                          style: AppStyles.textstyle12.copyWith(
+                            color: isDark
+                                ? AppColors.darkTextSecondary
+                                : AppColors.lightTextSecondary,
+                          ),
+                        ),
+                        SizedBox(width: 3.w),
+                        Icon(
+                          FontAwesomeIcons.chevronDown,
+                          size: 10.r,
+                          color: isDark
+                              ? AppColors.darkTextSecondary
+                              : AppColors.lightTextSecondary,
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ],

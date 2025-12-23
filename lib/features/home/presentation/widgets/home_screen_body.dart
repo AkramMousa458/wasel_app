@@ -8,6 +8,7 @@ import 'package:wasel/features/home/presentation/widgets/home_header.dart';
 import 'package:wasel/features/home/presentation/widgets/home_question_text.dart';
 import 'package:wasel/features/home/presentation/widgets/send_item_card.dart';
 import 'package:wasel/features/home/presentation/widgets/recent_activity_section.dart';
+import 'package:wasel/features/home/presentation/widgets/referral_card.dart';
 
 class HomeScreenBody extends StatelessWidget {
   const HomeScreenBody({super.key});
@@ -57,7 +58,9 @@ class HomeScreenBody extends StatelessWidget {
                   ),
                   SizedBox(height: 20.h),
                   RecentActivitySection(isDark: isDark),
-                  SizedBox(height: 60.h),
+                  SizedBox(height: 20.h),
+                  ReferralCard(isDark: isDark),
+                  SizedBox(height: 100.h),
                 ],
               ),
             ),
