@@ -18,9 +18,10 @@ class SendItemCard extends StatelessWidget {
         gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: isDark
-              ? [const Color(0xFF1E6CFF), const Color(0xFF0F3FAF)]
-              : [const Color(0xFF2F80FF), const Color(0xFF56CCF2)],
+          colors: [const Color(0xFF1E6CFF), const Color(0xFF0F3FAF)],
+          // isDark
+          //     ? [const Color(0xFF1E6CFF), const Color(0xFF0F3FAF)]
+          //     : [const Color(0xFF2F80FF), const Color(0xFF56CCF2)],
         ),
         boxShadow: [
           BoxShadow(
