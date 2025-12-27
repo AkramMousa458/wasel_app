@@ -35,5 +35,13 @@ class AuthCubit extends Cubit<AuthState> {
     });
   }
 
-  
+  Future<void> logout() async {
+    emit(AuthLoading());
+    // If there is an API call for logout, call it here:
+    // await authRepo.logout();
+
+    // Clear local session
+    await locator<LocalStorage>().logout();
+    emit(AuthLogoutSuccess());
+  }
 }

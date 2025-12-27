@@ -124,6 +124,7 @@ class _LoginScreenBodyState extends State<LoginScreenBody> {
         } else if (state is AuthOtpSent) {
           // Show OTP Dialog
           final phone = _phoneController.text.replaceAll(RegExp(r'[^\d]'), '');
+          showSnackBar(context, state.response.code ?? 'Error', true);
           _showOtpDialog(context, phone);
         } else if (state is AuthLoginSuccess) {
           // Navigate to Home

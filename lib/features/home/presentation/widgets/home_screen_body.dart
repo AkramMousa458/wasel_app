@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:go_router/go_router.dart';
 import 'package:wasel/core/utils/app_colors.dart';
+import 'package:wasel/core/utils/local_storage.dart';
+import 'package:wasel/core/utils/service_locator.dart';
 import 'package:wasel/core/utils/theme_utils.dart';
+import 'package:wasel/features/auth/presentation/manager/auth_cubit/auth_cubit.dart';
+import 'package:wasel/features/auth/presentation/screens/login_screen.dart';
 import 'package:wasel/features/home/presentation/widgets/action_card.dart';
 import 'package:wasel/features/home/presentation/widgets/home_header.dart';
 import 'package:wasel/features/home/presentation/widgets/home_question_text.dart';
@@ -27,6 +33,14 @@ class HomeScreenBody extends StatelessWidget {
                 children: [
                   HomeHeader(isDark: isDark),
                   SizedBox(height: 20.h),
+                  /////////////----------- Handle logout -----------/////////////
+                  IconButton(
+                    onPressed: () {
+                      locator<LocalStorage>().logout();
+                      GoRouter.of(context).go(LoginScreen.routeName);
+                    },
+                    icon: const Icon(Icons.logout),
+                  ),
                   HomeQuestionText(isDark: isDark),
                   SizedBox(height: 20.h),
                   SendItemCard(isDark: isDark),

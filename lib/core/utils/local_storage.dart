@@ -45,6 +45,12 @@ class LocalStorage {
   /// Clears the authentication token
   Future<bool> clearAuthToken() => remove(AppConstants.authTokenKey);
 
+  /// Logs out the user by clearing the session data
+  Future<void> logout() async {
+    await clearAuthToken();
+    // Clear other user-related data here if necessary
+  }
+
   // ================== User Preferences ================== //
 
   /// Saves the user's preferred theme mode (light/dark)
