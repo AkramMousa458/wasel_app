@@ -3,6 +3,9 @@ import 'package:get_it/get_it.dart';
 import 'package:logger/logger.dart';
 import 'package:wasel/core/utils/local_storage.dart';
 import 'package:wasel/core/services/api_service.dart';
+import 'package:wasel/features/auth/data/data_sources/auth_remote_data_source.dart';
+import 'package:wasel/features/auth/data/repos/auth_repo_impl.dart';
+import 'package:wasel/features/auth/presentation/manager/auth_cubit/auth_cubit.dart';
 
 final locator = GetIt.instance;
 
@@ -42,7 +45,7 @@ Future<void> setupLocator({Logger? logger}) async {
     ApiService(
       locator<Dio>(),
       logger: locator<Logger>(),
-      baseUrl: 'https://backend.home-healers.com/',
+      baseUrl: 'https://wasel-backend-fz87.onrender.com/',
     ),
   );
 
@@ -50,4 +53,15 @@ Future<void> setupLocator({Logger? logger}) async {
   locator.registerSingleton<LocalStorage>(
     await LocalStorage.init(logger: locator<Logger>()),
   );
+
+  // Auth Dependencies
+  locator.registerLazySingleton<AuthRemoteDataSource>(
+    () => AuthRemoteDataSource(apiService: locator<ApiService>()),
+  );
+
+  locator.registerLazySingleton<AuthRepoImpl>(
+    () => AuthRepoImpl(locator<AuthRemoteDataSource>()),
+  );
+
+  locator.registerFactory<AuthCubit>(() => AuthCubit(locator<AuthRepoImpl>()));
 }

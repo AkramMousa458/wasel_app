@@ -20,6 +20,7 @@ class LoginFormContent extends StatelessWidget {
   final VoidCallback? onFacebookTap;
   final VoidCallback? onPrivacyPolicyTap;
   final VoidCallback? onTermsOfServiceTap;
+  final bool isLoading;
 
   const LoginFormContent({
     super.key,
@@ -34,6 +35,7 @@ class LoginFormContent extends StatelessWidget {
     this.onFacebookTap,
     this.onPrivacyPolicyTap,
     this.onTermsOfServiceTap,
+    this.isLoading = false,
   });
 
   @override
@@ -43,14 +45,6 @@ class LoginFormContent extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          // App type selector
-          // AppTypeSelector(
-          //   selectedAppType: selectedAppType,
-          //   isDark: isDark,
-          //   onAppTypeChanged: onAppTypeChanged,
-          // ),
-          // SizedBox(height: 32.h),
-
           // Heading
           Text(
             translate('lets_get_moving'),
@@ -86,7 +80,10 @@ class LoginFormContent extends StatelessWidget {
           SizedBox(height: 24.h),
 
           // Send verification code button
-          SendVerificationButton(onPressed: onSendVerificationCode),
+          SendVerificationButton(
+            onPressed: onSendVerificationCode,
+            isLoading: isLoading,
+          ),
           SizedBox(height: 32.h),
 
           // Social login section

@@ -214,7 +214,7 @@ class CustomBottomNavBar extends StatelessWidget {
       onTap: () => onTap(2),
       child: AnimatedContainer(
         duration: animationDuration,
-        curve: Curves.easeInOut,
+        curve: Curves.easeInCirc,
         width: isSelected ? 56.w : 50.w,
         height: isSelected ? 56.h : 50.h,
         decoration: BoxDecoration(

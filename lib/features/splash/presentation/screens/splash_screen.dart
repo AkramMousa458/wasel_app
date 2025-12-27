@@ -43,8 +43,8 @@ class _SplashScreenState extends State<SplashScreen> {
       } else {
         log('❌ Splash error token is null');
         if (mounted) {
-          GoRouter.of(context).go(BaseScreen.routeName);
-          // GoRouter.of(context).go(LoginScreen.routeName);
+          // GoRouter.of(context).go(BaseScreen.routeName);
+          GoRouter.of(context).go(LoginScreen.routeName);
         }
       }
       // تحقق من بيانات المستخدم

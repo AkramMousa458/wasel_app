@@ -182,7 +182,8 @@ class ApiService {
     final headers = <String, dynamic>{
       'Content-Type': contentType,
       'Accept': 'application/json',
-      'language': 'ar',
+      'x-lang': 'en',
+      'x-country': 'EG',
     };
 
     if (_token?.isNotEmpty ?? false) {

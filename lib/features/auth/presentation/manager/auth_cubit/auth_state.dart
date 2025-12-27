@@ -11,6 +11,15 @@ class AuthInitial extends AuthState {}
 
 class AuthLoading extends AuthState {}
 
+class AuthOtpSent extends AuthState {
+  final RequestOtpResponseModel response;
+
+  const AuthOtpSent(this.response);
+
+  @override
+  List<Object?> get props => [response];
+}
+
 class AuthLoginSuccess extends AuthState {
   final AuthModel authModel;
 
@@ -20,7 +29,6 @@ class AuthLoginSuccess extends AuthState {
   List<Object?> get props => [authModel];
 }
 
-
 class AuthFailure extends AuthState {
   final String message;
 
@@ -29,6 +37,3 @@ class AuthFailure extends AuthState {
   @override
   List<Object?> get props => [message];
 }
-
-class AuthLogoutSuccess extends AuthState {}
-class AuthDeleteAccountSuccess extends AuthState {}
