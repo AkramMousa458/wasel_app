@@ -42,7 +42,6 @@ class ActionCard extends StatelessWidget {
         child: InkWell(
           borderRadius: BorderRadius.circular(26),
           onTap: () {
-            print('${translate(bottomText)} Card Tapped');
           },
           child: Padding(
             padding: const EdgeInsets.all(22),

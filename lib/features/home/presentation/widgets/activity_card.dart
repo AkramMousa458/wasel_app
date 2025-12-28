@@ -24,7 +24,6 @@ class ActivityCard extends StatelessWidget {
         child: InkWell(
           borderRadius: BorderRadius.circular(26.r),
           onTap: () {
-            print('Activity Card Tapped');
           },
           child: Column(
             mainAxisSize: MainAxisSize.min,

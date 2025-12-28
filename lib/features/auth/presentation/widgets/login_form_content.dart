@@ -5,7 +5,6 @@ import 'package:wasel/core/utils/app_colors.dart';
 import 'package:wasel/core/utils/app_styles.dart';
 import 'package:wasel/features/auth/presentation/widgets/mobile_number_input.dart';
 import 'package:wasel/features/auth/presentation/widgets/send_verification_button.dart';
-import 'package:wasel/features/auth/presentation/widgets/social_login_section.dart';
 import 'package:wasel/features/auth/presentation/widgets/privacy_terms_footer.dart';
 
 class LoginFormContent extends StatelessWidget {

@@ -1,0 +1,277 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_translate/flutter_translate.dart';
+import 'package:wasel/core/utils/app_colors.dart';
+import 'package:wasel/core/utils/app_styles.dart';
+import 'package:wasel/features/auth/presentation/widgets/complete_profile_text_field.dart';
+
+class CompleteProfileBody extends StatefulWidget {
+  const CompleteProfileBody({super.key});
+
+  @override
+  State<CompleteProfileBody> createState() => _CompleteProfileBodyState();
+}
+
+class _CompleteProfileBodyState extends State<CompleteProfileBody> {
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  // Controllers
+  final TextEditingController _arabicNameController = TextEditingController();
+  final TextEditingController _englishNameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _stateController = TextEditingController();
+  final TextEditingController _cityController = TextEditingController();
+  final TextEditingController _streetController = TextEditingController();
+  final TextEditingController _buildingController = TextEditingController();
+  final TextEditingController _floorController = TextEditingController();
+  final TextEditingController _doorController = TextEditingController();
+
+  @override
+  void dispose() {
+    _arabicNameController.dispose();
+    _englishNameController.dispose();
+    _emailController.dispose();
+    _stateController.dispose();
+    _cityController.dispose();
+    _streetController.dispose();
+    _buildingController.dispose();
+    _floorController.dispose();
+    _doorController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    // Determine theme
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
+    return SingleChildScrollView(
+      padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 24.h),
+      child: Form(
+        key: _formKey,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(height: 20.h),
+            Text(
+              translate('complete_profile'),
+              style: AppStyles.textstyle30.copyWith(
+                color: isDark
+                    ? AppColors.darkTextPrimary
+                    : AppColors.lightTextPrimary,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            SizedBox(height: 32.h),
+
+            // Arabic Name
+            CompleteProfileTextField(
+              controller: _arabicNameController,
+              hintText: translate('arabic_name'),
+              isDark: isDark,
+              isRequired: true,
+              suffixText: '(${translate('required')})',
+              prefixIcon: Padding(
+                padding: EdgeInsets.all(12.r),
+                child: Container(
+                  width: 24.r,
+                  height: 24.r,
+                  decoration: const BoxDecoration(
+                    color: Color(0xFF2563EB), // Blue shade
+                    shape: BoxShape.circle,
+                  ),
+                  child: Icon(Icons.person, size: 16.r, color: Colors.white),
+                ),
+              ),
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return '${translate('arabic_name')} ${translate('required')}';
+                }
+                return null;
+              },
+            ),
+            SizedBox(height: 16.h),
+
+            // English Name
+            CompleteProfileTextField(
+              controller: _englishNameController,
+              hintText: translate('english_name'),
+              isDark: isDark,
+              isRequired: true,
+              suffixText: '(${translate('required')})',
+              prefixIcon: Padding(
+                padding: EdgeInsets.all(12.r),
+                child: Container(
+                  width: 24.r,
+                  height: 24.r,
+                  decoration: const BoxDecoration(
+                    color: AppColors.secondary,
+                    shape: BoxShape.circle,
+                  ),
+                  child: Icon(
+                    Icons.inventory_2,
+                    size: 16.r,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return '${translate('english_name')} ${translate('required')}';
+                }
+                return null;
+              },
+            ),
+            SizedBox(height: 16.h),
+
+            // Email
+            CompleteProfileTextField(
+              controller: _emailController,
+              hintText: translate('email'),
+              isDark: isDark,
+              keyboardType: TextInputType.emailAddress,
+              suffixText: '(${translate('optional')})',
+            ),
+            SizedBox(height: 24.h),
+
+            // Map Section
+            Text(
+              translate('location_from_map'),
+              style: AppStyles.textstyle14.copyWith(
+                color: isDark ? AppColors.white : AppColors.black,
+              ),
+            ),
+            SizedBox(height: 12.h),
+            Container(
+              height: 100.h,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20.r),
+                image: const DecorationImage(
+                  image: NetworkImage(
+                    'https://mt1.google.com/vt/lyrs=m&x=1310&y=3160&z=13', // Placeholder map
+                  ),
+                  fit: BoxFit.cover,
+                ),
+              ),
+              child: Stack(
+                children: [
+                  // Overlay gradient or color for better text visibility if needed
+                  Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20.r),
+                      color: Colors.black.withValues(alpha: 0.1),
+                    ),
+                  ),
+                  Center(
+                    child: ElevatedButton(
+                      onPressed: () {
+                        // TODO: Open Map Selection
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(
+                          0xFF1E293B,
+                        ), // Dark blue/grey
+                        foregroundColor: Colors.white,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30.r),
+                        ),
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 24.w,
+                          vertical: 12.h,
+                        ),
+                      ),
+                      child: Text(translate('set_on_map')),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(height: 24.h),
+
+            // Address Details
+            CompleteProfileTextField(
+              controller: _stateController,
+              hintText: translate('state'),
+              isDark: isDark,
+              suffixText: '(${translate('optional')})',
+            ),
+            SizedBox(height: 16.h),
+            CompleteProfileTextField(
+              controller: _cityController,
+              hintText: translate('city'),
+              isDark: isDark,
+              suffixText: '(${translate('optional')})',
+            ),
+            SizedBox(height: 16.h),
+            CompleteProfileTextField(
+              controller: _streetController,
+              hintText: translate('street'),
+              isDark: isDark,
+              suffixText: '(${translate('optional')})',
+            ),
+            SizedBox(height: 16.h),
+            CompleteProfileTextField(
+              controller: _buildingController,
+              hintText: translate('building'),
+              isDark: isDark,
+              suffixText: '(${translate('optional')})',
+            ),
+            SizedBox(height: 16.h),
+            Row(
+              children: [
+                Expanded(
+                  child: CompleteProfileTextField(
+                    controller: _floorController,
+                    hintText: translate('floor'),
+                    isDark: isDark,
+                    suffixText: '(${translate('optional')})',
+                  ),
+                ),
+                SizedBox(width: 16.w),
+                Expanded(
+                  child: CompleteProfileTextField(
+                    controller: _doorController,
+                    hintText: translate('door'),
+                    isDark: isDark,
+                    suffixText: '(${translate('optional')})',
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(height: 32.h),
+
+            // Save Button
+            SizedBox(
+              width: double.infinity,
+              height: 56.h,
+              child: ElevatedButton(
+                onPressed: () {
+                  if (_formKey.currentState!.validate()) {
+                    // Process data
+                  }
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: AppColors.primary,
+                  foregroundColor: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30.r),
+                  ),
+                  elevation: 0,
+                ),
+                child: Text(
+                  translate('save_profile'),
+                  style: AppStyles.textstyle16.copyWith(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(height: 32.h),
+          ],
+        ),
+      ),
+    );
+  }
+}

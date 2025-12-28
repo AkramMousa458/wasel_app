@@ -37,7 +37,6 @@ class SendItemCard extends StatelessWidget {
         clipBehavior: Clip.hardEdge,
         child: InkWell(
           onTap: () {
-            print('Send Item Card Tapped');
           },
           child: Stack(
             children: [

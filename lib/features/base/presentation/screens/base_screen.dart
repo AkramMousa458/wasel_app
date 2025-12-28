@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wasel/features/base/presentation/widgets/custom_bottom_nav_bar.dart';
 import 'package:wasel/features/home/presentation/screens/home_screen.dart';
+import 'package:wasel/features/profile/presentation/screens/profile_screen.dart';
 
 class BaseScreen extends StatefulWidget {
   const BaseScreen({super.key});
@@ -18,7 +19,7 @@ class _BaseScreenState extends State<BaseScreen> {
     const Placeholder(), // My Orders - TODO: Replace with actual screen
     const Placeholder(), // Add/Create - TODO: Replace with actual screen
     const Placeholder(), // Chat - TODO: Replace with actual screen
-    const Placeholder(), // Profile - TODO: Replace with actual screen
+    const ProfileScreen(isBack: false), // Profile
   ];
 
   void _onItemTapped(int index) {
