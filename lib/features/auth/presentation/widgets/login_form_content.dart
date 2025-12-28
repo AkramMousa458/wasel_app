@@ -69,6 +69,7 @@ class LoginFormContent extends StatelessWidget {
             ),
           ),
           SizedBox(height: 32.h),
+          SizedBox(height: 25.h),
 
           // Mobile number input
           MobileNumberInput(
@@ -87,15 +88,15 @@ class LoginFormContent extends StatelessWidget {
           SizedBox(height: 32.h),
 
           // Social login section
-          SocialLoginSection(
-            isDark: isDark,
-            onGoogleTap: onGoogleTap,
-            onAppleTap: onAppleTap,
-            onFacebookTap: onFacebookTap,
-          ),
+          // SocialLoginSection(
+          //   isDark: isDark,
+          //   onGoogleTap: onGoogleTap,
+          //   onAppleTap: onAppleTap,
+          //   onFacebookTap: onFacebookTap,
+          // ),
 
           // Spacer to push footer to the bottom
-          SizedBox(height: MediaQuery.of(context).size.height * 0.1),
+          SizedBox(height: MediaQuery.of(context).size.height * 0.18),
 
           // Privacy Policy and Terms of Service
           PrivacyTermsFooter(

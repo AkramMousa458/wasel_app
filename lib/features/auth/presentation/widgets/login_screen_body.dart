@@ -35,8 +35,10 @@ class _LoginScreenBodyState extends State<LoginScreenBody> {
     }
 
     // Remove all non-digit characters
-    final digitsOnly = value.replaceAll(RegExp(r'[^\d]'), '');
-
+    String digitsOnly = value.replaceAll(RegExp(r'[^\d]'), '');
+    if (digitsOnly.startsWith('1')) {
+      digitsOnly = '0$digitsOnly';
+    }
     // Egyptian phone numbers should be 11 digits and start with 01
     if (digitsOnly.length < 10) {
       return translate('phone_number_too_short');

@@ -10,6 +10,7 @@ class ApiService {
   final String _baseUrl;
   final Dio _dio;
   String? _token;
+  String? _language;
   final Logger _logger;
 
   /// Creates an [ApiService] instance.
@@ -47,6 +48,16 @@ class ApiService {
       _logger.i(
         'Token initialized $_token',
         error: _token?.isNotEmpty ?? false ? 'Token exists' : 'Empty token',
+      );
+    }
+
+    _language = locator<LocalStorage>().language;
+    if (_language == null) {
+      // final prefs = await SharedPreferences.getInstance();
+      _language = locator<LocalStorage>().language ?? 'ar';
+      _logger.i(
+        'Language initialized $_language',
+        error: _language?.isNotEmpty ?? false ? 'Language exists' : 'Empty language',
       );
     }
   }
@@ -182,7 +193,7 @@ class ApiService {
     final headers = <String, dynamic>{
       'Content-Type': contentType,
       'Accept': 'application/json',
-      'x-lang': 'en',
+      'x-lang': _language,
       'x-country': 'EG',
     };
 
