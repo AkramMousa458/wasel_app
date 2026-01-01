@@ -15,7 +15,7 @@ class ProfileHeader extends StatelessWidget {
       width: double.infinity,
       padding: EdgeInsets.only(
         top: MediaQuery.of(context).padding.top + 10.h,
-        bottom: 50.h,
+        bottom: 30.h,
         left: 20.w,
         right: 20.w,
       ),
@@ -30,21 +30,20 @@ class ProfileHeader extends StatelessWidget {
         children: [
           // AppBar Row
           Row(
-            mainAxisAlignment: isBack
-                ? MainAxisAlignment.spaceBetween
-                : MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              if (isBack)
-                Container(
-                  decoration: BoxDecoration(
-                    color: Colors.white.withValues(alpha: 0.2),
-                    shape: BoxShape.circle,
-                  ),
-                  child: IconButton(
-                    icon: const Icon(Icons.arrow_back, color: Colors.white),
-                    onPressed: () => Navigator.pop(context),
-                  ),
-                ),
+              isBack
+                  ? Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white.withValues(alpha: 0.2),
+                        shape: BoxShape.circle,
+                      ),
+                      child: IconButton(
+                        icon: const Icon(Icons.arrow_back, color: Colors.white),
+                        onPressed: () => Navigator.pop(context),
+                      ),
+                    )
+                  : SizedBox(width: 48),
               Text(
                 translate('my_profile'), // You'll need to add this key
                 style: AppStyles.textstyle18.copyWith(
@@ -52,22 +51,21 @@ class ProfileHeader extends StatelessWidget {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              if (isBack)
-                Container(
-                  decoration: BoxDecoration(
-                    color: Colors.white.withValues(alpha: 0.2),
-                    shape: BoxShape.circle,
-                  ),
-                  child: IconButton(
-                    icon: const Icon(Icons.settings, color: Colors.white),
-                    onPressed: () {
-                      // Navigate to settings
-                    },
-                  ),
+              Container(
+                decoration: BoxDecoration(
+                  color: Colors.white.withValues(alpha: 0.2),
+                  shape: BoxShape.circle,
                 ),
+                child: IconButton(
+                  icon: const Icon(Icons.settings, color: Colors.white),
+                  onPressed: () {
+                    // Navigate to settings
+                  },
+                ),
+              ),
             ],
           ),
-          SizedBox(height: 20.h),
+          SizedBox(height: 10.h),
 
           // Profile Image with Badge
           Stack(
@@ -100,7 +98,7 @@ class ProfileHeader extends StatelessWidget {
               ),
             ],
           ),
-          SizedBox(height: 16.h),
+          SizedBox(height: 12.h),
 
           // Name
           Text(
