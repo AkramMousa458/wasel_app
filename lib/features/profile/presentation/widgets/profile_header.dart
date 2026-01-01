@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_translate/flutter_translate.dart';
+import 'package:go_router/go_router.dart';
 import 'package:wasel/core/utils/app_colors.dart';
 import 'package:wasel/core/utils/app_styles.dart';
+import 'package:wasel/features/settings/presentation/screens/settings_screen.dart';
 
 class ProfileHeader extends StatelessWidget {
   final bool isDark;
@@ -59,7 +61,7 @@ class ProfileHeader extends StatelessWidget {
                 child: IconButton(
                   icon: const Icon(Icons.settings, color: Colors.white),
                   onPressed: () {
-                    // Navigate to settings
+                    GoRouter.of(context).push(SettingsScreen.routeName);
                   },
                 ),
               ),

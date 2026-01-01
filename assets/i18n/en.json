@@ -92,5 +92,15 @@
   "cancelled": "Cancelled",
   "arriving_in": "Arriving in",
   "pickup_at": "Pickup at",
-  "group_order": "Group Order"
+  "group_order": "Group Order",
+  "settings": "Settings",
+  "app_preferences": "App Preferences",
+  "dark_mode": "Dark Mode",
+  "finance": "Finance",
+  "wasel_wallet": "Wasel Wallet",
+  "support_info": "Support & Info",
+  "help_center": "Help Center",
+  "confirm_logout": "Confirm Logout",
+  "logout_message": "Are you sure you want to log out?",
+  "search_orders": "Search orders..."
 }

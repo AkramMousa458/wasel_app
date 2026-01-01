@@ -92,5 +92,15 @@
   "cancelled": "ملغى",
   "arriving_in": "يصل خلال",
   "pickup_at": "استلام في",
-  "group_order": "طلب جماعي"
+  "group_order": "طلب جماعي",
+  "settings": "الإعدادات",
+  "app_preferences": "تفضيلات التطبيق",
+  "dark_mode": "الوضع الداكن",
+  "finance": "المالية",
+  "wasel_wallet": "محفظة واصل",
+  "support_info": "الدعم والمعلومات",
+  "help_center": "مركز المساعدة",
+  "confirm_logout": "تأكيد تسجيل الخروج",
+  "logout_message": "هل أنت متأكد أنك تريد تسجيل الخروج؟",
+  "search_orders": "البحث عن الطلبات..."
 }
