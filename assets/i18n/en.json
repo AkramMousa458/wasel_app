@@ -76,5 +76,21 @@
   "work": "Work",
   "phone": "PHONE",
   "my_profile": "My Profile",
-  "confirm_logout_message": "Are you sure you want to log out?"
+  "confirm_logout_message": "Are you sure you want to log out?",
+  "order_history": "Order History",
+  "track_reorder_manage": "Track, reorder, and manage deliveries",
+  "active": "Active",
+  "past": "Past",
+  "in_progress": "In Progress",
+  "yesterday": "Yesterday",
+  "no_orders_found": "No orders found",
+  "track_order": "Track Order",
+  "view_pickup_details": "View Pick-up details",
+  "in_transit": "In Transit",
+  "courier_assigned": "Courier Assigned",
+  "delivered": "Delivered",
+  "cancelled": "Cancelled",
+  "arriving_in": "Arriving in",
+  "pickup_at": "Pickup at",
+  "group_order": "Group Order"
 }

@@ -6,6 +6,7 @@ import 'package:wasel/core/utils/app_colors.dart';
 import 'package:wasel/core/utils/app_styles.dart';
 import 'package:wasel/core/utils/local_storage.dart' show LocalStorage;
 import 'package:wasel/core/utils/service_locator.dart';
+import 'package:wasel/core/utils/theme_utils.dart';
 import 'package:wasel/features/auth/presentation/screens/login_screen.dart';
 import 'package:wasel/features/profile/presentation/widgets/personal_info_card.dart';
 import 'package:wasel/features/profile/presentation/widgets/profile_header.dart';
@@ -20,7 +21,7 @@ class ProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final isDark = ThemeUtils.isDark(context);
 
     return Scaffold(
       backgroundColor: isDark

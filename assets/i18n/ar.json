@@ -76,5 +76,21 @@
   "work": "العمل",
   "phone": "رقم الهاتف",
   "my_profile": "الملف الشخصى",
-  "confirm_logout_message": "هل أنت متأكد أنك تريد تسجيل الخروج؟"
+  "confirm_logout_message": "هل أنت متأكد أنك تريد تسجيل الخروج؟",
+  "order_history": "سجل الطلبات",
+  "track_reorder_manage": "تتبع، أعد الطلب، وأدر التوصيلات",
+  "active": "نشطة",
+  "past": "سابقة",
+  "in_progress": "في النشاط",
+  "yesterday": "الأمس",
+  "no_orders_found": "لم يتم العثور على طلبات",
+  "track_order": "تتبع الطلب",
+  "view_pickup_details": "عرض تفاصيل الاستلام",
+  "in_transit": "في الطريق",
+  "courier_assigned": "تم تعيين مندوب",
+  "delivered": "تم التوصيل",
+  "cancelled": "ملغى",
+  "arriving_in": "يصل خلال",
+  "pickup_at": "استلام في",
+  "group_order": "طلب جماعي"
 }

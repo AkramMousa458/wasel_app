@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:wasel/core/utils/app_colors.dart';
 import 'package:wasel/core/utils/app_styles.dart';
+import 'package:wasel/core/utils/theme_utils.dart';
 
 class CustomConfirmationDialog extends StatelessWidget {
   final String title;
@@ -23,7 +24,7 @@ class CustomConfirmationDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final isDark = ThemeUtils.isDark(context);
 
     return AlertDialog(
       backgroundColor: isDark ? AppColors.darkCard : AppColors.white,

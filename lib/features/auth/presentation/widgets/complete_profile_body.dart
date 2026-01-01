@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:wasel/core/utils/app_colors.dart';
 import 'package:wasel/core/utils/app_styles.dart';
+import 'package:wasel/core/utils/theme_utils.dart';
 import 'package:wasel/features/auth/presentation/widgets/complete_profile_text_field.dart';
 
 class CompleteProfileBody extends StatefulWidget {
@@ -43,7 +44,7 @@ class _CompleteProfileBodyState extends State<CompleteProfileBody> {
   @override
   Widget build(BuildContext context) {
     // Determine theme
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final isDark = ThemeUtils.isDark(context);
 
     return SingleChildScrollView(
       padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 24.h),

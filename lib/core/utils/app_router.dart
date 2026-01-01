@@ -1,6 +1,7 @@
 import 'package:go_router/go_router.dart';
 import 'package:wasel/features/auth/presentation/screens/login_screen.dart';
 import 'package:wasel/features/base/presentation/screens/base_screen.dart';
+import 'package:wasel/features/order_history/presentation/screens/order_history_screen.dart';
 import 'package:wasel/features/splash/presentation/screens/splash_screen.dart';
 
 abstract class AppRouter {
@@ -17,6 +18,10 @@ abstract class AppRouter {
       GoRoute(
         path: BaseScreen.routeName,
         builder: (context, state) => const BaseScreen(),
+      ),
+      GoRoute(
+        path: OrderHistoryScreen.routeName,
+        builder: (context, state) => const OrderHistoryScreen(isBack: true),
       ),
     ],
   );

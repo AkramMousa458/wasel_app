@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wasel/core/utils/app_colors.dart';
+import 'package:wasel/core/utils/theme_utils.dart';
 import 'package:wasel/features/auth/presentation/widgets/complete_profile_body.dart';
 
 class CompleteProfileScreen extends StatelessWidget {
@@ -9,7 +10,7 @@ class CompleteProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Determine if dark mode is active to set the correct background color
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final isDark = ThemeUtils.isDark(context);
 
     return Scaffold(
       backgroundColor: isDark
