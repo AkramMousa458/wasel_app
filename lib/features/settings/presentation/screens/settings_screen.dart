@@ -193,7 +193,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
               icon: Icons.dark_mode,
               iconColor: const Color(0xFF9C27B0),
               title: translate('dark_mode'),
-              value: _darkModeEnabled,
+              value:
+                  context.read<ThemeCubit>().state.brightness ==
+                  Brightness.dark,
               isDark: isDark,
               onChanged: (value) {
                 setState(() {

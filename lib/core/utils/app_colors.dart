@@ -59,7 +59,17 @@ class AppColors {
 
   /// Medium Grey color for secondary text (Body copy, hints) on light surfaces.
   static const Color lightTextSecondary = Color(0xFF64748B);
+
+  static const Color shimmerDarkBaseColor = AppColors.darkCard;
+    static Color shimmerLightBaseColor = Colors.grey[300]!;
+
+  static const Color shimmerDarkHighlightColor = AppColors.darkInputFill;
+    static Color shimmerLightHighlightColor = Colors.grey[100]!;
+
+  static const Color shimmerDarkCardColor = AppColors.darkCard;
+  static Color shimmerLightCardColor = Colors.white;
 }
+
 
 // class AppColors {
 //   static const Color primary = Color(0xFF2667ec); // Updated primary color

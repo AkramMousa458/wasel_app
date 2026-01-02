@@ -10,9 +10,15 @@ class ProfileShimmer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     bool isDark = ThemeUtils.isDark(context);
-    Color baseColor = isDark ? AppColors.darkCard : Colors.grey[300]!;
-    Color highlightColor = isDark ? AppColors.darkInputFill : Colors.grey[100]!;
-    Color cardColor = isDark ? AppColors.darkCard : Colors.white;
+    Color baseColor = isDark
+        ? AppColors.shimmerDarkBaseColor
+        : AppColors.shimmerLightBaseColor;
+    Color highlightColor = isDark
+        ? AppColors.shimmerDarkHighlightColor
+        : AppColors.shimmerLightHighlightColor;
+    Color cardColor = isDark
+        ? AppColors.shimmerDarkCardColor
+        : AppColors.shimmerLightCardColor;
 
     return Shimmer.fromColors(
       baseColor: baseColor,
