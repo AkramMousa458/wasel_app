@@ -1,7 +1,10 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_translate/flutter_translate.dart';
+import 'package:wasel/core/language/language_cubit.dart';
 import 'package:wasel/core/theme/theme_cubit.dart';
 import 'package:wasel/core/utils/app_colors.dart';
 import 'package:wasel/core/utils/theme_utils.dart';
@@ -148,55 +151,62 @@ class _SettingsScreenState extends State<SettingsScreen> {
   }
 
   Widget _buildAppPreferences(bool isDark) {
-    return SettingsSection(
-      title: translate('app_preferences'),
-      isDark: isDark,
-      children: [
-        SettingsItem(
-          icon: Icons.language,
-          iconColor: AppColors.primary,
-          title: translate('language'),
-          trailing: Text(
-            'English',
-            style: TextStyle(
-              fontSize: 14.sp,
-              color: isDark
-                  ? AppColors.darkTextSecondary
-                  : AppColors.lightTextSecondary,
+    return BlocBuilder<LanguageCubit, Locale>(
+      builder: (context, locale) {
+        final isArabic = locale.languageCode == 'ar';
+        return SettingsSection(
+          title: translate('app_preferences'),
+          isDark: isDark,
+          children: [
+            SettingsItem(
+              icon: Icons.language,
+              iconColor: AppColors.primary,
+              title: translate('language'),
+              trailing: Text(
+                isArabic ? '🇪🇬' : '🇺🇸',
+                style: TextStyle(
+                  fontSize: 18.sp,
+                  color: isDark
+                      ? AppColors.darkTextSecondary
+                      : AppColors.lightTextSecondary,
+                ),
+              ),
+              isDark: isDark,
+              isTopBorderRaduis: true,
+              onTap: () {
+                context.read<LanguageCubit>().toggleLanguage();
+              },
             ),
-          ),
-          isDark: isDark,
-          isTopBorderRaduis: true,
-          onTap: () {
-            // Navigate to language selection
-          },
-        ),
-        SettingsToggleItem(
-          icon: Icons.notifications,
-          iconColor: const Color(0xFFFF9500),
-          title: translate('notifications'),
-          value: _notificationsEnabled,
-          isDark: isDark,
-          onChanged: (value) {
-            setState(() {
-              _notificationsEnabled = value;
-            });
-          },
-        ),
-        SettingsToggleItem(
-          icon: Icons.dark_mode,
-          iconColor: const Color(0xFF9C27B0),
-          title: translate('dark_mode'),
-          value: _darkModeEnabled,
-          isDark: isDark,
-          onChanged: (value) {
-            setState(() {
-              _darkModeEnabled = value;
-            });
-            context.read<ThemeCubit>().toggleTheme();
-          },
-        ),
-      ],
+            SettingsToggleItem(
+              icon: Icons.notifications,
+              iconColor: const Color(0xFFFF9500),
+              title: translate('notifications'),
+              value: _notificationsEnabled,
+              isDark: isDark,
+              onChanged: (value) {
+                setState(() {
+                  _notificationsEnabled = value;
+                });
+              },
+            ),
+            SettingsToggleItem(
+              icon: Icons.dark_mode,
+              iconColor: const Color(0xFF9C27B0),
+              title: translate('dark_mode'),
+              value: _darkModeEnabled,
+              isDark: isDark,
+              onChanged: (value) {
+                setState(() {
+                  _darkModeEnabled = value;
+                });
+                _darkModeEnabled
+                    ? context.read<ThemeCubit>().setDarkTheme()
+                    : context.read<ThemeCubit>().setLightTheme();
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 

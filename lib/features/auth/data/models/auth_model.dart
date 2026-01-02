@@ -40,6 +40,7 @@ class UserModel extends Equatable {
   final UserLocation? location;
   final String? pushToken;
   final String? id;
+  final bool? online;
 
   const UserModel({
     this.name,
@@ -58,6 +59,7 @@ class UserModel extends Equatable {
     this.location,
     this.pushToken,
     this.id,
+    this.online,
   });
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
@@ -82,6 +84,7 @@ class UserModel extends Equatable {
           : null,
       pushToken: json['pushToken'],
       id: json['id'],
+      online: json['online'],
     );
   }
 
@@ -103,6 +106,7 @@ class UserModel extends Equatable {
       'location': location?.toJson(),
       'pushToken': pushToken,
       'id': id,
+      'online': online,
     };
   }
 
@@ -124,6 +128,7 @@ class UserModel extends Equatable {
     location,
     pushToken,
     id,
+    online,
   ];
 }
 

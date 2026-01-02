@@ -3,10 +3,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:wasel/core/utils/app_colors.dart';
 import 'package:wasel/core/utils/app_styles.dart';
+import 'package:wasel/features/auth/data/models/auth_model.dart';
 
 class PersonalInfoCard extends StatelessWidget {
   final bool isDark;
-  const PersonalInfoCard({super.key, required this.isDark});
+  final UserModel? user;
+
+  const PersonalInfoCard({super.key, required this.isDark, this.user});
 
   @override
   Widget build(BuildContext context) {
@@ -48,20 +51,22 @@ class PersonalInfoCard extends StatelessWidget {
           SizedBox(height: 16.h),
           _buildInfoRow(
             icon: Icons.phone,
-            title: translate('phone'), // "PHONE"
-            value: '+1 (555) 012-3456',
+            title: translate('phone'),
+            value: user?.phone ?? '',
             isDark: isDark,
           ),
-          Divider(
-            height: 32.h,
-            color: isDark ? const Color(0xFF334155) : const Color(0xFFE2E8F0),
-          ),
-          _buildInfoRow(
-            icon: Icons.email,
-            title: translate('email'),
-            value: 'alex.j@example.com',
-            isDark: isDark,
-          ),
+          if (user?.role != null) ...[
+            Divider(
+              height: 32.h,
+              color: isDark ? const Color(0xFF334155) : const Color(0xFFE2E8F0),
+            ),
+            _buildInfoRow(
+              icon: Icons.badge,
+              title: translate('role'),
+              value: user!.role!,
+              isDark: isDark,
+            ),
+          ],
         ],
       ),
     );

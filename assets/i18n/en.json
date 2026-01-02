@@ -102,5 +102,6 @@
   "help_center": "Help Center",
   "confirm_logout": "Confirm Logout",
   "logout_message": "Are you sure you want to log out?",
-  "search_orders": "Search orders..."
+  "search_orders": "Search orders...",
+  "role": "ROLE"
 }
