@@ -1,9 +1,9 @@
-import 'package:bloc/bloc.dart';
-import 'package:wasel/features/profile/data/repo/profile_repo.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:wasel/features/profile/data/repo/profile_repo_impl.dart';
 import 'package:wasel/features/profile/presentation/manager/profile_state.dart';
 
 class ProfileCubit extends Cubit<ProfileState> {
-  final ProfileRepo profileRepo;
+  final ProfileRepoImpl profileRepo;
 
   ProfileCubit({required this.profileRepo}) : super(ProfileInitial());
 

@@ -25,7 +25,7 @@ class ReferralCard extends StatelessWidget {
         clipBehavior: Clip.hardEdge,
         child: InkWell(
           onTap: () {
-            print('Referral Card Tapped');
+            debugPrint('Referral Card Tapped');
           },
           borderRadius: BorderRadius.circular(24.r),
           child: Padding(

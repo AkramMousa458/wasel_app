@@ -2,14 +2,12 @@ import 'package:dartz/dartz.dart';
 import 'package:wasel/core/error/failure.dart';
 import 'package:wasel/features/auth/data/models/auth_model.dart';
 import 'package:wasel/features/profile/data/data_sources/profile_remote_data_source.dart';
-import 'package:wasel/features/profile/data/repo/profile_repo.dart';
 
-class ProfileRepoImpl implements ProfileRepo {
+class ProfileRepoImpl {
   final ProfileRemoteDataSource remoteDataSource;
 
   ProfileRepoImpl({required this.remoteDataSource});
 
-  @override
   Future<Either<ApiFailure, UserModel>> getProfile() async {
     try {
       final authModel = await remoteDataSource.getProfile();

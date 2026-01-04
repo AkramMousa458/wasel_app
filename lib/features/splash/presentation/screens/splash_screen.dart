@@ -1,14 +1,17 @@
 // ignore_for_file: use_build_context_synchronously
 import 'dart:developer';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:wasel/core/utils/assets.dart';
 import 'package:wasel/core/utils/local_storage.dart';
 import 'package:wasel/core/utils/service_locator.dart';
 import 'package:wasel/core/utils/theme_utils.dart';
+import 'package:wasel/features/auth/presentation/screens/complete_profile_screen.dart';
 import 'package:wasel/features/auth/presentation/screens/login_screen.dart';
 import 'package:wasel/features/base/presentation/screens/base_screen.dart';
+import 'package:wasel/features/profile/presentation/manager/profile_cubit.dart';
 
 class SplashScreen extends StatefulWidget {
   static const String routeName = '/';
@@ -24,12 +27,9 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     _handleNavigation();
-    // WidgetsBinding.instance.addPostFrameCallback((_) {
-    //   _handleNavigation();
-    // });
   }
 
-  Future<void> _handleNavigation() async {
+Future<void> _handleNavigation() async {
     await Future.delayed(const Duration(seconds: 2));
 
     if (!mounted) return;
@@ -39,15 +39,23 @@ class _SplashScreenState extends State<SplashScreen> {
       log('🔑 Akram Token: $token');
 
       if (token != null) {
-        GoRouter.of(context).go(BaseScreen.routeName);
+        // فقط جلب البروفايل لو فيه token
+        final user = locator<LocalStorage>().getUserProfile();
+        if (user != null) {
+          await context.read<ProfileCubit>().getProfile();
+          if (user.name!.ar.isNotEmpty) {
+            GoRouter.of(context).go(BaseScreen.routeName);
+          } else {
+            GoRouter.of(context).go(CompleteProfileScreen.routeName);
+          }
+        } else {
+          // لو المستخدم موجودش في التخزين
+          GoRouter.of(context).go(CompleteProfileScreen.routeName);
+        }
       } else {
         log('❌ Splash error token is null');
-        if (mounted) {
-          // GoRouter.of(context).go(BaseScreen.routeName);
-          GoRouter.of(context).go(LoginScreen.routeName);
-        }
+        GoRouter.of(context).go(LoginScreen.routeName);
       }
-      // تحقق من بيانات المستخدم
     } catch (e, s) {
       log('❌ Splash error: $e\n$s');
       if (mounted) {

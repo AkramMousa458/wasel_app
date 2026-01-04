@@ -24,122 +24,140 @@ class AuthModel extends Equatable {
 }
 
 class UserModel extends Equatable {
-  final UserName? name;
-  final UserAddress? address;
   final String? sId;
+  final UserName? name;
+  final String? email;
   final String? phone;
+  final String? phoneCountry;
   final String? role;
+  final String? image;
   final bool? isActive;
   final bool? isBanned;
   final bool? isDeleted;
   final bool? emailVerified;
   final bool? phoneVerified;
+  final String? lastOnlineAt;
+  final UserAddress? address;
+  final double? spend;
+  final dynamic wallet;
+  final String? pushToken;
   final String? createdAt;
   final String? updatedAt;
   final int? iV;
-  final UserLocation? location;
-  final String? pushToken;
-  final String? id;
   final bool? online;
 
   const UserModel({
-    this.name,
-    this.address,
     this.sId,
+    this.name,
+    this.email,
     this.phone,
+    this.phoneCountry,
     this.role,
+    this.image,
     this.isActive,
     this.isBanned,
     this.isDeleted,
     this.emailVerified,
     this.phoneVerified,
+    this.lastOnlineAt,
+    this.address,
+    this.spend,
+    this.wallet,
+    this.pushToken,
     this.createdAt,
     this.updatedAt,
     this.iV,
-    this.location,
-    this.pushToken,
-    this.id,
     this.online,
   });
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
     return UserModel(
-      name: json['name'] != null ? UserName.fromJson(json['name']) : null,
-      address: json['address'] != null
-          ? UserAddress.fromJson(json['address'])
-          : null,
       sId: json['_id'],
+      name: json['name'] != null ? UserName.fromJson(json['name']) : null,
+      email: json['email'],
       phone: json['phone'],
+      phoneCountry: json['phoneCountry'],
       role: json['role'],
+      image: json['image'],
       isActive: json['isActive'],
       isBanned: json['isBanned'],
       isDeleted: json['isDeleted'],
       emailVerified: json['emailVerified'],
       phoneVerified: json['phoneVerified'],
+      lastOnlineAt: json['lastOnlineAt'],
+      address: json['address'] != null
+          ? UserAddress.fromJson(json['address'])
+          : null,
+      spend: json['spend'] != null ? (json['spend'] as num).toDouble() : 0,
+      wallet: json['wallet'],
+      pushToken: json['pushToken'],
       createdAt: json['createdAt'],
       updatedAt: json['updatedAt'],
       iV: json['__v'],
-      location: json['location'] != null
-          ? UserLocation.fromJson(json['location'])
-          : null,
-      pushToken: json['pushToken'],
-      id: json['id'],
       online: json['online'],
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
-      'name': name?.toJson(),
-      'address': address?.toJson(),
       '_id': sId,
+      'name': name?.toJson(),
+      'email': email,
       'phone': phone,
+      'phoneCountry': phoneCountry,
       'role': role,
+      'image': image,
       'isActive': isActive,
       'isBanned': isBanned,
       'isDeleted': isDeleted,
       'emailVerified': emailVerified,
       'phoneVerified': phoneVerified,
+      'lastOnlineAt': lastOnlineAt,
+      'address': address?.toJson(),
+      'spend': spend,
+      'wallet': wallet,
+      'pushToken': pushToken,
       'createdAt': createdAt,
       'updatedAt': updatedAt,
       '__v': iV,
-      'location': location?.toJson(),
-      'pushToken': pushToken,
-      'id': id,
       'online': online,
     };
   }
 
   @override
   List<Object?> get props => [
-    name,
-    address,
     sId,
+    name,
+    email,
     phone,
+    phoneCountry,
     role,
+    image,
     isActive,
     isBanned,
     isDeleted,
     emailVerified,
     phoneVerified,
+    lastOnlineAt,
+    address,
+    spend,
+    wallet,
+    pushToken,
     createdAt,
     updatedAt,
     iV,
-    location,
-    pushToken,
-    id,
     online,
   ];
 }
 
 class UserName extends Equatable {
-  final String? en;
-  final String? ar;
+  final String en;
+  final String ar;
 
-  const UserName({this.en, this.ar});
+  const UserName({required this.en, required this.ar});
 
   factory UserName.fromJson(Map<String, dynamic> json) {
-    return UserName(en: json['en'], ar: json['ar']);
+    return UserName(en: json['en'] ?? '', ar: json['ar'] ?? '');
   }
 
   Map<String, dynamic> toJson() {
@@ -151,36 +169,36 @@ class UserName extends Equatable {
 }
 
 class UserAddress extends Equatable {
-  final String? state;
-  final String? city;
-  final String? street;
-  final String? building;
-  final String? floor;
-  final String? door;
+  final String governorate;
+  final String city;
+  final String street;
+  final String building;
+  final String floor;
+  final String door;
 
   const UserAddress({
-    this.state,
-    this.city,
-    this.street,
-    this.building,
-    this.floor,
-    this.door,
+    required this.governorate,
+    required this.city,
+    required this.street,
+    required this.building,
+    required this.floor,
+    required this.door,
   });
 
   factory UserAddress.fromJson(Map<String, dynamic> json) {
     return UserAddress(
-      state: json['state'],
-      city: json['city'],
-      street: json['street'],
-      building: json['building'],
-      floor: json['floor'],
-      door: json['door'],
+      governorate: json['governorate'] ?? '',
+      city: json['city'] ?? '',
+      street: json['street'] ?? '',
+      building: json['building'] ?? '',
+      floor: json['floor'] ?? '',
+      door: json['door'] ?? '',
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
-      'state': state,
+      'governorate': governorate,
       'city': city,
       'street': street,
       'building': building,
@@ -190,28 +208,5 @@ class UserAddress extends Equatable {
   }
 
   @override
-  List<Object?> get props => [state, city, street, building, floor, door];
-}
-
-class UserLocation extends Equatable {
-  final String? type;
-  final List<double>? coordinates;
-
-  const UserLocation({this.type, this.coordinates});
-
-  factory UserLocation.fromJson(Map<String, dynamic> json) {
-    return UserLocation(
-      type: json['type'],
-      coordinates: json['coordinates'] != null
-          ? List<double>.from(json['coordinates'].map((x) => x.toDouble()))
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    return {'type': type, 'coordinates': coordinates};
-  }
-
-  @override
-  List<Object?> get props => [type, coordinates];
+  List<Object?> get props => [governorate, city, street, building, floor, door];
 }

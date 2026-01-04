@@ -25,11 +25,10 @@ class AuthCubit extends Cubit<AuthState> {
   Future<void> verifyOtp(String phone, String code) async {
     emit(AuthLoading());
     final result = await authRepo.verifyPhone(phone: phone, code: code);
-    result.fold((failure) => emit(AuthFailure(failure.message)), (
-      authModel,
-    ) async {
+    result.fold((failure) => emit(AuthFailure(failure.message)), (authModel) {
       if (authModel.token != null) {
-        await locator<LocalStorage>().saveAuthToken(authModel.token!);
+        locator<LocalStorage>().saveAuthToken(authModel.token!);
+        locator<LocalStorage>().saveUserProfile(authModel.user!);
       }
       emit(AuthLoginSuccess(authModel));
     });

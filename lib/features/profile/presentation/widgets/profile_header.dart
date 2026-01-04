@@ -26,11 +26,7 @@ class ProfileHeader extends StatelessWidget {
     String displayName = '';
     if (user != null && user!.name != null) {
       final lang = locator<LocalStorage>().language ?? 'en';
-      displayName =
-          (lang == 'ar' ? user!.name!.ar : user!.name!.en) ??
-          user!.name!.en ??
-          user!.name!.ar ??
-          '';
+      displayName = lang == 'ar' ? user!.name!.ar : user!.name!.en;
     }
 
     String memberSince = '';

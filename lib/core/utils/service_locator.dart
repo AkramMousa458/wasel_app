@@ -8,7 +8,6 @@ import 'package:wasel/features/auth/data/repos/auth_repo_impl.dart';
 import 'package:wasel/features/auth/presentation/manager/auth_cubit/auth_cubit.dart';
 
 import 'package:wasel/features/profile/data/data_sources/profile_remote_data_source.dart';
-import 'package:wasel/features/profile/data/repo/profile_repo.dart';
 import 'package:wasel/features/profile/data/repo/profile_repo_impl.dart';
 import 'package:wasel/features/profile/presentation/manager/profile_cubit.dart';
 
@@ -68,18 +67,20 @@ Future<void> setupLocator({Logger? logger}) async {
     () => AuthRepoImpl(locator<AuthRemoteDataSource>()),
   );
 
-  locator.registerFactory<AuthCubit>(() => AuthCubit(locator<AuthRepoImpl>()));
+  locator.registerLazySingleton<AuthCubit>(
+    () => AuthCubit(locator<AuthRepoImpl>()),
+  );
 
   // Profile Dependencies
   locator.registerLazySingleton<ProfileRemoteDataSource>(
     () => ProfileRemoteDataSource(apiService: locator<ApiService>()),
   );
 
-  locator.registerLazySingleton<ProfileRepo>(
+  locator.registerLazySingleton<ProfileRepoImpl>(
     () => ProfileRepoImpl(remoteDataSource: locator<ProfileRemoteDataSource>()),
   );
 
-  locator.registerFactory<ProfileCubit>(
-    () => ProfileCubit(profileRepo: locator<ProfileRepo>()),
+  locator.registerLazySingleton<ProfileCubit>(
+    () => ProfileCubit(profileRepo: locator<ProfileRepoImpl>()),
   );
 }

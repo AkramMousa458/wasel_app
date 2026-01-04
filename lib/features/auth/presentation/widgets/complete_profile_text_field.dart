@@ -45,27 +45,27 @@ class CompleteProfileTextField extends StatelessWidget {
             : AppColors.lightInputFill, // Using input fill colors
         prefixIcon: prefixIcon,
         suffixText: suffixText,
-        suffixStyle: AppStyles.textstyle12.copyWith(
+        suffixStyle: AppStyles.textstyle10.copyWith(
           color: isDark ? AppColors.darkTextSecondary : AppColors.grey,
         ),
         contentPadding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(30.r), // Rounded as per design
+          borderRadius: BorderRadius.circular(12.r), // Rounded as per design
           borderSide: BorderSide.none,
         ),
         enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(30.r),
+          borderRadius: BorderRadius.circular(12.r),
           borderSide: BorderSide(
             color: isDark ? const Color(0xFF334155) : const Color(0xFFE2E8F0),
             width: 1,
           ),
         ),
         focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(30.r),
+          borderRadius: BorderRadius.circular(12.r),
           borderSide: const BorderSide(color: AppColors.primary, width: 1.5),
         ),
         errorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(30.r),
+          borderRadius: BorderRadius.circular(12.r),
           borderSide: const BorderSide(color: AppColors.error, width: 1),
         ),
       ),

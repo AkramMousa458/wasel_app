@@ -1,6 +1,9 @@
+import 'dart:convert';
+
 import 'package:logger/logger.dart';
 import 'package:wasel/core/constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:wasel/features/auth/data/models/auth_model.dart';
 
 /// A secure, type-safe wrapper around SharedPreferences for local data persistence.
 /// Provides organized access to all local storage operations with proper error handling.
@@ -75,29 +78,31 @@ class LocalStorage {
   /// Marks the app as launched (not first launch anymore)
   Future<bool> markAppLaunched() => setBool(AppConstants.firstLaunchKey, false);
 
-  // // حفظ الملف الشخصي
-  // void saveUserProfile(UserProfileModel profile) {
-  //   final json = profile.toJson();
-  //   setString(AppConstants.userProfileKey, jsonEncode(json));
-  // }
 
-  // // جلب الملف الشخصي من الـ Cache
-  // UserProfileModel? getUserProfile() {
-  //   final jsonString = getString(AppConstants.userProfileKey);
-  //   if (jsonString == null) return null;
+  // ================== Profile Data ================== //
+  // حفظ الملف الشخصي
+  void saveUserProfile(UserModel profile) {
+    final json = profile.toJson();
+    setString(AppConstants.userProfileKey, jsonEncode(json));
+  }
 
-  //   try {
-  //     final json = jsonDecode(jsonString) as Map<String, dynamic>;
-  //     return UserProfileModel.fromJson(json);
-  //   } catch (e) {
-  //     return null;
-  //   }
-  // }
+  // جلب الملف الشخصي من الـ Cache
+  UserModel? getUserProfile() {
+    final jsonString = getString(AppConstants.userProfileKey);
+    if (jsonString == null) return null;
+
+    try {
+      final json = jsonDecode(jsonString) as Map<String, dynamic>;
+      return UserModel.fromJson(json);
+    } catch (e) {
+      return null;
+    }
+  }
 
   // مسح الـ Cache (عند تسجيل الخروج)
-  // void clearUserProfile() {
-  //   remove(AppConstants.userProfileKey);
-  // }
+  void clearUserProfile() {
+    remove(AppConstants.userProfileKey);
+  }
 
   // ================== Generic Methods ================== //
 

@@ -1,4 +1,6 @@
 import 'package:go_router/go_router.dart';
+import 'package:wasel/core/widgets/error_screen.dart';
+import 'package:wasel/features/auth/presentation/screens/complete_profile_screen.dart';
 import 'package:wasel/features/auth/presentation/screens/login_screen.dart';
 import 'package:wasel/features/base/presentation/screens/base_screen.dart';
 import 'package:wasel/features/order_history/presentation/screens/order_history_screen.dart';
@@ -13,8 +15,16 @@ abstract class AppRouter {
         builder: (context, state) => SplashScreen(),
       ),
       GoRoute(
+        path: ErrorScreen.routeName,
+        builder: (context, state) => ErrorScreen(error: state.extra as String?),
+      ),
+      GoRoute(
         path: LoginScreen.routeName,
         builder: (context, state) => LoginScreen(),
+      ),
+      GoRoute(
+        path: CompleteProfileScreen.routeName,
+        builder: (context, state) => CompleteProfileScreen(),
       ),
       GoRoute(
         path: BaseScreen.routeName,
