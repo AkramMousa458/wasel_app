@@ -57,7 +57,9 @@ class ApiService {
       _language = locator<LocalStorage>().language ?? 'ar';
       _logger.i(
         'Language initialized $_language',
-        error: _language?.isNotEmpty ?? false ? 'Language exists' : 'Empty language',
+        error: _language?.isNotEmpty ?? false
+            ? 'Language exists'
+            : 'Empty language',
       );
     }
   }
@@ -140,6 +142,33 @@ class ApiService {
 
     try {
       final response = await _dio.put(
+        uri.toString(),
+        data: data,
+        options: Options(
+          headers: _buildHeaders(contentType: 'application/json'),
+        ),
+      );
+
+      _logResponse(response);
+      return response.data as Map<String, dynamic>;
+    } on DioException catch (e) {
+      _logError(e, uri);
+      rethrow;
+    }
+  }
+
+  /// Makes a PATCH request to the specified endpoint.
+  Future<Map<String, dynamic>> patch({
+    required String endPoint,
+    required dynamic data,
+  }) async {
+    await _initialize();
+    final uri = _buildUri(endPoint);
+
+    _logRequest('PATCH', uri, data: data);
+
+    try {
+      final response = await _dio.patch(
         uri.toString(),
         data: data,
         options: Options(

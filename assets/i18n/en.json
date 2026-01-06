@@ -103,5 +103,8 @@
   "confirm_logout": "Confirm Logout",
   "logout_message": "Are you sure you want to log out?",
   "search_orders": "Search orders...",
-  "role": "ROLE"
+  "role": "ROLE",
+  "verify_email": "Verify Email",
+  "code_sent_to_email": "Code sent to email",
+  "email_otp": "Email OTP"
 }

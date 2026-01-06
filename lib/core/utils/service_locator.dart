@@ -49,7 +49,8 @@ Future<void> setupLocator({Logger? logger}) async {
     ApiService(
       locator<Dio>(),
       logger: locator<Logger>(),
-      baseUrl: 'https://wasel-backend-fz87.onrender.com/',
+      baseUrl: 'http://10.0.2.2:4040/',
+      // baseUrl: 'https://wasel-backend-fz87.onrender.com/',
     ),
   );
 

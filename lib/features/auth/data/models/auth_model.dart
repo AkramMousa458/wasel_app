@@ -2,25 +2,32 @@ import 'package:equatable/equatable.dart';
 
 class AuthModel extends Equatable {
   final bool? success;
+  final String? message;
   final String? token;
   final UserModel? user;
 
-  const AuthModel({this.success, this.token, this.user});
+  const AuthModel({this.success, this.message, this.token, this.user});
 
   factory AuthModel.fromJson(Map<String, dynamic> json) {
     return AuthModel(
       success: json['success'],
+      message: json['message'],
       token: json['token'],
       user: json['user'] != null ? UserModel.fromJson(json['user']) : null,
     );
   }
 
   Map<String, dynamic> toJson() {
-    return {'success': success, 'token': token, 'user': user?.toJson()};
+    return {
+      'success': success,
+      'message': message,
+      'token': token,
+      'user': user?.toJson(),
+    };
   }
 
   @override
-  List<Object?> get props => [success, token, user];
+  List<Object?> get props => [success, message, token, user];
 }
 
 class UserModel extends Equatable {
@@ -45,6 +52,7 @@ class UserModel extends Equatable {
   final String? updatedAt;
   final int? iV;
   final bool? online;
+  final UserLocation? location;
 
   const UserModel({
     this.sId,
@@ -68,6 +76,7 @@ class UserModel extends Equatable {
     this.updatedAt,
     this.iV,
     this.online,
+    this.location,
   });
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
@@ -95,6 +104,9 @@ class UserModel extends Equatable {
       updatedAt: json['updatedAt'],
       iV: json['__v'],
       online: json['online'],
+      location: json['location'] != null
+          ? UserLocation.fromJson(json['location'])
+          : null,
     );
   }
 
@@ -121,6 +133,7 @@ class UserModel extends Equatable {
       'updatedAt': updatedAt,
       '__v': iV,
       'online': online,
+      'location': location?.toJson(),
     };
   }
 
@@ -147,6 +160,7 @@ class UserModel extends Equatable {
     updatedAt,
     iV,
     online,
+    location,
   ];
 }
 
@@ -169,6 +183,7 @@ class UserName extends Equatable {
 }
 
 class UserAddress extends Equatable {
+  final String state;
   final String governorate;
   final String city;
   final String street;
@@ -177,6 +192,7 @@ class UserAddress extends Equatable {
   final String door;
 
   const UserAddress({
+    required this.state,
     required this.governorate,
     required this.city,
     required this.street,
@@ -187,6 +203,7 @@ class UserAddress extends Equatable {
 
   factory UserAddress.fromJson(Map<String, dynamic> json) {
     return UserAddress(
+      state: json['state'] ?? '',
       governorate: json['governorate'] ?? '',
       city: json['city'] ?? '',
       street: json['street'] ?? '',
@@ -198,6 +215,7 @@ class UserAddress extends Equatable {
 
   Map<String, dynamic> toJson() {
     return {
+      'state': state,
       'governorate': governorate,
       'city': city,
       'street': street,
@@ -208,5 +226,38 @@ class UserAddress extends Equatable {
   }
 
   @override
-  List<Object?> get props => [governorate, city, street, building, floor, door];
+  List<Object?> get props => [
+    state,
+    governorate,
+    city,
+    street,
+    building,
+    floor,
+    door,
+  ];
+}
+
+class UserLocation extends Equatable {
+  final String type;
+  final List<double> coordinates;
+
+  const UserLocation({required this.type, required this.coordinates});
+
+  factory UserLocation.fromJson(Map<String, dynamic> json) {
+    return UserLocation(
+      type: json['type'] ?? '',
+      coordinates: json['coordinates'] != null
+          ? List<double>.from(
+              (json['coordinates'] as List).map((e) => (e as num).toDouble()),
+            )
+          : [],
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {'type': type, 'coordinates': coordinates};
+  }
+
+  @override
+  List<Object?> get props => [type, coordinates];
 }

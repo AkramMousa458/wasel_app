@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_translate/flutter_translate.dart';
+import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:wasel/core/utils/app_colors.dart';
 import 'package:wasel/core/utils/app_styles.dart';
+import 'package:wasel/core/utils/custom_snack_bar.dart';
 import 'package:wasel/core/utils/theme_utils.dart';
+import 'package:wasel/core/widgets/custom_button.dart';
+import 'package:wasel/features/auth/presentation/manager/auth_cubit/auth_cubit.dart';
 import 'package:wasel/features/auth/presentation/widgets/complete_profile_text_field.dart';
 
 class CompleteProfileBody extends StatefulWidget {
@@ -15,11 +20,13 @@ class CompleteProfileBody extends StatefulWidget {
 
 class _CompleteProfileBodyState extends State<CompleteProfileBody> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> _emailFormKey = GlobalKey<FormState>();
 
   // Controllers
   final TextEditingController _arabicNameController = TextEditingController();
   final TextEditingController _englishNameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _emailOtpController = TextEditingController();
   final TextEditingController _stateController = TextEditingController();
   final TextEditingController _cityController = TextEditingController();
   final TextEditingController _streetController = TextEditingController();
@@ -32,6 +39,7 @@ class _CompleteProfileBodyState extends State<CompleteProfileBody> {
     _arabicNameController.dispose();
     _englishNameController.dispose();
     _emailController.dispose();
+    _emailOtpController.dispose();
     _stateController.dispose();
     _cityController.dispose();
     _streetController.dispose();
@@ -39,6 +47,28 @@ class _CompleteProfileBodyState extends State<CompleteProfileBody> {
     _floorController.dispose();
     _doorController.dispose();
     super.dispose();
+  }
+
+  void _handleVerifyEmail({required String email, required String code}) async {
+    if (_emailFormKey.currentState!.validate()) {
+      context.read<AuthCubit>().requestEmailOtp(email);
+    }
+  }
+
+  void _handleSaveProfile() async {
+    if (_formKey.currentState!.validate()) {
+      context.read<AuthCubit>().completeProfile(
+        arabicName: _arabicNameController.text,
+        englishName: _englishNameController.text,
+        state: _stateController.text,
+        city: _cityController.text,
+        street: _streetController.text,
+        building: _buildingController.text,
+        floor: _floorController.text,
+        door: _doorController.text,
+        // TODO: Get location and pushToken
+      );
+    }
   }
 
   @override
@@ -126,14 +156,66 @@ class _CompleteProfileBodyState extends State<CompleteProfileBody> {
             SizedBox(height: 16.h),
 
             // Email
-            CompleteProfileTextField(
-              controller: _emailController,
-              hintText: translate('email'),
-              isDark: isDark,
-              keyboardType: TextInputType.emailAddress,
-              suffixText: '(${translate('optional')})',
+            Form(
+              key: _emailFormKey,
+              child: CompleteProfileTextField(
+                controller: _emailController,
+                hintText: translate('email'),
+                isDark: isDark,
+                keyboardType: TextInputType.emailAddress,
+                suffixText: '(${translate('optional')})',
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return '${translate('email')} ${translate('required')}';
+                  }
+                  return null;
+                },
+              ),
             ),
-            SizedBox(height: 24.h),
+            SizedBox(height: 12.h),
+
+            CustomButton(
+              width: MediaQuery.of(context).size.width / 3,
+              height: 40.h,
+              textStyle: AppStyles.textstyle12.copyWith(
+                color: isDark ? AppColors.white : AppColors.black,
+              ),
+              text: 'verify_email',
+              onPressed: () => _handleVerifyEmail(
+                email: _emailController.text,
+                code: _emailOtpController.text,
+              ),
+            ),
+
+            SizedBox(height: 20.h),
+
+            // Email OTP
+            BlocConsumer<AuthCubit, AuthState>(
+              listener: (context, state) {
+                if (state is AuthOtpSent) {
+                  // CustomSnackBar.info(message: translate('code_sent_to_email'));
+                  showSnackBar(context, translate('code_sent_to_email'), true);
+                }
+              },
+              builder: (context, state) {
+                if (state is AuthOtpSent) {
+                  return Column(
+                    children: [
+                      CompleteProfileTextField(
+                        controller: _emailOtpController,
+                        hintText: translate('email_otp'),
+                        isDark: isDark,
+                        keyboardType: TextInputType.number,
+                        suffixText: '(${translate('required')})',
+                      ),
+                      SizedBox(height: 24.h),
+                    ],
+                  );
+                } else {
+                  return SizedBox.shrink();
+                }
+              },
+            ),
 
             // Map Section
             Text(
@@ -248,9 +330,7 @@ class _CompleteProfileBodyState extends State<CompleteProfileBody> {
               height: 56.h,
               child: ElevatedButton(
                 onPressed: () {
-                  if (_formKey.currentState!.validate()) {
-                    // Process data
-                  }
+                  _handleSaveProfile();
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppColors.primary,

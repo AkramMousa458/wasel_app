@@ -9,6 +9,38 @@ class AuthRepoImpl {
 
   AuthRepoImpl(this.remoteDataSource);
 
+  Future<Either<ApiFailure, RequestOtpResponseModel>> requestEmailOtp({
+    required String email,
+  }) async {
+    try {
+      final result = await remoteDataSource.requestEmailOtp(email: email);
+      return Right(result);
+    } catch (e) {
+      if (e is ServerFailure) {
+        return Left(e);
+      }
+      return Left(ServerFailure(message: e.toString()));
+    }
+  }
+
+  Future<Either<ApiFailure, AuthModel>> verifyEmail({
+    required String email,
+    required String code,
+  }) async {
+    try {
+      final result = await remoteDataSource.verifyEmail(
+        email: email,
+        code: code,
+      );
+      return Right(result);
+    } catch (e) {
+      if (e is ServerFailure) {
+        return Left(e);
+      }
+      return Left(ServerFailure(message: e.toString()));
+    }
+  }
+
   Future<Either<ApiFailure, RequestOtpResponseModel>> requestPhoneOtp({
     required String phone,
   }) async {
@@ -32,6 +64,20 @@ class AuthRepoImpl {
         phone: phone,
         code: code,
       );
+      return Right(result);
+    } catch (e) {
+      if (e is ServerFailure) {
+        return Left(e);
+      }
+      return Left(ServerFailure(message: e.toString()));
+    }
+  }
+
+  Future<Either<ApiFailure, AuthModel>> updateProfile({
+    required Map<String, dynamic> data,
+  }) async {
+    try {
+      final result = await remoteDataSource.updateProfile(data: data);
       return Right(result);
     } catch (e) {
       if (e is ServerFailure) {
