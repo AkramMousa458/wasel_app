@@ -68,10 +68,6 @@ Future<void> setupLocator({Logger? logger}) async {
     () => AuthRepoImpl(locator<AuthRemoteDataSource>()),
   );
 
-  locator.registerLazySingleton<AuthCubit>(
-    () => AuthCubit(locator<AuthRepoImpl>()),
-  );
-
   // Profile Dependencies
   locator.registerLazySingleton<ProfileRemoteDataSource>(
     () => ProfileRemoteDataSource(apiService: locator<ApiService>()),
@@ -79,9 +75,5 @@ Future<void> setupLocator({Logger? logger}) async {
 
   locator.registerLazySingleton<ProfileRepoImpl>(
     () => ProfileRepoImpl(remoteDataSource: locator<ProfileRemoteDataSource>()),
-  );
-
-  locator.registerLazySingleton<ProfileCubit>(
-    () => ProfileCubit(profileRepo: locator<ProfileRepoImpl>()),
   );
 }

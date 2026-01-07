@@ -57,7 +57,7 @@ class AuthCubit extends Cubit<AuthState> {
     });
   }
 
-  Future<void> completeProfile({
+  Future<void> updateProfile({
     required String arabicName,
     required String englishName,
     String? state,

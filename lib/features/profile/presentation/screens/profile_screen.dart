@@ -10,6 +10,7 @@ import 'package:wasel/core/utils/service_locator.dart';
 import 'package:wasel/core/utils/theme_utils.dart';
 import 'package:wasel/features/auth/data/models/auth_model.dart';
 import 'package:wasel/features/auth/presentation/screens/login_screen.dart';
+import 'package:wasel/features/profile/data/repo/profile_repo_impl.dart';
 import 'package:wasel/features/profile/presentation/manager/profile_cubit.dart';
 import 'package:wasel/features/profile/presentation/manager/profile_state.dart';
 import 'package:wasel/features/profile/presentation/widgets/personal_info_card.dart';
@@ -27,7 +28,7 @@ class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => locator<ProfileCubit>()..getProfile(),
+      create: (context) => ProfileCubit(locator<ProfileRepoImpl>())..getProfile(),
       child: BlocBuilder<ProfileCubit, ProfileState>(
         builder: (context, state) {
           final isDark = ThemeUtils.isDark(context);

@@ -14,7 +14,7 @@ class CompleteProfileBody extends StatefulWidget {
   const CompleteProfileBody({super.key});
 
   @override
-  State<CompleteProfileBody> createState() => _CompleteProfileBodyState();
+State<CompleteProfileBody> createState() => _CompleteProfileBodyState();
 }
 
 class _CompleteProfileBodyState extends State<CompleteProfileBody> {
@@ -56,7 +56,7 @@ class _CompleteProfileBodyState extends State<CompleteProfileBody> {
 
   void _handleSaveProfile() async {
     if (_formKey.currentState!.validate()) {
-      context.read<AuthCubit>().completeProfile(
+      context.read<AuthCubit>().updateProfile(
         arabicName: _arabicNameController.text,
         englishName: _englishNameController.text,
         state: _stateController.text,

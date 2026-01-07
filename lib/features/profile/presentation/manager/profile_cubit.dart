@@ -5,10 +5,10 @@ import 'package:wasel/features/profile/presentation/manager/profile_state.dart';
 class ProfileCubit extends Cubit<ProfileState> {
   final ProfileRepoImpl profileRepo;
 
-  ProfileCubit({required this.profileRepo}) : super(ProfileInitial());
+  ProfileCubit(this.profileRepo) : super(ProfileInitial());
 
   Future<void> getProfile() async {
-    emit(ProfileLoading());
+    if (!isClosed) emit(ProfileLoading());
     final result = await profileRepo.getProfile();
     result.fold(
       (failure) {
@@ -19,4 +19,5 @@ class ProfileCubit extends Cubit<ProfileState> {
       },
     );
   }
+  
 }

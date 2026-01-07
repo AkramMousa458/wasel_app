@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:wasel/core/utils/app_colors.dart';
 import 'package:wasel/core/utils/custom_snack_bar.dart';
 import 'package:wasel/core/utils/theme_utils.dart';
+import 'package:wasel/features/auth/presentation/screens/complete_profile_screen.dart';
 import 'package:wasel/features/auth/presentation/widgets/login_header.dart';
 import 'package:wasel/features/auth/presentation/widgets/login_form_content.dart';
 import 'package:wasel/features/base/presentation/screens/base_screen.dart';
@@ -86,6 +87,12 @@ class _LoginScreenBodyState extends State<LoginScreenBody> {
                 hintText: translate('verification_code'),
                 border: const OutlineInputBorder(),
               ),
+              onChanged: (value) {
+                if (value.length == 6) {
+                  Navigator.pop(dialogContext); // Close dialog
+                  context.read<AuthCubit>().verifyOtp(phone, value);
+                }
+              },
             ),
           ],
         ),
@@ -129,8 +136,11 @@ class _LoginScreenBodyState extends State<LoginScreenBody> {
           showSnackBar(context, state.response.code ?? 'Error', true);
           _showOtpDialog(context, phone);
         } else if (state is AuthLoginSuccess) {
-          // Navigate to Home
-          GoRouter.of(context).go(BaseScreen.routeName);
+          if (state.authModel.user!.name!.ar.isEmpty) {
+            GoRouter.of(context).go(CompleteProfileScreen.routeName);
+          } else {
+            GoRouter.of(context).go(BaseScreen.routeName);
+          }
         }
       },
       builder: (context, state) {
