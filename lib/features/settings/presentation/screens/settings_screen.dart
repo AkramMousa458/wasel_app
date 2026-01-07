@@ -42,8 +42,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  _buildUserCard(isDark),
-                  SizedBox(height: 24.h),
+                  // _buildUserCard(isDark),
+                  // SizedBox(height: 24.h),
                   _buildAppPreferences(isDark),
                   SizedBox(height: 24.h),
                   _buildFinanceSection(isDark),
@@ -62,92 +62,92 @@ class _SettingsScreenState extends State<SettingsScreen> {
     );
   }
 
-  Widget _buildUserCard(bool isDark) {
-    return Container(
-      padding: EdgeInsets.all(16.r),
-      decoration: BoxDecoration(
-        color: isDark ? AppColors.darkCard : AppColors.white,
-        borderRadius: BorderRadius.circular(16.r),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: isDark ? 0.3 : 0.08),
-            offset: const Offset(0, 2),
-            blurRadius: 8,
-          ),
-        ],
-      ),
-      child: Row(
-        children: [
-          Stack(
-            children: [
-              CircleAvatar(
-                radius: 30.r,
-                backgroundImage: const CachedNetworkImageProvider(
-                  'https://randomuser.me/api/portraits/men/32.jpg',
-                ),
-              ),
-              Positioned(
-                bottom: 0,
-                right: 0,
-                child: Container(
-                  width: 16.r,
-                  height: 16.r,
-                  decoration: BoxDecoration(
-                    color: AppColors.success500,
-                    shape: BoxShape.circle,
-                    border: Border.all(
-                      color: isDark ? AppColors.darkCard : AppColors.white,
-                      width: 2,
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-          SizedBox(width: 12.w),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Ahmed Al-Farsi',
-                  style: TextStyle(
-                    fontSize: 16.sp,
-                    fontWeight: FontWeight.bold,
-                    color: isDark ? AppColors.white : AppColors.black,
-                  ),
-                ),
-                SizedBox(height: 4.h),
-                Text(
-                  'Wasel Pro Member',
-                  style: TextStyle(
-                    fontSize: 12.sp,
-                    color: isDark
-                        ? AppColors.darkTextSecondary
-                        : AppColors.lightTextSecondary,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Material(
-            color: AppColors.primary.withValues(alpha: 0.1),
-            shape: const CircleBorder(),
-            clipBehavior: Clip.hardEdge,
-            child: InkWell(
-              onTap: () {
-                // Navigate to edit profile
-              },
-              child: Padding(
-                padding: EdgeInsets.all(8.r),
-                child: Icon(Icons.edit, color: AppColors.primary, size: 20.r),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
+  // Widget _buildUserCard(bool isDark) {
+  //   return Container(
+  //     padding: EdgeInsets.all(16.r),
+  //     decoration: BoxDecoration(
+  //       color: isDark ? AppColors.darkCard : AppColors.white,
+  //       borderRadius: BorderRadius.circular(16.r),
+  //       boxShadow: [
+  //         BoxShadow(
+  //           color: Colors.black.withValues(alpha: isDark ? 0.3 : 0.08),
+  //           offset: const Offset(0, 2),
+  //           blurRadius: 8,
+  //         ),
+  //       ],
+  //     ),
+  //     child: Row(
+  //       children: [
+  //         Stack(
+  //           children: [
+  //             CircleAvatar(
+  //               radius: 30.r,
+  //               backgroundImage: const CachedNetworkImageProvider(
+  //                 'https://randomuser.me/api/portraits/men/32.jpg',
+  //               ),
+  //             ),
+  //             Positioned(
+  //               bottom: 0,
+  //               right: 0,
+  //               child: Container(
+  //                 width: 16.r,
+  //                 height: 16.r,
+  //                 decoration: BoxDecoration(
+  //                   color: AppColors.success500,
+  //                   shape: BoxShape.circle,
+  //                   border: Border.all(
+  //                     color: isDark ? AppColors.darkCard : AppColors.white,
+  //                     width: 2,
+  //                   ),
+  //                 ),
+  //               ),
+  //             ),
+  //           ],
+  //         ),
+  //         SizedBox(width: 12.w),
+  //         Expanded(
+  //           child: Column(
+  //             crossAxisAlignment: CrossAxisAlignment.start,
+  //             children: [
+  //               Text(
+  //                 'Ahmed Al-Farsi',
+  //                 style: TextStyle(
+  //                   fontSize: 16.sp,
+  //                   fontWeight: FontWeight.bold,
+  //                   color: isDark ? AppColors.white : AppColors.black,
+  //                 ),
+  //               ),
+  //               SizedBox(height: 4.h),
+  //               Text(
+  //                 'Wasel Pro Member',
+  //                 style: TextStyle(
+  //                   fontSize: 12.sp,
+  //                   color: isDark
+  //                       ? AppColors.darkTextSecondary
+  //                       : AppColors.lightTextSecondary,
+  //                 ),
+  //               ),
+  //             ],
+  //           ),
+  //         ),
+  //         Material(
+  //           color: AppColors.primary.withValues(alpha: 0.1),
+  //           shape: const CircleBorder(),
+  //           clipBehavior: Clip.hardEdge,
+  //           child: InkWell(
+  //             onTap: () {
+  //               // Navigate to edit profile
+  //             },
+  //             child: Padding(
+  //               padding: EdgeInsets.all(8.r),
+  //               child: Icon(Icons.edit, color: AppColors.primary, size: 20.r),
+  //             ),
+  //           ),
+  //         ),
+  //       ],
+  //     ),
+  //   );
+  // }
 
   Widget _buildAppPreferences(bool isDark) {
     return BlocBuilder<LanguageCubit, Locale>(
