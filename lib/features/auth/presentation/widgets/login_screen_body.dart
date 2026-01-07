@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_translate/flutter_translate.dart';
-import 'package:go_router/go_router.dart';
 import 'package:wasel/core/utils/app_colors.dart';
 import 'package:wasel/core/utils/custom_snack_bar.dart';
 import 'package:wasel/core/utils/theme_utils.dart';
-import 'package:wasel/features/auth/presentation/screens/complete_profile_screen.dart';
 import 'package:wasel/features/auth/presentation/widgets/login_header.dart';
 import 'package:wasel/features/auth/presentation/widgets/login_form_content.dart';
-import 'package:wasel/features/base/presentation/screens/base_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:wasel/features/app/presentation/manager/app_cubit.dart';
 import 'package:wasel/features/auth/presentation/manager/auth_cubit/auth_cubit.dart';
 
 class LoginScreenBody extends StatefulWidget {
@@ -136,11 +134,7 @@ class _LoginScreenBodyState extends State<LoginScreenBody> {
           showSnackBar(context, state.response.code ?? 'Error', true);
           _showOtpDialog(context, phone);
         } else if (state is AuthLoginSuccess) {
-          if (state.authModel.user!.name!.ar.isEmpty) {
-            GoRouter.of(context).go(CompleteProfileScreen.routeName);
-          } else {
-            GoRouter.of(context).go(BaseScreen.routeName);
-          }
+          context.read<AppCubit>().checkAuth();
         }
       },
       builder: (context, state) {

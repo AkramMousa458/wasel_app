@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_translate/flutter_translate.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:wasel/core/utils/app_colors.dart';
 import 'package:wasel/core/utils/app_styles.dart';
@@ -107,8 +108,22 @@ class ProfileHeader extends StatelessWidget {
                 ),
                 child: CircleAvatar(
                   radius: 50.r,
-                  backgroundImage: const NetworkImage(
-                    'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&auto=format&fit=crop&w=334&q=80',
+                  backgroundColor: isDark
+                      ? AppColors.darkCard
+                      : AppColors.lightCard,
+                  backgroundImage:
+                      (user?.image != null &&
+                          user!.image!.isNotEmpty &&
+                          (user!.image!.startsWith('http') ||
+                              user!.image!.startsWith('https')))
+                      ? NetworkImage(user!.image!)
+                      : null,
+                  child: Icon(
+                    FontAwesomeIcons.solidUser,
+                    size: 50.r,
+                    color: isDark
+                        ? AppColors.darkTextPrimary
+                        : AppColors.lightTextPrimary,
                   ),
                 ),
               ),

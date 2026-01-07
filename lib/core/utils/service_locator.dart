@@ -5,11 +5,9 @@ import 'package:wasel/core/utils/local_storage.dart';
 import 'package:wasel/core/services/api_service.dart';
 import 'package:wasel/features/auth/data/data_sources/auth_remote_data_source.dart';
 import 'package:wasel/features/auth/data/repos/auth_repo_impl.dart';
-import 'package:wasel/features/auth/presentation/manager/auth_cubit/auth_cubit.dart';
 
 import 'package:wasel/features/profile/data/data_sources/profile_remote_data_source.dart';
 import 'package:wasel/features/profile/data/repo/profile_repo_impl.dart';
-import 'package:wasel/features/profile/presentation/manager/profile_cubit.dart';
 
 final locator = GetIt.instance;
 
