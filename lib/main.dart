@@ -8,8 +8,6 @@ import 'package:wasel/core/utils/bloc_observer.dart';
 import 'package:wasel/core/utils/local_storage.dart';
 import 'package:wasel/core/utils/service_locator.dart';
 import 'package:wasel/features/no_internet/presentation/manager/connection_cubit.dart';
-import 'package:wasel/features/profile/data/repo/profile_repo_impl.dart';
-import 'package:wasel/features/profile/presentation/manager/profile_cubit.dart';
 import 'package:wasel/my_app.dart';
 
 // SharedReservationModel? bookingModel;

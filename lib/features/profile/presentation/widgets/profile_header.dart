@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
@@ -38,6 +39,11 @@ class ProfileHeader extends StatelessWidget {
       } catch (e) {
         // ignore
       }
+    }
+
+    String? userImage;
+    if (user?.image != null && user!.image!.isNotEmpty) {
+      userImage = 'http://10.0.2.2:4040${user!.image!}';
     }
 
     return Container(
@@ -111,20 +117,18 @@ class ProfileHeader extends StatelessWidget {
                   backgroundColor: isDark
                       ? AppColors.darkCard
                       : AppColors.lightCard,
-                  backgroundImage:
-                      (user?.image != null &&
-                          user!.image!.isNotEmpty &&
-                          (user!.image!.startsWith('http') ||
-                              user!.image!.startsWith('https')))
-                      ? NetworkImage(user!.image!)
+                  backgroundImage: userImage != null
+                      ? CachedNetworkImageProvider(userImage)
                       : null,
-                  child: Icon(
-                    FontAwesomeIcons.solidUser,
-                    size: 50.r,
-                    color: isDark
-                        ? AppColors.darkTextPrimary
-                        : AppColors.lightTextPrimary,
-                  ),
+                  child: userImage != null
+                      ? null
+                      : Icon(
+                          FontAwesomeIcons.solidUser,
+                          size: 50.r,
+                          color: isDark
+                              ? AppColors.darkTextPrimary
+                              : AppColors.lightTextPrimary,
+                        ),
                 ),
               ),
               Positioned(

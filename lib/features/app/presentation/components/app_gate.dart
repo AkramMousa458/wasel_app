@@ -6,7 +6,6 @@ import 'package:wasel/features/app/presentation/manager/app_state.dart';
 import 'package:wasel/features/auth/presentation/screens/complete_profile_screen.dart';
 import 'package:wasel/features/auth/presentation/screens/login_screen.dart';
 import 'package:wasel/features/base/presentation/screens/base_screen.dart';
-import 'package:wasel/features/splash/presentation/screens/splash_screen.dart';
 
 class AppGate extends StatefulWidget {
   final Widget child;
@@ -41,17 +40,17 @@ class _AppGateState extends State<AppGate> {
       // If we are authenticated, but currently on a "Guest Only" route (like Login, Splash, CompleteProfile),
       // then redirect to Home (BaseScreen).
       // Otherwise (if we are on Settings, Details, etc.), stay where we are.
+      context.go(BaseScreen.routeName);
+      // final String location = GoRouterState.of(context).uri.toString();
 
-      final String location = GoRouterState.of(context).uri.toString();
+      // final isGuestRoute =
+      //     location == LoginScreen.routeName ||
+      //     location == SplashScreen.routeName ||
+      //     location == CompleteProfileScreen.routeName;
 
-      final isGuestRoute =
-          location == LoginScreen.routeName ||
-          location == SplashScreen.routeName ||
-          location == CompleteProfileScreen.routeName;
-
-      if (isGuestRoute) {
-        context.go(BaseScreen.routeName);
-      }
+      // if (isGuestRoute) {
+      //   context.go(BaseScreen.routeName);
+      // }
     }
   }
 

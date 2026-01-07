@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -243,7 +244,7 @@ class _CompleteProfileBodyState extends State<CompleteProfileBody> {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20.r),
                   image: const DecorationImage(
-                    image: NetworkImage(
+                    image: CachedNetworkImageProvider(
                       'https://mt1.google.com/vt/lyrs=m&x=1310&y=3160&z=13', // Placeholder map
                     ),
                     fit: BoxFit.cover,

@@ -61,8 +61,10 @@ class _LoginScreenBodyState extends State<LoginScreenBody> {
 
   void _handleSendVerificationCode() {
     if (_validateForm()) {
-      final phone = _phoneController.text.replaceAll(RegExp(r'[^\d]'), '');
-      context.read<AuthCubit>().requestOtp(phone);
+      _phoneController.text = _phoneController.text
+          .replaceAll(RegExp(r'[^\d]'), '')
+          .trim();
+      context.read<AuthCubit>().requestOtp(_phoneController.text);
     }
   }
 
