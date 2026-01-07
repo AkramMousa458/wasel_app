@@ -39,11 +39,14 @@ class PersonalInfoCard extends StatelessWidget {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              Text(
-                translate('edit'),
-                style: AppStyles.textstyle14.copyWith(
-                  color: AppColors.secondary,
-                  fontWeight: FontWeight.bold,
+              TextButton(
+                onPressed: () {},
+                child: Text(
+                  translate('edit'),
+                  style: AppStyles.textstyle14.copyWith(
+                    color: AppColors.secondary,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
             ],
@@ -55,7 +58,19 @@ class PersonalInfoCard extends StatelessWidget {
             value: user?.phone ?? '',
             isDark: isDark,
           ),
-          if (user?.role != null) ...[
+          if (user?.email != null) ...[
+            Divider(
+              height: 32.h,
+              color: isDark ? const Color(0xFF334155) : const Color(0xFFE2E8F0),
+            ),
+            _buildInfoRow(
+              icon: Icons.email,
+              title: translate('email'),
+              value: user?.email ?? '',
+              isDark: isDark,
+            ),
+          ],
+          if (user?.role == 'admin') ...[
             Divider(
               height: 32.h,
               color: isDark ? const Color(0xFF334155) : const Color(0xFFE2E8F0),
