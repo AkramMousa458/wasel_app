@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:wasel/core/utils/app_colors.dart';
 import 'package:wasel/core/utils/app_styles.dart';
@@ -23,8 +24,7 @@ class ActivityCard extends StatelessWidget {
         clipBehavior: Clip.hardEdge,
         child: InkWell(
           borderRadius: BorderRadius.circular(26.r),
-          onTap: () {
-          },
+          onTap: () {},
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -51,7 +51,7 @@ class ActivityCard extends StatelessWidget {
                             color: Colors.grey[800],
                             borderRadius: BorderRadius.circular(12.r),
                             image: const DecorationImage(
-                              image: NetworkImage(
+                              image: CachedNetworkImageProvider(
                                 'https://images.unsplash.com/photo-1579871494447-9811cf80d66c?ixlib=rb-1.2.1&auto=format&fit=crop&w=150&q=80',
                               ),
                               fit: BoxFit.cover,

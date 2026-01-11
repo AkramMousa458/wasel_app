@@ -81,9 +81,9 @@ class LocalStorage {
 
   // ================== Profile Data ================== //
   // حفظ الملف الشخصي
-  void saveUserProfile(UserModel profile) {
+  Future<bool> saveUserProfile(UserModel profile) {
     final json = profile.toJson();
-    setString(AppConstants.userProfileKey, jsonEncode(json));
+    return setString(AppConstants.userProfileKey, jsonEncode(json));
   }
 
   // جلب الملف الشخصي من الـ Cache

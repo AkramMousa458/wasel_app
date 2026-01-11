@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_translate/flutter_translate.dart';
-import 'package:go_router/go_router.dart';
 import 'package:wasel/core/utils/app_colors.dart';
 import 'package:wasel/core/utils/custom_snack_bar.dart';
 import 'package:wasel/core/utils/theme_utils.dart';
 import 'package:wasel/features/auth/presentation/widgets/login_header.dart';
 import 'package:wasel/features/auth/presentation/widgets/login_form_content.dart';
-import 'package:wasel/features/base/presentation/screens/base_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:wasel/features/app/presentation/manager/app_cubit.dart';
 import 'package:wasel/features/auth/presentation/manager/auth_cubit/auth_cubit.dart';
 
 class LoginScreenBody extends StatefulWidget {
@@ -62,8 +61,10 @@ class _LoginScreenBodyState extends State<LoginScreenBody> {
 
   void _handleSendVerificationCode() {
     if (_validateForm()) {
-      final phone = _phoneController.text.replaceAll(RegExp(r'[^\d]'), '');
-      context.read<AuthCubit>().requestOtp(phone);
+      _phoneController.text = _phoneController.text
+          .replaceAll(RegExp(r'[^\d]'), '')
+          .trim();
+      context.read<AuthCubit>().requestOtp(_phoneController.text);
     }
   }
 
@@ -86,6 +87,12 @@ class _LoginScreenBodyState extends State<LoginScreenBody> {
                 hintText: translate('verification_code'),
                 border: const OutlineInputBorder(),
               ),
+              onChanged: (value) {
+                if (value.length == 6) {
+                  Navigator.pop(dialogContext); // Close dialog
+                  context.read<AuthCubit>().verifyOtp(phone, value);
+                }
+              },
             ),
           ],
         ),
@@ -129,8 +136,9 @@ class _LoginScreenBodyState extends State<LoginScreenBody> {
           showSnackBar(context, state.response.code ?? 'Error', true);
           _showOtpDialog(context, phone);
         } else if (state is AuthLoginSuccess) {
-          // Navigate to Home
-          GoRouter.of(context).go(BaseScreen.routeName);
+          context.read<AppCubit>().checkAuth();
+          // Force navigation if AppGate doesn't pick it up immediately or if we want immediate feedback
+          // context.go(BaseScreen.routeName);
         }
       },
       builder: (context, state) {

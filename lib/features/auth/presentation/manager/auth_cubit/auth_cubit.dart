@@ -25,12 +25,14 @@ class AuthCubit extends Cubit<AuthState> {
   Future<void> verifyEmail(String email, String code) async {
     emit(AuthLoading());
     final result = await authRepo.verifyEmail(email: email, code: code);
-    result.fold((failure) => emit(AuthFailure(failure.message)), (authModel) {
+    result.fold((failure) => emit(AuthFailure(failure.message)), (
+      authModel,
+    ) async {
       if (authModel.token != null) {
-        locator<LocalStorage>().saveAuthToken(authModel.token!);
+        await locator<LocalStorage>().saveAuthToken(authModel.token!);
       }
       if (authModel.user != null) {
-        locator<LocalStorage>().saveUserProfile(authModel.user!);
+        await locator<LocalStorage>().saveUserProfile(authModel.user!);
       }
       emit(AuthLoginSuccess(authModel));
     });
@@ -48,16 +50,21 @@ class AuthCubit extends Cubit<AuthState> {
   Future<void> verifyOtp(String phone, String code) async {
     emit(AuthLoading());
     final result = await authRepo.verifyPhone(phone: phone, code: code);
-    result.fold((failure) => emit(AuthFailure(failure.message)), (authModel) {
+    result.fold((failure) => emit(AuthFailure(failure.message)), (
+      authModel,
+    ) async {
       if (authModel.token != null) {
-        locator<LocalStorage>().saveAuthToken(authModel.token!);
-        locator<LocalStorage>().saveUserProfile(authModel.user!);
+        await locator<LocalStorage>().saveAuthToken(authModel.token!);
+        // Ensure profile is saved too
+        if (authModel.user != null) {
+          await locator<LocalStorage>().saveUserProfile(authModel.user!);
+        }
       }
       emit(AuthLoginSuccess(authModel));
     });
   }
 
-  Future<void> completeProfile({
+  Future<void> updateProfile({
     required String arabicName,
     required String englishName,
     String? state,
@@ -98,12 +105,14 @@ class AuthCubit extends Cubit<AuthState> {
     }
 
     final result = await authRepo.updateProfile(data: data);
-    result.fold((failure) => emit(AuthFailure(failure.message)), (authModel) {
+    result.fold((failure) => emit(AuthFailure(failure.message)), (
+      authModel,
+    ) async {
       if (authModel.token != null) {
-        locator<LocalStorage>().saveAuthToken(authModel.token!);
+        await locator<LocalStorage>().saveAuthToken(authModel.token!);
       }
       if (authModel.user != null) {
-        locator<LocalStorage>().saveUserProfile(authModel.user!);
+        await locator<LocalStorage>().saveUserProfile(authModel.user!);
       }
       emit(AuthLoginSuccess(authModel));
     });

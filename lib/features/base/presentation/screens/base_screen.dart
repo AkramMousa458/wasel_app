@@ -19,7 +19,7 @@ class _BaseScreenState extends State<BaseScreen> {
     const HomeScreen(),
     const OrderHistoryScreen(
       isBack: false,
-    ), // My Orders - TODO: Replace with actual screen
+    ),
     const Placeholder(), // Add/Create - TODO: Replace with actual screen
     const Placeholder(), // Chat - TODO: Replace with actual screen
     const ProfileScreen(isBack: false), // Profile

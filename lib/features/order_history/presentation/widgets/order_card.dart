@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:wasel/core/utils/app_colors.dart';
 import 'package:wasel/core/utils/app_styles.dart';
@@ -55,7 +56,7 @@ class ActiveOrderCard extends StatelessWidget {
                         ), // Dark grey placeholder BG
                         borderRadius: BorderRadius.circular(12.r),
                         image: DecorationImage(
-                          image: NetworkImage(order.imageUrl),
+                          image: CachedNetworkImageProvider(order.imageUrl),
                           fit: BoxFit.cover,
                         ),
                       ),
@@ -131,9 +132,10 @@ class ActiveOrderCard extends StatelessWidget {
                                         : AppColors.lightCard,
                                     child: CircleAvatar(
                                       radius: 12.r,
-                                      backgroundImage: NetworkImage(
-                                        order.profileImages[i],
-                                      ),
+                                      backgroundImage:
+                                          CachedNetworkImageProvider(
+                                            order.profileImages[i],
+                                          ),
                                     ),
                                   ),
                                 ),
