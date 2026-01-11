@@ -137,6 +137,8 @@ class _LoginScreenBodyState extends State<LoginScreenBody> {
           _showOtpDialog(context, phone);
         } else if (state is AuthLoginSuccess) {
           context.read<AppCubit>().checkAuth();
+          // Force navigation if AppGate doesn't pick it up immediately or if we want immediate feedback
+          // context.go(BaseScreen.routeName);
         }
       },
       builder: (context, state) {

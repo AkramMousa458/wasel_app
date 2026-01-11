@@ -58,6 +58,8 @@ class _AppGateState extends State<AppGate> {
   Widget build(BuildContext context) {
     return BlocListener<AppCubit, AppState>(
       listener: _onAppStateChanged,
+      listenWhen: (previous, current) =>
+          true, // Listen to all state changes including re-emissions of same state type if any
       child: widget.child,
     );
   }

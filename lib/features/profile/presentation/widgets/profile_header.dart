@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_translate/flutter_translate.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:wasel/core/utils/app_colors.dart';
 import 'package:wasel/core/utils/app_styles.dart';
 import 'package:wasel/core/utils/local_storage.dart';
 import 'package:wasel/core/utils/service_locator.dart';
 import 'package:wasel/features/auth/data/models/auth_model.dart';
+import 'package:wasel/features/profile/presentation/widgets/profile_temp_image_icon.dart';
 import 'package:wasel/features/settings/presentation/screens/settings_screen.dart';
 
 class ProfileHeader extends StatelessWidget {
@@ -112,24 +113,34 @@ class ProfileHeader extends StatelessWidget {
                   shape: BoxShape.circle,
                   border: Border.all(color: Colors.white, width: 2),
                 ),
-                child: CircleAvatar(
-                  radius: 50.r,
-                  backgroundColor: isDark
-                      ? AppColors.darkCard
-                      : AppColors.lightCard,
-                  backgroundImage: userImage != null
-                      ? CachedNetworkImageProvider(userImage)
-                      : null,
-                  child: userImage != null
-                      ? null
-                      : Icon(
-                          FontAwesomeIcons.solidUser,
-                          size: 50.r,
-                          color: isDark
-                              ? AppColors.darkTextPrimary
-                              : AppColors.lightTextPrimary,
+                child: userImage != null
+                    ? CachedNetworkImage(
+                        imageUrl: userImage,
+                        imageBuilder: (context, imageProvider) => CircleAvatar(
+                          radius: 50.r,
+                          backgroundColor: isDark
+                              ? AppColors.darkCard
+                              : AppColors.lightCard,
+                          backgroundImage: imageProvider,
                         ),
-                ),
+                        placeholder: (context, url) => Shimmer.fromColors(
+                          baseColor: isDark
+                              ? AppColors.shimmerDarkBaseColor
+                              : AppColors.shimmerLightBaseColor,
+                          highlightColor: isDark
+                              ? AppColors.shimmerDarkHighlightColor
+                              : AppColors.shimmerLightHighlightColor,
+                          child: CircleAvatar(
+                            radius: 50.r,
+                            backgroundColor: isDark
+                                ? AppColors.darkCard
+                                : AppColors.lightCard,
+                          ),
+                        ),
+                        errorWidget: (context, url, error) =>
+                            ProfileTempImageIcon(isDark: isDark),
+                      )
+                    : ProfileTempImageIcon(isDark: isDark),
               ),
               Positioned(
                 bottom: 0,

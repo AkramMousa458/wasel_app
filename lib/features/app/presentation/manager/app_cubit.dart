@@ -7,6 +7,9 @@ class AppCubit extends Cubit<AppState> {
   AppCubit() : super(AppInitial());
 
   void checkAuth() {
+    emit(
+      AppInitial(),
+    ); // Reset state to ensure listener catches the next emission
     final localStorage = locator<LocalStorage>();
     final token = localStorage.authToken;
 
