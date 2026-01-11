@@ -10,6 +10,7 @@ sealed class AppState extends Equatable {
 final class AppInitial extends AppState {}
 
 final class AppUnauthenticated extends AppState {}
+final class AppLogout extends AppState {}
 
 final class AppIncompleteProfile extends AppState {}
 

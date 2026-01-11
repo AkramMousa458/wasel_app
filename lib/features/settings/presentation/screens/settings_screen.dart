@@ -10,6 +10,7 @@ import 'package:wasel/features/settings/presentation/widgets/settings_header.dar
 import 'package:wasel/features/settings/presentation/widgets/settings_section.dart';
 import 'package:wasel/features/settings/presentation/widgets/settings_item.dart';
 import 'package:wasel/features/settings/presentation/widgets/settings_toggle_item.dart';
+import 'package:wasel/core/utils/app_dialogs.dart';
 
 class SettingsScreen extends StatefulWidget {
   static const String routeName = '/settings';
@@ -280,7 +281,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       child: InkWell(
         onTap: () {
           // Show logout confirmation dialog
-          _showLogoutDialog();
+          AppDialogs.showLogoutDialog(context);
         },
         child: Container(
           padding: EdgeInsets.symmetric(vertical: 16.h),
@@ -321,32 +322,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
               ? AppColors.darkTextSecondary
               : AppColors.lightTextSecondary,
         ),
-      ),
-    );
-  }
-
-  void _showLogoutDialog() {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Text(translate('confirm_logout')),
-        content: Text(translate('logout_message')),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: Text(translate('cancel')),
-          ),
-          TextButton(
-            onPressed: () {
-              // Perform logout
-              Navigator.pop(context);
-            },
-            child: Text(
-              translate('log_out'),
-              style: TextStyle(color: AppColors.error500),
-            ),
-          ),
-        ],
       ),
     );
   }

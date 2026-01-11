@@ -51,6 +51,8 @@ class _AppGateState extends State<AppGate> {
       // if (isGuestRoute) {
       //   context.go(BaseScreen.routeName);
       // }
+    } else if (state is AppLogout) {
+      context.go(LoginScreen.routeName);
     }
   }
 

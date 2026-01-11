@@ -1,13 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_translate/flutter_translate.dart';
-import 'package:go_router/go_router.dart';
 import 'package:wasel/core/utils/app_colors.dart';
+import 'package:wasel/core/utils/app_dialogs.dart';
 import 'package:wasel/core/utils/app_styles.dart';
-import 'package:wasel/core/utils/local_storage.dart';
-import 'package:wasel/core/utils/service_locator.dart';
-import 'package:wasel/core/widgets/custom_confirmation_dialog.dart';
-import 'package:wasel/features/auth/presentation/screens/login_screen.dart';
 import 'package:wasel/features/profile/presentation/widgets/profile_menu_item.dart';
 
 class ProfileSettingsSection extends StatelessWidget {
@@ -81,20 +77,7 @@ class ProfileSettingsSection extends StatelessWidget {
           textColor: AppColors.error500,
           trailing: const SizedBox.shrink(),
           onTap: () {
-            showDialog(
-              context: context,
-              builder: (context) => CustomConfirmationDialog(
-                title: translate('log_out'),
-                message: translate('confirm_logout_message'),
-                confirmButtonText: translate('log_out'),
-                cancelButtonText: translate('cancel'),
-                isDestructive: true,
-                onConfirm: () {
-                  locator<LocalStorage>().logout();
-                  context.go(LoginScreen.routeName);
-                },
-              ),
-            );
+            AppDialogs.showLogoutDialog(context);
           },
         ),
       ],

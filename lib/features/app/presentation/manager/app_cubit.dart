@@ -37,6 +37,6 @@ class AppCubit extends Cubit<AppState> {
   Future<void> logout() async {
     final localStorage = locator<LocalStorage>();
     await localStorage.logout();
-    emit(AppUnauthenticated());
+    emit(AppLogout());
   }
 }
