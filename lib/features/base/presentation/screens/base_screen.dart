@@ -17,9 +17,7 @@ class _BaseScreenState extends State<BaseScreen> {
 
   final List<Widget> _screens = [
     const HomeScreen(),
-    const OrderHistoryScreen(
-      isBack: false,
-    ),
+    const OrderHistoryScreen(isBack: false),
     const Placeholder(), // Add/Create - TODO: Replace with actual screen
     const Placeholder(), // Chat - TODO: Replace with actual screen
     const ProfileScreen(isBack: false), // Profile

@@ -1,12 +1,15 @@
 import 'package:go_router/go_router.dart';
 import 'package:wasel/core/widgets/error_screen.dart';
+import 'package:wasel/features/auth/presentation/screens/login_screen.dart';
 import 'package:wasel/features/app/presentation/components/app_shell.dart';
 import 'package:wasel/features/auth/presentation/screens/complete_profile_screen.dart';
-import 'package:wasel/features/auth/presentation/screens/login_screen.dart';
 import 'package:wasel/features/base/presentation/screens/base_screen.dart';
 import 'package:wasel/features/order_history/presentation/screens/order_history_screen.dart';
+import 'package:wasel/features/profile/presentation/screens/edit_profile_screen.dart';
+import 'package:wasel/features/profile/presentation/screens/profile_screen.dart';
 import 'package:wasel/features/settings/presentation/screens/settings_screen.dart';
 import 'package:wasel/features/splash/presentation/screens/splash_screen.dart';
+import 'package:wasel/features/auth/data/models/auth_model.dart';
 
 abstract class AppRouter {
   static final router = GoRouter(
@@ -33,6 +36,18 @@ abstract class AppRouter {
           GoRoute(
             path: CompleteProfileScreen.routeName,
             builder: (context, state) => const CompleteProfileScreen(),
+          ),
+          GoRoute(
+            path: ProfileScreen.routeName,
+            builder: (context, state) =>
+                ProfileScreen(isBack: state.extra as bool? ?? false),
+          ),
+          GoRoute(
+            path: EditProfileScreen.routeName,
+            builder: (context, state) {
+              final user = state.extra as UserModel?;
+              return EditProfileScreen(user: user);
+            },
           ),
           GoRoute(
             path: BaseScreen.routeName,

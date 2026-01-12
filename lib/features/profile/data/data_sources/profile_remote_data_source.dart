@@ -19,4 +19,18 @@ class ProfileRemoteDataSource {
       throw ServerFailure(message: e.toString());
     }
   }
+
+  Future<AuthModel> updateProfile({required Map<String, dynamic> data}) async {
+    try {
+      final response = await apiService.patch(
+        endPoint: Endpoint.updateProfile,
+        data: data,
+      );
+      return AuthModel.fromJson(response);
+    } on DioException catch (e) {
+      throw ServerFailure.fromDioError(e);
+    } catch (e) {
+      throw ServerFailure(message: e.toString());
+    }
+  }
 }

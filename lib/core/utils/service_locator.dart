@@ -8,6 +8,7 @@ import 'package:wasel/features/auth/data/repos/auth_repo_impl.dart';
 
 import 'package:wasel/features/profile/data/data_sources/profile_remote_data_source.dart';
 import 'package:wasel/features/profile/data/repo/profile_repo_impl.dart';
+// unused import removed
 
 final locator = GetIt.instance;
 
@@ -74,4 +75,5 @@ Future<void> setupLocator({Logger? logger}) async {
   locator.registerLazySingleton<ProfileRepoImpl>(
     () => ProfileRepoImpl(remoteDataSource: locator<ProfileRemoteDataSource>()),
   );
+  // ProfileCubitFactory removed
 }

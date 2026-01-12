@@ -24,3 +24,12 @@ class ProfileError extends ProfileState {
   @override
   List<Object?> get props => [message];
 }
+
+class ProfileUpdating extends ProfileState {}
+
+class ProfileUpdateSuccess extends ProfileState {
+  final AuthModel authModel;
+  const ProfileUpdateSuccess(this.authModel);
+  @override
+  List<Object?> get props => [authModel];
+}

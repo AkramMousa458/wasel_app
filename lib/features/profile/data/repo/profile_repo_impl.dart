@@ -23,4 +23,18 @@ class ProfileRepoImpl {
       return Left(ServerFailure(message: e.toString()));
     }
   }
+
+  Future<Either<ApiFailure, AuthModel>> updateProfile({
+    required Map<String, dynamic> data,
+  }) async {
+    try {
+      final result = await remoteDataSource.updateProfile(data: data);
+      return Right(result);
+    } catch (e) {
+      if (e is ServerFailure) {
+        return Left(e);
+      }
+      return Left(ServerFailure(message: e.toString()));
+    }
+  }
 }

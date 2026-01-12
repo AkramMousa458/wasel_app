@@ -145,13 +145,23 @@ class ProfileHeader extends StatelessWidget {
               Positioned(
                 bottom: 0,
                 right: 0,
-                child: Container(
-                  padding: EdgeInsets.all(6.r),
-                  decoration: const BoxDecoration(
-                    color: AppColors.secondary,
-                    shape: BoxShape.circle,
+                child: Material(
+                  color: Colors.transparent,
+                  shape: const CircleBorder(),
+                  clipBehavior: Clip.hardEdge,
+                  child: InkWell(
+                    onTap: () {
+                      
+                    },
+                    child: Container(
+                      padding: EdgeInsets.all(6.r),
+                      decoration: const BoxDecoration(
+                        color: AppColors.secondary,
+                        shape: BoxShape.circle,
+                      ),
+                      child: Icon(Icons.edit, color: Colors.black, size: 16.sp),
+                    ),
                   ),
-                  child: Icon(Icons.edit, color: Colors.black, size: 16.sp),
                 ),
               ),
             ],

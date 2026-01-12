@@ -38,4 +38,12 @@ class AuthFailure extends AuthState {
   List<Object?> get props => [message];
 }
 
+class AuthUpdateProfileSuccess extends AuthState {
+  final AuthModel authModel;
+
+  const AuthUpdateProfileSuccess(this.authModel);
+
+  @override
+  List<Object?> get props => [authModel];
+}
 class AuthLogoutSuccess extends AuthState {}
