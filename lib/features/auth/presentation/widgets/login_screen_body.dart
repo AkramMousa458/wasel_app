@@ -64,7 +64,7 @@ class _LoginScreenBodyState extends State<LoginScreenBody> {
       _phoneController.text = _phoneController.text
           .replaceAll(RegExp(r'[^\d]'), '')
           .trim();
-      context.read<AuthCubit>().requestOtp(_phoneController.text);
+      context.read<AuthCubit>().requestPhoneOtp(_phoneController.text);
     }
   }
 
@@ -90,7 +90,7 @@ class _LoginScreenBodyState extends State<LoginScreenBody> {
               onChanged: (value) {
                 if (value.length == 6) {
                   Navigator.pop(dialogContext); // Close dialog
-                  context.read<AuthCubit>().verifyOtp(phone, value);
+                  context.read<AuthCubit>().verifyPhoneOtp(phone, value);
                 }
               },
             ),
@@ -107,7 +107,7 @@ class _LoginScreenBodyState extends State<LoginScreenBody> {
               Navigator.pop(dialogContext); // Close dialog
               if (code.isNotEmpty) {
                 // Call verify on the PARENT context, not dialogContext
-                context.read<AuthCubit>().verifyOtp(phone, code);
+                context.read<AuthCubit>().verifyPhoneOtp(phone, code);
               }
             },
             child: Text(translate('verify')),

@@ -59,7 +59,7 @@ class AuthRemoteDataSource {
     }
   }
 
-  Future<AuthModel> verifyPhone({
+  Future<AuthModel> verifyPhoneOtp({
     required String phone,
     required String code,
   }) async {

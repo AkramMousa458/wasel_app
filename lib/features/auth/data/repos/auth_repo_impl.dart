@@ -55,12 +55,12 @@ class AuthRepoImpl {
     }
   }
 
-  Future<Either<ApiFailure, AuthModel>> verifyPhone({
+  Future<Either<ApiFailure, AuthModel>> verifyPhoneOtp({
     required String phone,
     required String code,
   }) async {
     try {
-      final result = await remoteDataSource.verifyPhone(
+      final result = await remoteDataSource.verifyPhoneOtp(
         phone: phone,
         code: code,
       );

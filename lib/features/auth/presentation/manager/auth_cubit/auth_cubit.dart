@@ -38,7 +38,7 @@ class AuthCubit extends Cubit<AuthState> {
     });
   }
 
-  Future<void> requestOtp(String phone) async {
+  Future<void> requestPhoneOtp(String phone) async {
     emit(AuthLoading());
     final result = await authRepo.requestPhoneOtp(phone: phone);
     result.fold(
@@ -47,9 +47,9 @@ class AuthCubit extends Cubit<AuthState> {
     );
   }
 
-  Future<void> verifyOtp(String phone, String code) async {
+  Future<void> verifyPhoneOtp(String phone, String code) async {
     emit(AuthLoading());
-    final result = await authRepo.verifyPhone(phone: phone, code: code);
+    final result = await authRepo.verifyPhoneOtp(phone: phone, code: code);
     result.fold((failure) => emit(AuthFailure(failure.message)), (
       authModel,
     ) async {
@@ -67,6 +67,8 @@ class AuthCubit extends Cubit<AuthState> {
   Future<void> updateProfile({
     required String arabicName,
     required String englishName,
+    String? arabicDescription,
+    String? englishDescription,
     String? state,
     String? governorate,
     String? city,
@@ -82,6 +84,10 @@ class AuthCubit extends Cubit<AuthState> {
 
     final Map<String, dynamic> data = {
       "name": {"en": englishName, "ar": arabicName},
+      "description": {
+        "en": englishDescription ?? "A regular user",
+        "ar": arabicDescription ?? "مستخدم عادي",
+      },
       "address": {
         "state": state ?? "",
         "city": city ?? "",
