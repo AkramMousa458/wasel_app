@@ -11,7 +11,6 @@ import 'package:wasel/core/utils/app_colors.dart';
 import 'package:wasel/core/utils/app_dialogs.dart';
 import 'package:wasel/core/utils/app_string.dart';
 import 'package:wasel/core/utils/app_styles.dart';
-import 'package:wasel/core/utils/custom_snack_bar.dart';
 import 'package:wasel/core/utils/local_storage.dart';
 import 'package:wasel/core/utils/service_locator.dart';
 import 'package:wasel/features/auth/data/models/auth_model.dart';
