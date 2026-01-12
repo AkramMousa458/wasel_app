@@ -8,8 +8,10 @@ import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:wasel/core/utils/app_colors.dart';
+import 'package:wasel/core/utils/app_dialogs.dart';
 import 'package:wasel/core/utils/app_string.dart';
 import 'package:wasel/core/utils/app_styles.dart';
+import 'package:wasel/core/utils/custom_snack_bar.dart';
 import 'package:wasel/core/utils/local_storage.dart';
 import 'package:wasel/core/utils/service_locator.dart';
 import 'package:wasel/features/auth/data/models/auth_model.dart';
@@ -50,7 +52,8 @@ class ProfileHeader extends StatelessWidget {
 
     String? userImage;
     if (user?.image != null && user!.image!.isNotEmpty) {
-      userImage = '${AppString.baseUrl}${user!.image!}';
+      userImage =
+          '${AppString.baseUrl}${user!.image!.startsWith('/') ? user!.image!.substring(1) : user!.image!}';
     }
 
     return Container(
@@ -110,7 +113,8 @@ class ProfileHeader extends StatelessWidget {
           SizedBox(height: 10.h),
 
           // Profile Image with Badge
-          BlocBuilder<ProfileCubit, ProfileState>(
+          BlocConsumer<ProfileCubit, ProfileState>(
+            listener: (context, state) {},
             builder: (context, state) {
               Widget profileImage;
 
@@ -234,7 +238,12 @@ class ProfileHeader extends StatelessWidget {
                                               ? AppColors.white
                                               : AppColors.lightTextPrimary,
                                         ),
-                                        onPressed: () => Navigator.pop(context),
+                                        onPressed: () {
+                                          context.pop();
+                                          AppDialogs.showDeleteProfilePhotoDialog(
+                                            context,
+                                          );
+                                        },
                                       ),
                                     ],
                                   ),

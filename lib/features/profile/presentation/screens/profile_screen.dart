@@ -62,6 +62,8 @@ class ProfileScreen extends StatelessWidget {
         UserModel? user;
         if (state is ProfileLoaded) {
           user = state.user;
+        } else if (state is ProfileUpdating) {
+          user = state.user;
         }
 
         return Scaffold(

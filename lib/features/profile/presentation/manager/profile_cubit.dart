@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:wasel/features/auth/data/models/auth_model.dart';
 import 'package:wasel/features/profile/data/repo/profile_repo_impl.dart';
 import 'package:wasel/features/profile/presentation/manager/profile_state.dart';
 import 'package:wasel/core/utils/local_storage.dart';
@@ -53,7 +54,11 @@ class ProfileCubit extends Cubit<ProfileState> {
     double? lng,
     String? pushToken,
   }) async {
-    if (!isClosed) emit(ProfileUpdating());
+    UserModel? currentUser;
+    if (state is ProfileLoaded) {
+      currentUser = (state as ProfileLoaded).user;
+    }
+    if (!isClosed) emit(ProfileUpdating(user: currentUser));
 
     final Map<String, dynamic> data = {
       "name": {"en": englishName, "ar": arabicName},
@@ -122,5 +127,29 @@ class ProfileCubit extends Cubit<ProfileState> {
         },
       );
     }
+  }
+
+  Future<void> deleteProfileImage() async {
+    UserModel? currentUser;
+    if (state is ProfileLoaded) {
+      currentUser = (state as ProfileLoaded).user;
+    }
+    if (!isClosed) emit(ProfileUpdating(user: currentUser));
+
+    final result = await profileRepo.deleteProfileImage();
+
+    result.fold(
+      (failure) {
+        if (!isClosed) emit(ProfileError(failure.message));
+      },
+      (authModel) async {
+        if (authModel.user != null) {
+          await locator<LocalStorage>().saveUserProfile(authModel.user!);
+          if (!isClosed) {
+            emit(ProfileLoaded(authModel.user!));
+          }
+        }
+      },
+    );
   }
 }

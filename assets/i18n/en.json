@@ -125,5 +125,6 @@
   "gallery": "Gallery",
   "change_photo": "Change Photo",
   "confirm_delete_profile_photo": "Confirm Delete Profile Photo",
-  "delete_profile_photo_message": "Are you sure you want to delete your profile photo?"
+  "delete_profile_photo_message": "Are you sure you want to delete your profile photo?",
+  "delete": "Delete"
 }

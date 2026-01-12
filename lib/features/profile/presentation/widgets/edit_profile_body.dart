@@ -255,12 +255,12 @@ class _EditProfileBodyState extends State<EditProfileBody> {
           CustomSnackBar.showInfo(context, translate('otp_sent'));
         } else if (state is AuthLoginSuccess) {
           context.read<ProfileCubit>().getProfile();
-          context.pop();
           CustomSnackBar.showSuccess(
             context,
             state.authModel.message ?? 'profile_updated_successfully',
           );
         }
+        context.pop();
       },
       child: BlocConsumer<ProfileCubit, ProfileState>(
         listener: (context, state) {
@@ -270,6 +270,7 @@ class _EditProfileBodyState extends State<EditProfileBody> {
               translate('profile_updated_successfully'),
             );
             context.read<ProfileCubit>().getProfile();
+            context.pop();
           } else if (state is ProfileError) {
             CustomSnackBar.showError(context, state.message);
           }

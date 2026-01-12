@@ -123,5 +123,8 @@
   "profile_updated_successfully": "تم تحديث الملف الشخصى",
   "camera": "الكاميرا",
   "gallery": "المعرض",
-  "change_photo": "تغيير الصورة"
+  "change_photo": "تغيير الصورة",
+  "confirm_delete_profile_photo": "تأكيد حذف الصورة الشخصية",
+  "delete_profile_photo_message": "هل أنت متأكد أنك تريد حذف الصورة الشخصية؟",
+  "delete": "حذف"
 }

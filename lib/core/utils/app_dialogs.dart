@@ -33,7 +33,6 @@ class AppDialogs {
     );
   }
 
-
   static void showDeleteProfilePhotoDialog(BuildContext context) {
     showDialog(
       context: context,
@@ -48,10 +47,10 @@ class AppDialogs {
           TextButton(
             onPressed: () {
               context.pop();
-              // context.read<ProfileCubit>().deleteProfilePhoto();
+              context.read<ProfileCubit>().deleteProfileImage();
             },
             child: Text(
-              translate('log_out'),
+              translate('delete'),
               style: TextStyle(color: AppColors.error500),
             ),
           ),

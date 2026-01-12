@@ -52,4 +52,15 @@ class ProfileRemoteDataSource {
       throw ServerFailure(message: e.toString());
     }
   }
+
+  Future<AuthModel> deleteProfileImage() async {
+    try {
+      final response = await apiService.delete(endPoint: Endpoint.profileImage);
+      return AuthModel.fromJson(response);
+    } on DioException catch (e) {
+      throw ServerFailure.fromDioError(e);
+    } catch (e) {
+      throw ServerFailure(message: e.toString());
+    }
+  }
 }

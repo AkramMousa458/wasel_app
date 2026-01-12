@@ -28,7 +28,12 @@ class ProfileError extends ProfileState {
   List<Object?> get props => [message];
 }
 
-class ProfileUpdating extends ProfileState {}
+class ProfileUpdating extends ProfileState {
+  final UserModel? user;
+  const ProfileUpdating({this.user});
+  @override
+  List<Object?> get props => [user];
+}
 
 class ProfileUpdateSuccess extends ProfileState {
   final AuthModel authModel;
@@ -36,6 +41,7 @@ class ProfileUpdateSuccess extends ProfileState {
   @override
   List<Object?> get props => [authModel];
 }
+
 class ProfileImageUpdated extends ProfileState {
   final String message;
   const ProfileImageUpdated(this.message);
