@@ -126,14 +126,11 @@ class _LoginScreenBodyState extends State<LoginScreenBody> {
         if (state is AuthFailure) {
           // Show error
           // Assuming you have a way to show snackbar, e.g. TopSnackBar
-          showSnackBar(context, state.message, false);
-          // ScaffoldMessenger.of(context).showSnackBar(
-          //   SnackBar(content: Text(state.message), backgroundColor: Colors.red),
-          // );
+          CustomSnackBar.showError(context, state.message);
         } else if (state is AuthOtpSent) {
           // Show OTP Dialog
           final phone = _phoneController.text.replaceAll(RegExp(r'[^\d]'), '');
-          showSnackBar(context, state.response.code ?? 'Error', true);
+          CustomSnackBar.showInfo(context, translate('otp_sent'));
           _showOtpDialog(context, phone);
         } else if (state is AuthLoginSuccess) {
           context.read<AppCubit>().checkAuth();

@@ -48,17 +48,16 @@ class _EditProfileBodyState extends State<EditProfileBody> {
   }
 
   void _updateName() {
-    showSnackBar(context, 'profile_updated_successfully', true);
-    // if (_formKey.currentState!.validate()) {
-    //   if (_nameArController.text == widget.user?.name?.ar &&
-    //       _nameEnController.text == widget.user?.name?.en) {
-    //     return;
-    //   }
-    //   context.read<ProfileCubit>().updateProfile(
-    //     arabicName: _nameArController.text,
-    //     englishName: _nameEnController.text,
-    //   );
-    // }
+    if (_formKey.currentState!.validate()) {
+      if (_nameArController.text == widget.user?.name?.ar &&
+          _nameEnController.text == widget.user?.name?.en) {
+        return;
+      }
+      context.read<ProfileCubit>().updateProfile(
+        arabicName: _nameArController.text,
+        englishName: _nameEnController.text,
+      );
+    }
   }
 
   String? _validatePhoneNumber(String? value) {
@@ -251,27 +250,28 @@ class _EditProfileBodyState extends State<EditProfileBody> {
     return BlocListener<AuthCubit, AuthState>(
       listener: (context, state) {
         if (state is AuthFailure) {
-          showSnackBar(context, state.message, false);
+          CustomSnackBar.showError(context, state.message);
         } else if (state is AuthOtpSent) {
-          showSnackBar(context, translate('otp_sent'), true);
+          CustomSnackBar.showInfo(context, translate('otp_sent'));
         } else if (state is AuthLoginSuccess) {
-          showSnackBar(
-            context,
-            state.authModel.message ?? 'profile_updated_successfully',
-            true,
-          );
           context.read<ProfileCubit>().getProfile();
           context.pop();
+          CustomSnackBar.showSuccess(
+            context,
+            state.authModel.message ?? 'profile_updated_successfully',
+          );
         }
       },
       child: BlocConsumer<ProfileCubit, ProfileState>(
         listener: (context, state) {
           if (state is ProfileUpdateSuccess) {
-            showSnackBar(context, translate('profile_updated'), true);
+            CustomSnackBar.showSuccess(
+              context,
+              translate('profile_updated_successfully'),
+            );
             context.read<ProfileCubit>().getProfile();
-            context.pop();
           } else if (state is ProfileError) {
-            showSnackBar(context, state.message, false);
+            CustomSnackBar.showError(context, state.message);
           }
         },
         builder: (context, state) {

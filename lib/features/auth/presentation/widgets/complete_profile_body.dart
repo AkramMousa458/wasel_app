@@ -82,7 +82,7 @@ class _CompleteProfileBodyState extends State<CompleteProfileBody> {
     return BlocListener<AuthCubit, AuthState>(
       listener: (context, state) {
         if (state is AuthFailure) {
-          showSnackBar(context, state.message, false);
+          CustomSnackBar.showError(context, state.message);
         }
       },
       child: BlocListener<ProfileCubit, ProfileState>(
@@ -90,7 +90,7 @@ class _CompleteProfileBodyState extends State<CompleteProfileBody> {
           if (state is ProfileUpdateSuccess) {
             context.read<AppCubit>().checkAuth();
           } else if (state is ProfileError) {
-            showSnackBar(context, state.message, false);
+            CustomSnackBar.showError(context, state.message);
           }
         },
         child: SingleChildScrollView(
@@ -214,12 +214,7 @@ class _CompleteProfileBodyState extends State<CompleteProfileBody> {
                 BlocConsumer<AuthCubit, AuthState>(
                   listener: (context, state) {
                     if (state is AuthOtpSent) {
-                      // CustomSnackBar.info(message: translate('code_sent_to_email'));
-                      showSnackBar(
-                        context,
-                        translate('code_sent_to_email'),
-                        true,
-                      );
+                      CustomSnackBar.showInfo(context, translate('code_sent_to_email'));
                     }
                   },
                   builder: (context, state) {
