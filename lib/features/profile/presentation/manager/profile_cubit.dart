@@ -1,7 +1,8 @@
+import 'dart:io';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:wasel/features/profile/data/repo/profile_repo_impl.dart';
 import 'package:wasel/features/profile/presentation/manager/profile_state.dart';
-
 import 'package:wasel/core/utils/local_storage.dart';
 import 'package:wasel/core/utils/service_locator.dart';
 
@@ -90,13 +91,36 @@ class ProfileCubit extends Cubit<ProfileState> {
         if (authModel.user != null) {
           await locator<LocalStorage>().saveUserProfile(authModel.user!);
           if (!isClosed) {
-            emit(
-              ProfileLoaded(authModel.user!),
-            );
+            emit(ProfileUpdateSuccess(authModel));
           }
         }
-        if (!isClosed) emit(ProfileUpdateSuccess(authModel));
       },
     );
+  }
+
+  Future<void> updateProfileImage(ImageSource source) async {
+    final picker = ImagePicker();
+    final pickedFile = await picker.pickImage(source: source);
+
+    if (pickedFile != null) {
+      final file = File(pickedFile.path);
+
+      // 2. Upload to Server
+      final result = await profileRepo.updateProfileImage(file.path);
+
+      result.fold(
+        (failure) {
+          if (!isClosed) emit(ProfileError(failure.message));
+        },
+        (authModel) async {
+          if (authModel.user != null) {
+            await locator<LocalStorage>().saveUserProfile(authModel.user!);
+            if (!isClosed) {
+              emit(ProfileLoaded(authModel.user!));
+            }
+          }
+        },
+      );
+    }
   }
 }

@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:logger/logger.dart';
+import 'package:wasel/core/utils/app_string.dart';
 import 'package:wasel/core/utils/local_storage.dart';
 import 'package:wasel/core/services/api_service.dart';
 import 'package:wasel/features/auth/data/data_sources/auth_remote_data_source.dart';
@@ -48,8 +49,7 @@ Future<void> setupLocator({Logger? logger}) async {
     ApiService(
       locator<Dio>(),
       logger: locator<Logger>(),
-      baseUrl: 'http://10.0.2.2:4040/',
-      // baseUrl: 'https://wasel-backend-fz87.onrender.com/',
+      baseUrl: AppString.baseUrl,
     ),
   );
 

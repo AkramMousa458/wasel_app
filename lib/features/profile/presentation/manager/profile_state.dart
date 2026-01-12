@@ -1,6 +1,8 @@
 import 'package:equatable/equatable.dart';
 import 'package:wasel/features/auth/data/models/auth_model.dart';
 
+import 'dart:io';
+
 abstract class ProfileState extends Equatable {
   const ProfileState();
   @override
@@ -13,9 +15,10 @@ class ProfileLoading extends ProfileState {}
 
 class ProfileLoaded extends ProfileState {
   final UserModel user;
-  const ProfileLoaded(this.user);
+  final File? localImage;
+  const ProfileLoaded(this.user, {this.localImage});
   @override
-  List<Object?> get props => [user];
+  List<Object?> get props => [user, localImage];
 }
 
 class ProfileError extends ProfileState {
@@ -32,4 +35,10 @@ class ProfileUpdateSuccess extends ProfileState {
   const ProfileUpdateSuccess(this.authModel);
   @override
   List<Object?> get props => [authModel];
+}
+class ProfileImageUpdated extends ProfileState {
+  final String message;
+  const ProfileImageUpdated(this.message);
+  @override
+  List<Object?> get props => [message];
 }

@@ -163,6 +163,7 @@ class ApiService {
   Future<Map<String, dynamic>> patch({
     required String endPoint,
     required dynamic data,
+    bool isMultipart = false,
   }) async {
     await _initialize();
     final uri = _buildUri(endPoint);
@@ -174,7 +175,11 @@ class ApiService {
         uri.toString(),
         data: data,
         options: Options(
-          headers: _buildHeaders(contentType: 'application/json'),
+          headers: _buildHeaders(
+            contentType: isMultipart
+                ? 'multipart/form-data'
+                : 'application/json',
+          ),
         ),
       );
 

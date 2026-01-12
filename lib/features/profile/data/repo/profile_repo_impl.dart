@@ -37,4 +37,18 @@ class ProfileRepoImpl {
       return Left(ServerFailure(message: e.toString()));
     }
   }
+
+  Future<Either<ApiFailure, AuthModel>> updateProfileImage(
+    String imagePath,
+  ) async {
+    try {
+      final result = await remoteDataSource.updateProfileImage(imagePath);
+      return Right(result);
+    } catch (e) {
+      if (e is ServerFailure) {
+        return Left(e);
+      }
+      return Left(ServerFailure(message: e.toString()));
+    }
+  }
 }

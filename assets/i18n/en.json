@@ -120,5 +120,10 @@
   "otp": "OTP",
   "send_otp": "Send OTP",
   "update_email": "Update Email",
-  "profile_updated_successfully": "Profile Updated Successfully"
+  "profile_updated_successfully": "Profile Updated Successfully",
+  "camera": "Camera",
+  "gallery": "Gallery",
+  "change_photo": "Change Photo",
+  "confirm_delete_profile_photo": "Confirm Delete Profile Photo",
+  "delete_profile_photo_message": "Are you sure you want to delete your profile photo?"
 }

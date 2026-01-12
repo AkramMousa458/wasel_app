@@ -120,5 +120,8 @@
   "otp": "رمز التحقق",
   "send_otp": "إرسال رمز التحقق",
   "update_email": "تغيير البريد الإلكتروني",
-  "profile_updated_successfully": "تم تحديث الملف الشخصى"
+  "profile_updated_successfully": "تم تحديث الملف الشخصى",
+  "camera": "الكاميرا",
+  "gallery": "المعرض",
+  "change_photo": "تغيير الصورة"
 }
