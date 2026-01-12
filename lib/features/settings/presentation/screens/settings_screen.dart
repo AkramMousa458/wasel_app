@@ -4,7 +4,7 @@ import 'package:wasel/core/utils/app_colors.dart';
 import 'package:wasel/core/utils/theme_utils.dart';
 import 'package:wasel/features/settings/presentation/widgets/settings_app_preferences_section.dart';
 import 'package:wasel/features/settings/presentation/widgets/settings_finance_section.dart';
-import 'package:wasel/features/settings/presentation/widgets/settings_header.dart';
+import 'package:wasel/core/widgets/custom_screen_header.dart';
 import 'package:wasel/features/settings/presentation/widgets/settings_logout_button.dart';
 import 'package:wasel/features/settings/presentation/widgets/settings_support_section.dart';
 import 'package:wasel/features/settings/presentation/widgets/settings_version_info.dart';
@@ -31,7 +31,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           : AppColors.lightScaffold,
       body: Column(
         children: [
-          const SettingsHeader(),
+          const CustomScreenHeader(title: 'settings'),
           Expanded(
             child: SingleChildScrollView(
               padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),

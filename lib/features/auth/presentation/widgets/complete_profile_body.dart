@@ -199,7 +199,7 @@ class _CompleteProfileBodyState extends State<CompleteProfileBody> {
                   width: MediaQuery.of(context).size.width / 3,
                   height: 40.h,
                   textStyle: AppStyles.textstyle12.copyWith(
-                    color: isDark ? AppColors.white : AppColors.black,
+                    color: AppColors.white,
                   ),
                   text: 'verify_email',
                   onPressed: () => _handleVerifyEmail(

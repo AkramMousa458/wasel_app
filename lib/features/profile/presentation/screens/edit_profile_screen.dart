@@ -17,18 +17,18 @@ class EditProfileScreen extends StatelessWidget {
       backgroundColor: isDark
           ? AppColors.darkScaffold
           : AppColors.lightScaffold,
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        leading: BackButton(color: isDark ? Colors.white : Colors.black),
-        title: Text(
-          'Edit Profile', // TODO: Translate
-          style: TextStyle(
-            color: isDark ? Colors.white : Colors.black,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-      ),
+      // appBar: AppBar(
+      //   backgroundColor: Colors.transparent,
+      //   elevation: 0,
+      //   leading: BackButton(color: isDark ? Colors.white : Colors.black),
+      //   title: Text(
+      //     'Edit Profile', // TODO: Translate
+      //     style: TextStyle(
+      //       color: isDark ? Colors.white : Colors.black,
+      //       fontWeight: FontWeight.bold,
+      //     ),
+      //   ),
+      // ),
       body: EditProfileBody(user: user),
     );
   }

@@ -106,5 +106,20 @@
   "role": "الدور",
   "verify_email": "التحقق",
   "code_sent_to_email": "تم إرسال رمز التحقق إلى البريد الإلكتروني",
-  "email_otp": "رمز التحقق"
+  "email_otp": "رمز التحقق",
+  "edit_profile": "تعديل الملف الشخصي",
+  "edit_name": "تعديل الاسم",
+  "save_changes": "حفظ التغييرات",
+  "contact_info": "معلومات الاتصال",
+  "no_phone": "لا يوجد رقم هاتف",
+  "no_email": "لا يوجد بريد إلكتروني",
+  "change": "تغيير",
+  "profile_updated": "تم تحديث الملف الشخصي",
+  "otp_sent": "تم إرسال رمز التحقق",
+  "update_phone": "تغيير رقم الهاتف",
+  "phone_number": "رقم الهاتف",
+  "otp": "رمز التحقق",
+  "send_otp": "إرسال رمز التحقق",
+  "update_email": "تغيير البريد الإلكتروني",
+  "profile_updated_successfully": "تم تحديث الملف الشخصى"
 }

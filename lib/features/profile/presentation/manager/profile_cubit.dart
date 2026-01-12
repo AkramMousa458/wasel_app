@@ -41,8 +41,6 @@ class ProfileCubit extends Cubit<ProfileState> {
   Future<void> updateProfile({
     required String arabicName,
     required String englishName,
-    String? arabicDescription,
-    String? englishDescription,
     String? state,
     String? governorate,
     String? city,
@@ -58,10 +56,6 @@ class ProfileCubit extends Cubit<ProfileState> {
 
     final Map<String, dynamic> data = {
       "name": {"en": englishName, "ar": arabicName},
-      "description": {
-        "en": englishDescription ?? "A regular user",
-        "ar": arabicDescription ?? "مستخدم عادي",
-      },
       "address": {
         "state": state ?? "",
         "city": city ?? "",

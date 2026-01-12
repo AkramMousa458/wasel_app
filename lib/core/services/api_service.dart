@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dio/dio.dart';
 import 'package:logger/logger.dart';
 import 'package:wasel/core/utils/local_storage.dart';
@@ -227,6 +229,7 @@ class ApiService {
     };
 
     if (_token?.isNotEmpty ?? false) {
+      log('_token: $_token');
       headers['Authorization'] = 'Bearer $_token';
     }
 

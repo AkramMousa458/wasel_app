@@ -106,5 +106,20 @@
   "role": "ROLE",
   "verify_email": "Verify Email",
   "code_sent_to_email": "Code sent to email",
-  "email_otp": "Email OTP"
+  "email_otp": "Email OTP",
+  "edit_profile": "Edit Profile",
+  "edit_name": "Edit Name",
+  "save_changes": "Save Changes",
+  "contact_info": "Contact Info",
+  "no_phone": "No Phone",
+  "no_email": "No Email",
+  "change": "Change",
+  "profile_updated": "Profile Updated",
+  "otp_sent": "OTP Sent",
+  "update_phone": "Update Phone",
+  "phone_number": "Phone Number",
+  "otp": "OTP",
+  "send_otp": "Send OTP",
+  "update_email": "Update Email",
+  "profile_updated_successfully": "Profile Updated Successfully"
 }
