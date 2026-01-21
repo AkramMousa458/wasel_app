@@ -6,4 +6,5 @@ class Endpoint {
   static const String profileImage = 'api/v1/users/profile/me/photo';
   static const String requestEmailOtp = 'api/v1/auth/request-email-otp';
   static const String verifyEmail = 'api/v1/auth/verify-email';
+  static const String addresses = 'api/v1/users/addresses';
 }

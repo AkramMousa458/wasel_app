@@ -127,5 +127,13 @@
   "confirm_delete_profile_photo": "تأكيد حذف الصورة الشخصية",
   "delete_profile_photo_message": "هل أنت متأكد أنك تريد حذف الصورة الشخصية؟",
   "delete": "حذف",
-  "no_saved_places": "لا توجد أماكن محفوظة"
+  "no_saved_places": "لا توجد أماكن محفوظة",
+  "edit_address": "تعديل العنوان",
+  "add_new_address": "إضافة عنوان جديد",
+  "label": "التسمية",
+  "governorate": "المحافظة",
+  "set_as_default": "تعيين كافتراضي",
+  "save": "حفظ",
+  "confirm_delete_address": "حذف العنوان؟",
+  "delete_address_message": "هل أنت متأكد من حذف هذا العنوان؟"
 }

@@ -152,4 +152,86 @@ class ProfileCubit extends Cubit<ProfileState> {
       },
     );
   }
+
+  Future<void> addAddress(Map<String, dynamic> body) async {
+    UserModel? currentUser;
+    if (state is ProfileLoaded) {
+      currentUser = (state as ProfileLoaded).user;
+    }
+    if (!isClosed) emit(ProfileUpdating(user: currentUser));
+
+    final result = await profileRepo.addAddress(body);
+
+    result.fold(
+      (failure) {
+        if (!isClosed) emit(ProfileError(failure.message));
+      },
+      (addresses) async {
+        if (currentUser != null) {
+          final updatedUser = currentUser.copyWith(savedAddresses: addresses);
+          await locator<LocalStorage>().saveUserProfile(updatedUser);
+          if (!isClosed) {
+            emit(ProfileLoaded(updatedUser));
+          }
+        } else {
+          // Fallback if user was null (should not happen if loaded)
+          getProfile();
+        }
+      },
+    );
+  }
+
+  Future<void> editAddress(String id, Map<String, dynamic> body) async {
+    UserModel? currentUser;
+    if (state is ProfileLoaded) {
+      currentUser = (state as ProfileLoaded).user;
+    }
+    if (!isClosed) emit(ProfileUpdating(user: currentUser));
+
+    final result = await profileRepo.updateAddress(id, body);
+
+    result.fold(
+      (failure) {
+        if (!isClosed) emit(ProfileError(failure.message));
+      },
+      (addresses) async {
+        if (currentUser != null) {
+          final updatedUser = currentUser.copyWith(savedAddresses: addresses);
+          await locator<LocalStorage>().saveUserProfile(updatedUser);
+          if (!isClosed) {
+            emit(ProfileLoaded(updatedUser));
+          }
+        } else {
+          getProfile();
+        }
+      },
+    );
+  }
+
+  Future<void> deleteAddress(String id) async {
+    UserModel? currentUser;
+    if (state is ProfileLoaded) {
+      currentUser = (state as ProfileLoaded).user;
+    }
+    if (!isClosed) emit(ProfileUpdating(user: currentUser));
+
+    final result = await profileRepo.deleteAddress(id);
+
+    result.fold(
+      (failure) {
+        if (!isClosed) emit(ProfileError(failure.message));
+      },
+      (addresses) async {
+        if (currentUser != null) {
+          final updatedUser = currentUser.copyWith(savedAddresses: addresses);
+          await locator<LocalStorage>().saveUserProfile(updatedUser);
+          if (!isClosed) {
+            emit(ProfileLoaded(updatedUser));
+          }
+        } else {
+          getProfile();
+        }
+      },
+    );
+  }
 }

@@ -127,5 +127,13 @@
   "confirm_delete_profile_photo": "Confirm Delete Profile Photo",
   "delete_profile_photo_message": "Are you sure you want to delete your profile photo?",
   "delete": "Delete",
-  "no_saved_places": "No saved places found"
+  "no_saved_places": "No saved places found",
+  "edit_address": "Edit Address",
+  "add_new_address": "Add New Address",
+  "label": "Label",
+  "governorate": "Governorate",
+  "set_as_default": "Set as default",
+  "save": "Save",
+  "confirm_delete_address": "Delete Address?",
+  "delete_address_message": "Are you sure you want to delete this address?"
 }

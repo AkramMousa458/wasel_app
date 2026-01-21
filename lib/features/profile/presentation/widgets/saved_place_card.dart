@@ -9,6 +9,8 @@ class SavedPlaceCard extends StatelessWidget {
   final String address;
   final IconData icon;
   final Color iconColor;
+  final VoidCallback onEdit;
+  final VoidCallback onDelete;
 
   const SavedPlaceCard({
     super.key,
@@ -17,6 +19,8 @@ class SavedPlaceCard extends StatelessWidget {
     required this.address,
     required this.icon,
     required this.iconColor,
+    required this.onEdit,
+    required this.onDelete,
   });
 
   @override
@@ -72,13 +76,26 @@ class SavedPlaceCard extends StatelessWidget {
               ],
             ),
           ),
-          IconButton(
-            onPressed: () {},
-            icon: Icon(
-              Icons.edit,
-              color: isDark ? AppColors.darkTextSecondary : AppColors.grey,
-              size: 20.sp,
-            ),
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              IconButton(
+                onPressed: onEdit,
+                icon: Icon(
+                  Icons.edit,
+                  color: isDark ? AppColors.darkTextSecondary : AppColors.grey,
+                  size: 20.sp,
+                ),
+              ),
+              IconButton(
+                onPressed: onDelete,
+                icon: Icon(
+                  Icons.delete_outline,
+                  color: AppColors.error,
+                  size: 20.sp,
+                ),
+              ),
+            ],
           ),
         ],
       ),

@@ -63,4 +63,47 @@ class ProfileRepoImpl {
       return Left(ServerFailure(message: e.toString()));
     }
   }
+
+  Future<Either<ApiFailure, List<SavedAddress>>> addAddress(
+    Map<String, dynamic> body,
+  ) async {
+    try {
+      final result = await remoteDataSource.addAddress(body);
+      return Right(result);
+    } catch (e) {
+      if (e is ServerFailure) {
+        return Left(e);
+      }
+      return Left(ServerFailure(message: e.toString()));
+    }
+  }
+
+  Future<Either<ApiFailure, List<SavedAddress>>> updateAddress(
+    String id,
+    Map<String, dynamic> body,
+  ) async {
+    try {
+      final result = await remoteDataSource.updateAddress(id, body);
+      return Right(result);
+    } catch (e) {
+      if (e is ServerFailure) {
+        return Left(e);
+      }
+      return Left(ServerFailure(message: e.toString()));
+    }
+  }
+
+  Future<Either<ApiFailure, List<SavedAddress>>> deleteAddress(
+    String id,
+  ) async {
+    try {
+      final result = await remoteDataSource.deleteAddress(id);
+      return Right(result);
+    } catch (e) {
+      if (e is ServerFailure) {
+        return Left(e);
+      }
+      return Left(ServerFailure(message: e.toString()));
+    }
+  }
 }

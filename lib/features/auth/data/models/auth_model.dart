@@ -151,6 +151,56 @@ class UserModel extends Equatable {
     };
   }
 
+  UserModel copyWith({
+    String? id,
+    UserName? name,
+    String? email,
+    String? phone,
+    String? phoneCountry,
+    String? role,
+    String? image,
+    bool? isActive,
+    bool? isBanned,
+    bool? isDeleted,
+    bool? emailVerified,
+    bool? phoneVerified,
+    String? lastOnlineAt,
+    bool? online,
+    double? spend,
+    dynamic wallet,
+    String? pushToken,
+    List<SavedAddress>? savedAddresses,
+    String? birthDate,
+    String? createdAt,
+    String? updatedAt,
+    int? v,
+  }) {
+    return UserModel(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      email: email ?? this.email,
+      phone: phone ?? this.phone,
+      phoneCountry: phoneCountry ?? this.phoneCountry,
+      role: role ?? this.role,
+      image: image ?? this.image,
+      isActive: isActive ?? this.isActive,
+      isBanned: isBanned ?? this.isBanned,
+      isDeleted: isDeleted ?? this.isDeleted,
+      emailVerified: emailVerified ?? this.emailVerified,
+      phoneVerified: phoneVerified ?? this.phoneVerified,
+      lastOnlineAt: lastOnlineAt ?? this.lastOnlineAt,
+      online: online ?? this.online,
+      spend: spend ?? this.spend,
+      wallet: wallet ?? this.wallet,
+      pushToken: pushToken ?? this.pushToken,
+      savedAddresses: savedAddresses ?? this.savedAddresses,
+      birthDate: birthDate ?? this.birthDate,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
+      v: v ?? this.v,
+    );
+  }
+
   @override
   List<Object?> get props => [
     id,
@@ -203,12 +253,14 @@ class UserName extends Equatable {
 /// SAVED ADDRESS
 /// =======================
 class SavedAddress extends Equatable {
+  final String? id;
   final String label;
   final AddressDetails address;
   final UserLocation location;
   final bool isDefault;
 
   const SavedAddress({
+    this.id,
     required this.label,
     required this.address,
     required this.location,
@@ -217,6 +269,7 @@ class SavedAddress extends Equatable {
 
   factory SavedAddress.fromJson(Map<String, dynamic> json) {
     return SavedAddress(
+      id: json['_id'] ?? json['id'],
       label: json['label'] ?? '',
       address: AddressDetails.fromJson(json['address'] ?? {}),
       location: UserLocation.fromJson(json['location'] ?? {}),
@@ -226,6 +279,7 @@ class SavedAddress extends Equatable {
 
   Map<String, dynamic> toJson() {
     return {
+      '_id': id,
       'label': label,
       'address': address.toJson(),
       'location': location.toJson(),
@@ -234,7 +288,7 @@ class SavedAddress extends Equatable {
   }
 
   @override
-  List<Object?> get props => [label, address, location, isDefault];
+  List<Object?> get props => [id, label, address, location, isDefault];
 }
 
 /// =======================

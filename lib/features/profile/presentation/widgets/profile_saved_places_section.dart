@@ -1,11 +1,12 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:wasel/core/utils/app_colors.dart';
 import 'package:wasel/core/utils/app_styles.dart';
 import 'package:wasel/features/auth/data/models/auth_model.dart';
+import 'package:wasel/features/profile/presentation/manager/profile_cubit.dart';
+import 'package:wasel/features/profile/presentation/screens/add_edit_address_screen.dart';
 import 'package:wasel/features/profile/presentation/widgets/saved_place_card.dart';
 
 class ProfileSavedPlacesSection extends StatelessWidget {
@@ -34,9 +35,7 @@ class ProfileSavedPlacesSection extends StatelessWidget {
               ),
             ),
             TextButton.icon(
-              onPressed: () {
-                // TODO: Navigate to add address screen
-              },
+              onPressed: () => _navigateToAddEditAddress(context),
               icon: Icon(Icons.add, size: 16.sp, color: AppColors.secondary),
               label: Text(
                 translate('add_new'),
@@ -54,7 +53,9 @@ class ProfileSavedPlacesSection extends StatelessWidget {
         if (user.savedAddresses.isEmpty)
           _buildEmptyState()
         else
-          ...user.savedAddresses.map((address) => _buildAddressCard(address)),
+          ...user.savedAddresses.map(
+            (address) => _buildAddressCard(context, address),
+          ),
       ],
     );
   }
@@ -90,13 +91,60 @@ class ProfileSavedPlacesSection extends StatelessWidget {
     );
   }
 
-  Widget _buildAddressCard(SavedAddress savedAddress) {
+  Widget _buildAddressCard(BuildContext context, SavedAddress savedAddress) {
     return SavedPlaceCard(
       isDark: isDark,
       title: savedAddress.label,
       address: _formatAddress(savedAddress.address),
       icon: _getIcon(savedAddress.label),
       iconColor: _getIconColor(savedAddress.label),
+      onEdit: () => _navigateToAddEditAddress(context, address: savedAddress),
+      onDelete: () => _showDeleteConfirmation(context, savedAddress),
+    );
+  }
+
+  void _navigateToAddEditAddress(
+    BuildContext context, {
+    SavedAddress? address,
+  }) {
+    // Pass the existing cubit instance to the new screen
+    final cubit = context.read<ProfileCubit>();
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) => BlocProvider.value(
+          value: cubit,
+          child: AddEditAddressScreen(address: address),
+        ),
+      ),
+    );
+  }
+
+  void _showDeleteConfirmation(BuildContext context, SavedAddress address) {
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: Text(translate('confirm_delete_address')),
+        content: Text(translate('delete_address_message')),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx),
+            child: Text(translate('cancel')),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.pop(ctx);
+              if (address.id != null) {
+                context.read<ProfileCubit>().deleteAddress(address.id!);
+              }
+            },
+            child: Text(
+              translate('delete'),
+              style: const TextStyle(color: Colors.red),
+            ),
+          ),
+        ],
+      ),
     );
   }
 
