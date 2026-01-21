@@ -88,7 +88,7 @@ class ProfileScreen extends StatelessWidget {
                       SizedBox(height: 32.h),
 
                       // Saved Places
-                      ProfileSavedPlacesSection(isDark: isDark),
+                      ProfileSavedPlacesSection(isDark: isDark, user: user!),
                       SizedBox(height: 16.h),
 
                       // Settings and Logout
