@@ -134,6 +134,7 @@
   "governorate": "المحافظة",
   "set_as_default": "تعيين كافتراضي",
   "save": "حفظ",
+  "close": "إغلاق",
   "confirm_delete_address": "حذف العنوان؟",
   "delete_address_message": "هل أنت متأكد من حذف هذا العنوان؟"
 }

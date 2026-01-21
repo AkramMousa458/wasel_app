@@ -134,6 +134,7 @@
   "governorate": "Governorate",
   "set_as_default": "Set as default",
   "save": "Save",
+  "close": "Close",
   "confirm_delete_address": "Delete Address?",
   "delete_address_message": "Are you sure you want to delete this address?"
 }
