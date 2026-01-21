@@ -36,7 +36,7 @@ class CompleteProfileTextField extends StatelessWidget {
       ),
       decoration: InputDecoration(
         hintText: hintText,
-        hintStyle: AppStyles.textstyle14.copyWith(
+        hintStyle: AppStyles.textstyle12.copyWith(
           color: isDark ? AppColors.darkTextSecondary : AppColors.grey,
         ),
         filled: true,

@@ -1,7 +1,9 @@
+import 'dart:io';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:wasel/features/auth/data/models/auth_model.dart';
 import 'package:wasel/features/profile/data/repo/profile_repo_impl.dart';
 import 'package:wasel/features/profile/presentation/manager/profile_state.dart';
-
 import 'package:wasel/core/utils/local_storage.dart';
 import 'package:wasel/core/utils/service_locator.dart';
 
@@ -34,6 +36,119 @@ class ProfileCubit extends Cubit<ProfileState> {
         // 3. Update Local Storage & UI
         await locator<LocalStorage>().saveUserProfile(user);
         if (!isClosed) emit(ProfileLoaded(user));
+      },
+    );
+  }
+
+  Future<void> updateProfile({
+    required String arabicName,
+    required String englishName,
+    String? state,
+    String? governorate,
+    String? city,
+    String? street,
+    String? building,
+    String? floor,
+    String? door,
+    double? lat,
+    double? lng,
+    String? pushToken,
+  }) async {
+    UserModel? currentUser;
+    if (state is ProfileLoaded) {
+      currentUser = (state as ProfileLoaded).user;
+    }
+    if (!isClosed) emit(ProfileUpdating(user: currentUser));
+
+    final Map<String, dynamic> data = {
+      "name": {"en": englishName, "ar": arabicName},
+      "address": {
+        "state": state ?? "",
+        "city": city ?? "",
+        "street": street ?? "",
+        "building": building ?? "",
+        "floor": floor ?? "",
+        "door": door ?? "",
+        "governorate": governorate ?? "",
+      },
+    };
+
+    if (lat != null && lng != null) {
+      data["location"] = {
+        "type": "Point",
+        "coordinates": [lng, lat],
+      };
+    }
+
+    if (pushToken != null) {
+      data["pushToken"] = pushToken;
+    }
+
+    final result = await profileRepo.updateProfile(data: data);
+    result.fold(
+      (failure) {
+        if (!isClosed) emit(ProfileError(failure.message));
+      },
+      (authModel) async {
+        if (authModel.token != null) {
+          await locator<LocalStorage>().saveAuthToken(authModel.token!);
+        }
+        if (authModel.user != null) {
+          await locator<LocalStorage>().saveUserProfile(authModel.user!);
+          if (!isClosed) {
+            emit(ProfileUpdateSuccess(authModel));
+          }
+        }
+      },
+    );
+  }
+
+  Future<void> updateProfileImage(ImageSource source) async {
+    final picker = ImagePicker();
+    final pickedFile = await picker.pickImage(source: source);
+
+    if (pickedFile != null) {
+      final file = File(pickedFile.path);
+
+      // 2. Upload to Server
+      final result = await profileRepo.updateProfileImage(file.path);
+
+      result.fold(
+        (failure) {
+          if (!isClosed) emit(ProfileError(failure.message));
+        },
+        (authModel) async {
+          if (authModel.user != null) {
+            await locator<LocalStorage>().saveUserProfile(authModel.user!);
+            if (!isClosed) {
+              emit(ProfileLoaded(authModel.user!));
+            }
+          }
+        },
+      );
+    }
+  }
+
+  Future<void> deleteProfileImage() async {
+    UserModel? currentUser;
+    if (state is ProfileLoaded) {
+      currentUser = (state as ProfileLoaded).user;
+    }
+    if (!isClosed) emit(ProfileUpdating(user: currentUser));
+
+    final result = await profileRepo.deleteProfileImage();
+
+    result.fold(
+      (failure) {
+        if (!isClosed) emit(ProfileError(failure.message));
+      },
+      (authModel) async {
+        if (authModel.user != null) {
+          await locator<LocalStorage>().saveUserProfile(authModel.user!);
+          if (!isClosed) {
+            emit(ProfileLoaded(authModel.user!));
+          }
+        }
       },
     );
   }

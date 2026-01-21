@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dio/dio.dart';
 import 'package:logger/logger.dart';
 import 'package:wasel/core/utils/local_storage.dart';
@@ -161,6 +163,7 @@ class ApiService {
   Future<Map<String, dynamic>> patch({
     required String endPoint,
     required dynamic data,
+    bool isMultipart = false,
   }) async {
     await _initialize();
     final uri = _buildUri(endPoint);
@@ -172,7 +175,11 @@ class ApiService {
         uri.toString(),
         data: data,
         options: Options(
-          headers: _buildHeaders(contentType: 'application/json'),
+          headers: _buildHeaders(
+            contentType: isMultipart
+                ? 'multipart/form-data'
+                : 'application/json',
+          ),
         ),
       );
 
@@ -227,6 +234,7 @@ class ApiService {
     };
 
     if (_token?.isNotEmpty ?? false) {
+      log('_token: $_token');
       headers['Authorization'] = 'Bearer $_token';
     }
 

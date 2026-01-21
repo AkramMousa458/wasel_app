@@ -64,66 +64,6 @@ class AuthCubit extends Cubit<AuthState> {
     });
   }
 
-  Future<void> updateProfile({
-    required String arabicName,
-    required String englishName,
-    String? arabicDescription,
-    String? englishDescription,
-    String? state,
-    String? governorate,
-    String? city,
-    String? street,
-    String? building,
-    String? floor,
-    String? door,
-    double? lat,
-    double? lng,
-    String? pushToken,
-  }) async {
-    emit(AuthLoading());
-
-    final Map<String, dynamic> data = {
-      "name": {"en": englishName, "ar": arabicName},
-      "description": {
-        "en": englishDescription ?? "A regular user",
-        "ar": arabicDescription ?? "مستخدم عادي",
-      },
-      "address": {
-        "state": state ?? "",
-        "city": city ?? "",
-        "street": street ?? "",
-        "building": building ?? "",
-        "floor": floor ?? "",
-        "door": door ?? "",
-        "governorate": governorate ?? "",
-      },
-    };
-
-    if (lat != null && lng != null) {
-      data["location"] = {
-        "type": "Point",
-        "coordinates": [lng, lat],
-      };
-    }
-
-    if (pushToken != null) {
-      data["pushToken"] = pushToken;
-    }
-
-    final result = await authRepo.updateProfile(data: data);
-    result.fold((failure) => emit(AuthFailure(failure.message)), (
-      authModel,
-    ) async {
-      if (authModel.token != null) {
-        await locator<LocalStorage>().saveAuthToken(authModel.token!);
-      }
-      if (authModel.user != null) {
-        await locator<LocalStorage>().saveUserProfile(authModel.user!);
-      }
-      emit(AuthLoginSuccess(authModel));
-    });
-  }
-
   Future<void> logout() async {
     emit(AuthLoading());
     // If there is an API call for logout, call it here:

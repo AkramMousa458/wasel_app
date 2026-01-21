@@ -40,6 +40,7 @@ class CustomButton extends StatelessWidget {
       child: ElevatedButton(
         onPressed: (isEnabled && !isLoading) ? onPressed : null,
         style: ElevatedButton.styleFrom(
+          padding: EdgeInsets.zero,
           backgroundColor: backgroundColor ?? AppColors.primary,
           disabledBackgroundColor: (backgroundColor ?? AppColors.primary)
               .withValues(alpha: 0.5),

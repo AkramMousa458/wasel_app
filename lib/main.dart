@@ -8,6 +8,10 @@ import 'package:wasel/core/utils/bloc_observer.dart';
 import 'package:wasel/core/utils/local_storage.dart';
 import 'package:wasel/core/utils/service_locator.dart';
 import 'package:wasel/features/app/presentation/manager/app_cubit.dart';
+import 'package:wasel/features/auth/data/repos/auth_repo_impl.dart';
+import 'package:wasel/features/auth/presentation/manager/auth_cubit/auth_cubit.dart';
+import 'package:wasel/features/profile/data/repo/profile_repo_impl.dart';
+import 'package:wasel/features/profile/presentation/manager/profile_cubit.dart';
 import 'package:wasel/features/no_internet/presentation/manager/connection_cubit.dart';
 import 'package:wasel/my_app.dart';
 
@@ -64,6 +68,11 @@ Future<void> main() async {
               ),
             ),
             BlocProvider(create: (_) => AppCubit()..checkAuth()),
+            BlocProvider(create: (_) => AuthCubit(locator<AuthRepoImpl>())),
+            BlocProvider(
+              create: (_) =>
+                  ProfileCubit(locator<ProfileRepoImpl>())..getProfile(),
+            ),
           ],
           child: MyApp(localStorage: localStorage),
         ),

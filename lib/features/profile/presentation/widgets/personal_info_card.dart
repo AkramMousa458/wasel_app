@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_translate/flutter_translate.dart';
+import 'package:go_router/go_router.dart';
 import 'package:wasel/core/utils/app_colors.dart';
 import 'package:wasel/core/utils/app_styles.dart';
 import 'package:wasel/features/auth/data/models/auth_model.dart';
+import 'package:wasel/features/profile/presentation/screens/edit_profile_screen.dart'
+    show EditProfileScreen;
 
 class PersonalInfoCard extends StatelessWidget {
   final bool isDark;
@@ -40,7 +43,11 @@ class PersonalInfoCard extends StatelessWidget {
                 ),
               ),
               TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  GoRouter.of(
+                    context,
+                  ).push(EditProfileScreen.routeName, extra: user);
+                },
                 child: Text(
                   translate('edit'),
                   style: AppStyles.textstyle14.copyWith(

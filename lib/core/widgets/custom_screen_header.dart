@@ -5,8 +5,14 @@ import 'package:go_router/go_router.dart';
 import 'package:wasel/core/utils/app_colors.dart';
 import 'package:wasel/core/utils/app_styles.dart';
 
-class SettingsHeader extends StatelessWidget {
-  const SettingsHeader({super.key});
+class CustomScreenHeader extends StatelessWidget {
+  const CustomScreenHeader({
+    super.key,
+    required this.title,
+    this.fontSize = 20,
+  });
+  final String title;
+  final double fontSize;
 
   @override
   Widget build(BuildContext context) {
@@ -41,12 +47,12 @@ class SettingsHeader extends StatelessWidget {
           ),
           Expanded(
             child: Text(
-              translate('settings'),
+              translate(title),
               textAlign: TextAlign.center,
               style: AppStyles.textstyle25.copyWith(
                 color: Colors.white,
                 fontWeight: FontWeight.bold,
-                fontSize: 20.sp,
+                fontSize: fontSize.sp,
               ),
             ),
           ),
