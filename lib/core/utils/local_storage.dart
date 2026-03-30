@@ -1,6 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
-
 import 'package:logger/logger.dart';
 import 'package:wasel/core/constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -41,7 +39,6 @@ class LocalStorage {
 
   /// Saves the authentication token
   Future<bool> saveAuthToken(String token) {
-    log('saving token: $token');
     return setString(AppConstants.authTokenKey, token);
   }
 

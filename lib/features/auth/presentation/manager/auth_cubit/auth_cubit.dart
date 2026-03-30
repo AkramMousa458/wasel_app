@@ -28,11 +28,15 @@ class AuthCubit extends Cubit<AuthState> {
     result.fold((failure) => emit(AuthFailure(failure.message)), (
       authModel,
     ) async {
+      final storage = locator<LocalStorage>();
       if (authModel.accessToken != null) {
-        await locator<LocalStorage>().saveAuthToken(authModel.accessToken!);
+        await storage.saveAuthToken(authModel.accessToken!);
+      }
+      if (authModel.refreshToken != null) {
+        await storage.saveRefreshToken(authModel.refreshToken!);
       }
       if (authModel.user != null) {
-        await locator<LocalStorage>().saveUserProfile(authModel.user!);
+        await storage.saveUserProfile(authModel.user!);
       }
       emit(AuthLoginSuccess(authModel));
     });
@@ -53,12 +57,15 @@ class AuthCubit extends Cubit<AuthState> {
     result.fold((failure) => emit(AuthFailure(failure.message)), (
       authModel,
     ) async {
+      final storage = locator<LocalStorage>();
       if (authModel.accessToken != null) {
-        await locator<LocalStorage>().saveAuthToken(authModel.accessToken!);
-        // Ensure profile is saved too
-        if (authModel.user != null) {
-          await locator<LocalStorage>().saveUserProfile(authModel.user!);
-        }
+        await storage.saveAuthToken(authModel.accessToken!);
+      }
+      if (authModel.refreshToken != null) {
+        await storage.saveRefreshToken(authModel.refreshToken!);
+      }
+      if (authModel.user != null) {
+        await storage.saveUserProfile(authModel.user!);
       }
       emit(AuthLoginSuccess(authModel));
     });

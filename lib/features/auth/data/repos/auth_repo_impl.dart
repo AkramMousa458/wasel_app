@@ -86,4 +86,20 @@ class AuthRepoImpl {
       return Left(ServerFailure(message: e.toString()));
     }
   }
+
+  Future<Either<ApiFailure, AuthModel>> refreshAccessToken({
+    required String refreshToken,
+  }) async {
+    try {
+      final result = await remoteDataSource.refreshAccessToken(
+        refreshToken: refreshToken,
+      );
+      return Right(result);
+    } catch (e) {
+      if (e is ServerFailure) {
+        return Left(e);
+      }
+      return Left(ServerFailure(message: e.toString()));
+    }
+  }
 }

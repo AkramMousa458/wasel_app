@@ -89,4 +89,20 @@ class AuthRemoteDataSource {
       throw ServerFailure(message: e.toString());
     }
   }
+
+  Future<AuthModel> refreshAccessToken({
+    required String refreshToken,
+  }) async {
+    try {
+      final response = await apiService.post(
+        endPoint: Endpoint.refreshToken,
+        data: {'refreshToken': refreshToken},
+      );
+      return AuthModel.fromJson(response);
+    } on DioException catch (e) {
+      throw ServerFailure.fromDioError(e);
+    } catch (e) {
+      throw ServerFailure(message: e.toString());
+    }
+  }
 }

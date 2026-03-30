@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -107,7 +106,6 @@ class _OtpScreenBodyState extends State<OtpScreenBody> {
           context.read<OtpCubit>().updateDigit(0, '');
           _otpController.clear();
         } else if (state is AuthLoginSuccess) {
-          log('login success');
           context.read<AppCubit>().checkAuth();
           context.go(BaseScreen.routeName);
         }
