@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:logger/logger.dart';
 import 'package:wasel/core/constants.dart';
@@ -39,8 +40,10 @@ class LocalStorage {
   // ================== Authentication ================== //
 
   /// Saves the authentication token
-  Future<bool> saveAuthToken(String token) =>
-      setString(AppConstants.authTokenKey, token);
+  Future<bool> saveAuthToken(String token) {
+    log('saving token: $token');
+    return setString(AppConstants.authTokenKey, token);
+  }
 
   /// Retrieves the authentication token
   String? get authToken => getString(AppConstants.authTokenKey);
@@ -48,10 +51,22 @@ class LocalStorage {
   /// Clears the authentication token
   Future<bool> clearAuthToken() => remove(AppConstants.authTokenKey);
 
-  /// Logs out the user by clearing the session data
+
+    /// Saves the refresh token
+  Future<bool> saveRefreshToken(String token) =>
+      setString(AppConstants.refreshTokenKey, token);
+
+  /// Retrieves the refresh token
+  String? get refreshToken => getString(AppConstants.refreshTokenKey);
+
+  /// Clears the refresh token
+  Future<bool> clearRefreshToken() => remove(AppConstants.refreshTokenKey);
+
+  /// Logs out the user by clearing all session tokens
   Future<void> logout() async {
     await clearAuthToken();
-    // Clear other user-related data here if necessary
+    await clearRefreshToken();
+    clearUserProfile();
   }
 
   // ================== User Preferences ================== //

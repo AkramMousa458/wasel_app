@@ -28,7 +28,10 @@ class SendVerificationButton extends StatelessWidget {
           ? SizedBox(
               height: 20.w,
               width: 20.w,
-              child: const CircularProgressIndicator(color: Colors.white),
+              child: const CircularProgressIndicator(
+                color: Colors.white,
+                strokeWidth: 2,
+              ),
             )
           : Row(
               mainAxisAlignment: MainAxisAlignment.center,

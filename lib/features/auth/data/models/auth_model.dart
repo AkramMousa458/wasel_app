@@ -3,16 +3,24 @@ import 'package:equatable/equatable.dart';
 class AuthModel extends Equatable {
   final bool? success;
   final String? message;
-  final String? token;
+  final String? accessToken;
+  final String? refreshToken;
   final UserModel? user;
 
-  const AuthModel({this.success, this.message, this.token, this.user});
+  const AuthModel({
+    this.success,
+    this.message,
+    this.accessToken,
+    this.refreshToken,
+    this.user,
+  });
 
   factory AuthModel.fromJson(Map<String, dynamic> json) {
     return AuthModel(
       success: json['success'],
       message: json['message'],
-      token: json['token'],
+      accessToken: json['accessToken'],
+      refreshToken: json['refreshToken'],
       user: json['user'] != null ? UserModel.fromJson(json['user']) : null,
     );
   }
@@ -21,13 +29,14 @@ class AuthModel extends Equatable {
     return {
       'success': success,
       'message': message,
-      'token': token,
+      'accessToken': accessToken,
+      'refreshToken': refreshToken,
       'user': user?.toJson(),
     };
   }
 
   @override
-  List<Object?> get props => [success, message, token, user];
+  List<Object?> get props => [success, message, accessToken, refreshToken, user];
 }
 
 class UserModel extends Equatable {
@@ -36,21 +45,26 @@ class UserModel extends Equatable {
   final String? email;
   final String? phone;
   final String? phoneCountry;
+  final String? birthDate;
   final String? role;
   final String? image;
+  final String? status;
   final bool? isActive;
   final bool? isBanned;
   final bool? isDeleted;
   final bool? emailVerified;
   final bool? phoneVerified;
   final String? lastOnlineAt;
-  final UserAddress? address;
-  final double? spend;
+  final dynamic driverProfile;
+  final dynamic merchantProfile;
   final dynamic wallet;
+  final double? spend;
   final String? pushToken;
+  final List<dynamic> savedAddresses;
   final String? createdAt;
   final String? updatedAt;
   final int? iV;
+  final UserAddress? address;
   final bool? online;
   final UserLocation? location;
 
@@ -60,49 +74,61 @@ class UserModel extends Equatable {
     this.email,
     this.phone,
     this.phoneCountry,
+    this.birthDate,
     this.role,
     this.image,
+    this.status,
     this.isActive,
     this.isBanned,
     this.isDeleted,
     this.emailVerified,
     this.phoneVerified,
     this.lastOnlineAt,
-    this.address,
-    this.spend,
+    this.driverProfile,
+    this.merchantProfile,
     this.wallet,
+    this.spend,
     this.pushToken,
+    this.savedAddresses = const [],
     this.createdAt,
     this.updatedAt,
     this.iV,
+    this.address,
     this.online,
     this.location,
   });
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
     return UserModel(
-      sId: json['_id'],
+      sId: json['_id'] ?? json['id'],
       name: json['name'] != null ? UserName.fromJson(json['name']) : null,
       email: json['email'],
       phone: json['phone'],
       phoneCountry: json['phoneCountry'],
+      birthDate: json['birthDate'],
       role: json['role'],
       image: json['image'],
+      status: json['status'],
       isActive: json['isActive'],
       isBanned: json['isBanned'],
       isDeleted: json['isDeleted'],
       emailVerified: json['emailVerified'],
       phoneVerified: json['phoneVerified'],
       lastOnlineAt: json['lastOnlineAt'],
-      address: json['address'] != null
-          ? UserAddress.fromJson(json['address'])
-          : null,
-      spend: json['spend'] != null ? (json['spend'] as num).toDouble() : 0,
+      driverProfile: json['driverProfile'],
+      merchantProfile: json['merchantProfile'],
       wallet: json['wallet'],
+      spend: json['spend'] != null ? (json['spend'] as num).toDouble() : 0,
       pushToken: json['pushToken'],
+      savedAddresses: json['savedAddresses'] != null
+          ? List<dynamic>.from(json['savedAddresses'])
+          : [],
       createdAt: json['createdAt'],
       updatedAt: json['updatedAt'],
       iV: json['__v'],
+      address: json['address'] != null
+          ? UserAddress.fromJson(json['address'])
+          : null,
       online: json['online'],
       location: json['location'] != null
           ? UserLocation.fromJson(json['location'])
@@ -117,21 +143,26 @@ class UserModel extends Equatable {
       'email': email,
       'phone': phone,
       'phoneCountry': phoneCountry,
+      'birthDate': birthDate,
       'role': role,
       'image': image,
+      'status': status,
       'isActive': isActive,
       'isBanned': isBanned,
       'isDeleted': isDeleted,
       'emailVerified': emailVerified,
       'phoneVerified': phoneVerified,
       'lastOnlineAt': lastOnlineAt,
-      'address': address?.toJson(),
-      'spend': spend,
+      'driverProfile': driverProfile,
+      'merchantProfile': merchantProfile,
       'wallet': wallet,
+      'spend': spend,
       'pushToken': pushToken,
+      'savedAddresses': savedAddresses,
       'createdAt': createdAt,
       'updatedAt': updatedAt,
       '__v': iV,
+      'address': address?.toJson(),
       'online': online,
       'location': location?.toJson(),
     };
@@ -144,21 +175,26 @@ class UserModel extends Equatable {
     email,
     phone,
     phoneCountry,
+    birthDate,
     role,
     image,
+    status,
     isActive,
     isBanned,
     isDeleted,
     emailVerified,
     phoneVerified,
     lastOnlineAt,
-    address,
-    spend,
+    driverProfile,
+    merchantProfile,
     wallet,
+    spend,
     pushToken,
+    savedAddresses,
     createdAt,
     updatedAt,
     iV,
+    address,
     online,
     location,
   ];

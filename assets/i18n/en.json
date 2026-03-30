@@ -126,5 +126,9 @@
   "change_photo": "Change Photo",
   "confirm_delete_profile_photo": "Confirm Delete Profile Photo",
   "delete_profile_photo_message": "Are you sure you want to delete your profile photo?",
-  "delete": "Delete"
+  "delete": "Delete",
+  "otp_incomplete": "Please enter the complete verification code",
+  "didnt_receive_code": "Didn't receive the code?",
+  "resend": "Resend",
+  "resend_in": "Resend in"
 }

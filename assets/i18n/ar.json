@@ -126,5 +126,9 @@
   "change_photo": "تغيير الصورة",
   "confirm_delete_profile_photo": "تأكيد حذف الصورة الشخصية",
   "delete_profile_photo_message": "هل أنت متأكد أنك تريد حذف الصورة الشخصية؟",
-  "delete": "حذف"
+  "delete": "حذف",
+  "otp_incomplete": "يرجى إدخال رمز التحقق كاملاً",
+  "didnt_receive_code": "لم تستلم الرمز؟",
+  "resend": "إعادة الإرسال",
+  "resend_in": "إعادة الإرسال في"
 }
