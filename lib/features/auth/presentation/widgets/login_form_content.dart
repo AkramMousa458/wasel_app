@@ -95,8 +95,7 @@ class LoginFormContent extends StatelessWidget {
           // ),
 
           // Spacer to push footer to the bottom
-          SizedBox(height: MediaQuery.of(context).size.height * 0.18),
-
+          const Spacer(),
           // Privacy Policy and Terms of Service
           PrivacyTermsFooter(
             isDark: isDark,

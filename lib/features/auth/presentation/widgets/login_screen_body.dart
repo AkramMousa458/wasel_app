@@ -68,6 +68,7 @@ class _LoginScreenBodyState extends State<LoginScreenBody> {
           .replaceAll(RegExp(r'[^\d]'), '')
           .trim();
       context.read<AuthCubit>().requestPhoneOtp(_phoneController.text);
+      FocusManager.instance.primaryFocus?.unfocus();
     }
   }
 
@@ -122,55 +123,71 @@ class _LoginScreenBodyState extends State<LoginScreenBody> {
             ),
           ),
           child: SafeArea(
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  // Header with logo and language toggle
-                  const LoginHeader(),
-
-                  // Main card with form content
-                  Container(
-                    margin: EdgeInsets.only(top: 20.h),
-                    decoration: BoxDecoration(
-                      color: isDark ? AppColors.darkCard : AppColors.lightCard,
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(30.r),
-                        topRight: Radius.circular(30.r),
-                      ),
+            child: LayoutBuilder(
+              builder: (context, constraints) {
+                return SingleChildScrollView(
+                  child: ConstrainedBox(
+                    constraints: BoxConstraints(
+                      minHeight: constraints.maxHeight,
                     ),
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 24.w,
-                        vertical: 32.h,
-                      ),
-                      child: LoginFormContent(
-                        formKey: _formKey,
-                        phoneController: _phoneController,
-                        selectedCountryCode: _selectedCountryCode,
-                        isDark: isDark,
-                        phoneValidator: _validatePhoneNumber,
-                        onSendVerificationCode: _handleSendVerificationCode,
-                        isLoading: isLoading,
-                        onGoogleTap: () {
-                          // Handle Google login
-                        },
-                        onAppleTap: () {
-                          // Handle Apple login
-                        },
-                        onFacebookTap: () {
-                          // Handle Facebook login
-                        },
-                        onPrivacyPolicyTap: () {
-                          // Handle privacy policy
-                        },
-                        onTermsOfServiceTap: () {
-                          // Handle terms of service
-                        },
+                    child: IntrinsicHeight(
+                      child: Column(
+                        children: [
+                          // Header with logo and language toggle
+                          const LoginHeader(),
+
+                          // Main card with form content
+                          Expanded(
+                            child: Container(
+                              margin: EdgeInsets.only(top: 20.h),
+                              decoration: BoxDecoration(
+                                color: isDark
+                                    ? AppColors.darkCard
+                                    : AppColors.lightCard,
+                                borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(30.r),
+                                  topRight: Radius.circular(30.r),
+                                ),
+                              ),
+                              child: Padding(
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: 20.w,
+                                  vertical: 32.h,
+                                ),
+                                child: LoginFormContent(
+                                  formKey: _formKey,
+                                  phoneController: _phoneController,
+                                  selectedCountryCode: _selectedCountryCode,
+                                  isDark: isDark,
+                                  phoneValidator: _validatePhoneNumber,
+                                  onSendVerificationCode:
+                                      _handleSendVerificationCode,
+                                  isLoading: isLoading,
+                                  onGoogleTap: () {
+                                    // Handle Google login
+                                  },
+                                  onAppleTap: () {
+                                    // Handle Apple login
+                                  },
+                                  onFacebookTap: () {
+                                    // Handle Facebook login
+                                  },
+                                  onPrivacyPolicyTap: () {
+                                    // Handle privacy policy
+                                  },
+                                  onTermsOfServiceTap: () {
+                                    // Handle terms of service
+                                  },
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ),
-                ],
-              ),
+                );
+              },
             ),
           ),
         );
