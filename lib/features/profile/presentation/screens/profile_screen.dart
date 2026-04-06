@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -62,9 +64,13 @@ class ProfileScreen extends StatelessWidget {
         UserModel? user;
         if (state is ProfileLoaded) {
           user = state.user;
+          log('user: ${user.toJson()}');
         } else if (state is ProfileUpdating) {
           user = state.user;
+        } else if (state is ProfileUpdateSuccess) {
+          user = state.authModel.user;
         }
+        final safeUser = user ?? const UserModel();
 
         return Scaffold(
           backgroundColor: isDark
@@ -84,11 +90,11 @@ class ProfileScreen extends StatelessWidget {
                       SizedBox(height: 20.h),
 
                       // Personal Info Card
-                      PersonalInfoCard(isDark: isDark, user: user),
+                      PersonalInfoCard(isDark: isDark, user: safeUser),
                       SizedBox(height: 32.h),
 
                       // Saved Places
-                      ProfileSavedPlacesSection(isDark: isDark, user: user!),
+                      ProfileSavedPlacesSection(isDark: isDark, user: safeUser),
                       SizedBox(height: 16.h),
 
                       // Settings and Logout

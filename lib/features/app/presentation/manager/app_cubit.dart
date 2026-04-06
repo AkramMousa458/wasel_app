@@ -30,11 +30,13 @@ class AppCubit extends Cubit<AppState> {
 
     if (hasRefreshToken) {
       final refreshResult = await locator<AuthRepoImpl>().refreshAccessToken(
-        refreshToken: storedRefreshToken!,
+        refreshToken: storedRefreshToken,
       );
       await refreshResult.fold(
         (failure) async {
-          log('AppCubit: Token refresh failed — ${failure.message}. Logging out.');
+          log(
+            'AppCubit: Token refresh failed — ${failure.message}. Logging out.',
+          );
           await localStorage.logout();
           emit(AppUnauthenticated());
         },

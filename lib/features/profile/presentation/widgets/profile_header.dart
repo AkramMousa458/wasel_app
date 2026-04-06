@@ -233,9 +233,7 @@ class ProfileHeader extends StatelessWidget {
                                         icon: Icon(
                                           FontAwesomeIcons.trashCan,
                                           size: 16.sp,
-                                          color: isDark
-                                              ? AppColors.white
-                                              : AppColors.lightTextPrimary,
+                                          color: AppColors.error,
                                         ),
                                         onPressed: () {
                                           context.pop();

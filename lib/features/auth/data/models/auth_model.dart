@@ -169,6 +169,60 @@ class UserModel extends Equatable {
     };
   }
 
+  UserModel copyWith({
+    String? id,
+    UserName? name,
+    String? email,
+    String? phone,
+    String? phoneCountry,
+    String? birthDate,
+    String? role,
+    String? image,
+    String? status,
+    bool? isActive,
+    bool? isBanned,
+    bool? isDeleted,
+    bool? emailVerified,
+    bool? phoneVerified,
+    String? lastOnlineAt,
+    bool? online,
+    double? spend,
+    dynamic wallet,
+    String? pushToken,
+    List<SavedAddress>? savedAddresses,
+    String? createdAt,
+    String? updatedAt,
+    int? iV,
+    UserLocation? location,
+  }) {
+    return UserModel(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      email: email ?? this.email,
+      phone: phone ?? this.phone,
+      phoneCountry: phoneCountry ?? this.phoneCountry,
+      birthDate: birthDate ?? this.birthDate,
+      role: role ?? this.role,
+      image: image ?? this.image,
+      status: status ?? this.status,
+      isActive: isActive ?? this.isActive,
+      isBanned: isBanned ?? this.isBanned,
+      isDeleted: isDeleted ?? this.isDeleted,
+      emailVerified: emailVerified ?? this.emailVerified,
+      phoneVerified: phoneVerified ?? this.phoneVerified,
+      lastOnlineAt: lastOnlineAt ?? this.lastOnlineAt,
+      online: online ?? this.online,
+      spend: spend ?? this.spend,
+      wallet: wallet ?? this.wallet,
+      pushToken: pushToken ?? this.pushToken,
+      savedAddresses: savedAddresses ?? this.savedAddresses,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
+      iV: iV ?? this.iV,
+      location: location ?? this.location,
+    );
+  }
+
   @override
   List<Object?> get props => [
     id,
@@ -189,14 +243,11 @@ class UserModel extends Equatable {
     online,
     spend,
     wallet,
-    spend,
     pushToken,
     savedAddresses,
-    birthDate,
     createdAt,
     updatedAt,
     iV,
-    online,
     location,
   ];
 }
