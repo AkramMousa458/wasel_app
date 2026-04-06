@@ -63,4 +63,63 @@ class ProfileRemoteDataSource {
       throw ServerFailure(message: e.toString());
     }
   }
+
+  Future<List<SavedAddress>> addAddress(Map<String, dynamic> body) async {
+    try {
+      final response = await apiService.post(
+        endPoint: Endpoint.addresses,
+        data: body,
+      );
+      if (response['savedAddresses'] != null) {
+        return List<SavedAddress>.from(
+          response['savedAddresses'].map((x) => SavedAddress.fromJson(x)),
+        );
+      }
+      return [];
+    } on DioException catch (e) {
+      throw ServerFailure.fromDioError(e);
+    } catch (e) {
+      throw ServerFailure(message: e.toString());
+    }
+  }
+
+  Future<List<SavedAddress>> updateAddress(
+    String id,
+    Map<String, dynamic> body,
+  ) async {
+    try {
+      final response = await apiService.update(
+        endPoint: '${Endpoint.addresses}/$id',
+        data: body,
+      );
+      if (response['savedAddresses'] != null) {
+        return List<SavedAddress>.from(
+          response['savedAddresses'].map((x) => SavedAddress.fromJson(x)),
+        );
+      }
+      return [];
+    } on DioException catch (e) {
+      throw ServerFailure.fromDioError(e);
+    } catch (e) {
+      throw ServerFailure(message: e.toString());
+    }
+  }
+
+  Future<List<SavedAddress>> deleteAddress(String id) async {
+    try {
+      final response = await apiService.delete(
+        endPoint: '${Endpoint.addresses}/$id',
+      );
+      if (response['savedAddresses'] != null) {
+        return List<SavedAddress>.from(
+          response['savedAddresses'].map((x) => SavedAddress.fromJson(x)),
+        );
+      }
+      return [];
+    } on DioException catch (e) {
+      throw ServerFailure.fromDioError(e);
+    } catch (e) {
+      throw ServerFailure(message: e.toString());
+    }
+  }
 }

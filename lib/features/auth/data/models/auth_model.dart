@@ -1,5 +1,8 @@
 import 'package:equatable/equatable.dart';
 
+/// =======================
+/// AUTH MODEL
+/// =======================
 class AuthModel extends Equatable {
   final bool? success;
   final String? message;
@@ -39,8 +42,11 @@ class AuthModel extends Equatable {
   List<Object?> get props => [success, message, accessToken, refreshToken, user];
 }
 
+/// =======================
+/// USER MODEL
+/// =======================
 class UserModel extends Equatable {
-  final String? sId;
+  final String? id;
   final UserName? name;
   final String? email;
   final String? phone;
@@ -52,24 +58,26 @@ class UserModel extends Equatable {
   final bool? isActive;
   final bool? isBanned;
   final bool? isDeleted;
+
   final bool? emailVerified;
   final bool? phoneVerified;
+
   final String? lastOnlineAt;
-  final dynamic driverProfile;
-  final dynamic merchantProfile;
-  final dynamic wallet;
+  final bool? online;
+
   final double? spend;
+  final dynamic wallet;
   final String? pushToken;
-  final List<dynamic> savedAddresses;
+
+  final List<SavedAddress> savedAddresses;
+
   final String? createdAt;
   final String? updatedAt;
   final int? iV;
-  final UserAddress? address;
-  final bool? online;
   final UserLocation? location;
 
   const UserModel({
-    this.sId,
+    this.id,
     this.name,
     this.email,
     this.phone,
@@ -84,23 +92,20 @@ class UserModel extends Equatable {
     this.emailVerified,
     this.phoneVerified,
     this.lastOnlineAt,
-    this.driverProfile,
-    this.merchantProfile,
-    this.wallet,
+    this.online,
     this.spend,
+    this.wallet,
     this.pushToken,
     this.savedAddresses = const [],
     this.createdAt,
     this.updatedAt,
     this.iV,
-    this.address,
-    this.online,
     this.location,
   });
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
     return UserModel(
-      sId: json['_id'] ?? json['id'],
+      id: json['_id'] ?? json['id'],
       name: json['name'] != null ? UserName.fromJson(json['name']) : null,
       email: json['email'],
       phone: json['phone'],
@@ -115,21 +120,18 @@ class UserModel extends Equatable {
       emailVerified: json['emailVerified'],
       phoneVerified: json['phoneVerified'],
       lastOnlineAt: json['lastOnlineAt'],
-      driverProfile: json['driverProfile'],
-      merchantProfile: json['merchantProfile'],
+      online: json['online'],
+      spend: (json['spend'] as num?)?.toDouble(),
       wallet: json['wallet'],
-      spend: json['spend'] != null ? (json['spend'] as num).toDouble() : 0,
       pushToken: json['pushToken'],
       savedAddresses: json['savedAddresses'] != null
-          ? List<dynamic>.from(json['savedAddresses'])
-          : [],
+          ? List<SavedAddress>.from(
+              json['savedAddresses'].map((e) => SavedAddress.fromJson(e)),
+            )
+          : const [],
       createdAt: json['createdAt'],
       updatedAt: json['updatedAt'],
       iV: json['__v'],
-      address: json['address'] != null
-          ? UserAddress.fromJson(json['address'])
-          : null,
-      online: json['online'],
       location: json['location'] != null
           ? UserLocation.fromJson(json['location'])
           : null,
@@ -138,7 +140,7 @@ class UserModel extends Equatable {
 
   Map<String, dynamic> toJson() {
     return {
-      '_id': sId,
+      '_id': id,
       'name': name?.toJson(),
       'email': email,
       'phone': phone,
@@ -153,24 +155,23 @@ class UserModel extends Equatable {
       'emailVerified': emailVerified,
       'phoneVerified': phoneVerified,
       'lastOnlineAt': lastOnlineAt,
-      'driverProfile': driverProfile,
-      'merchantProfile': merchantProfile,
-      'wallet': wallet,
+      'online': online,
       'spend': spend,
+      'wallet': wallet,
       'pushToken': pushToken,
-      'savedAddresses': savedAddresses,
+      'savedAddresses': savedAddresses
+          .map((address) => address.toJson())
+          .toList(),
       'createdAt': createdAt,
       'updatedAt': updatedAt,
       '__v': iV,
-      'address': address?.toJson(),
-      'online': online,
       'location': location?.toJson(),
     };
   }
 
   @override
   List<Object?> get props => [
-    sId,
+    id,
     name,
     email,
     phone,
@@ -185,21 +186,24 @@ class UserModel extends Equatable {
     emailVerified,
     phoneVerified,
     lastOnlineAt,
-    driverProfile,
-    merchantProfile,
+    online,
+    spend,
     wallet,
     spend,
     pushToken,
     savedAddresses,
+    birthDate,
     createdAt,
     updatedAt,
     iV,
-    address,
     online,
     location,
   ];
 }
 
+/// =======================
+/// USER NAME
+/// =======================
 class UserName extends Equatable {
   final String en;
   final String ar;
@@ -218,8 +222,51 @@ class UserName extends Equatable {
   List<Object?> get props => [en, ar];
 }
 
-class UserAddress extends Equatable {
-  final String state;
+/// =======================
+/// SAVED ADDRESS
+/// =======================
+class SavedAddress extends Equatable {
+  final String? id;
+  final String label;
+  final AddressDetails address;
+  final UserLocation location;
+  final bool isDefault;
+
+  const SavedAddress({
+    this.id,
+    required this.label,
+    required this.address,
+    required this.location,
+    required this.isDefault,
+  });
+
+  factory SavedAddress.fromJson(Map<String, dynamic> json) {
+    return SavedAddress(
+      id: json['_id'] ?? json['id'],
+      label: json['label'] ?? '',
+      address: AddressDetails.fromJson(json['address'] ?? {}),
+      location: UserLocation.fromJson(json['location'] ?? {}),
+      isDefault: json['isDefault'] ?? false,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      '_id': id,
+      'label': label,
+      'location': location.toJson(),
+      'isDefault': isDefault,
+    };
+  }
+
+  @override
+  List<Object?> get props => [id, label, address, location, isDefault];
+}
+
+/// =======================
+/// ADDRESS DETAILS
+/// =======================
+class AddressDetails extends Equatable {
   final String governorate;
   final String city;
   final String street;
@@ -227,8 +274,7 @@ class UserAddress extends Equatable {
   final String floor;
   final String door;
 
-  const UserAddress({
-    required this.state,
+  const AddressDetails({
     required this.governorate,
     required this.city,
     required this.street,
@@ -237,9 +283,8 @@ class UserAddress extends Equatable {
     required this.door,
   });
 
-  factory UserAddress.fromJson(Map<String, dynamic> json) {
-    return UserAddress(
-      state: json['state'] ?? '',
+  factory AddressDetails.fromJson(Map<String, dynamic> json) {
+    return AddressDetails(
       governorate: json['governorate'] ?? '',
       city: json['city'] ?? '',
       street: json['street'] ?? '',
@@ -251,7 +296,6 @@ class UserAddress extends Equatable {
 
   Map<String, dynamic> toJson() {
     return {
-      'state': state,
       'governorate': governorate,
       'city': city,
       'street': street,
@@ -262,17 +306,12 @@ class UserAddress extends Equatable {
   }
 
   @override
-  List<Object?> get props => [
-    state,
-    governorate,
-    city,
-    street,
-    building,
-    floor,
-    door,
-  ];
+  List<Object?> get props => [governorate, city, street, building, floor, door];
 }
 
+/// =======================
+/// USER LOCATION (GEOJSON)
+/// =======================
 class UserLocation extends Equatable {
   final String type;
   final List<double> coordinates;
@@ -286,7 +325,7 @@ class UserLocation extends Equatable {
           ? List<double>.from(
               (json['coordinates'] as List).map((e) => (e as num).toDouble()),
             )
-          : [],
+          : const [],
     );
   }
 

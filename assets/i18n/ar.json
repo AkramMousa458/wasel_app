@@ -130,5 +130,15 @@
   "otp_incomplete": "يرجى إدخال رمز التحقق كاملاً",
   "didnt_receive_code": "لم تستلم الرمز؟",
   "resend": "إعادة الإرسال",
-  "resend_in": "إعادة الإرسال في"
+  "resend_in": "إعادة الإرسال في",
+  "no_saved_places": "لا توجد أماكن محفوظة",
+  "edit_address": "تعديل العنوان",
+  "add_new_address": "إضافة عنوان جديد",
+  "label": "التسمية",
+  "governorate": "المحافظة",
+  "set_as_default": "تعيين كافتراضي",
+  "save": "حفظ",
+  "close": "إغلاق",
+  "confirm_delete_address": "حذف العنوان؟",
+  "delete_address_message": "هل أنت متأكد من حذف هذا العنوان؟"
 }
