@@ -2,6 +2,7 @@
 class AppConstants {
   // Authentication keys
   static const String authTokenKey = 'auth_token';
+  static const String refreshTokenKey = 'refresh_token';
   
   // User preferences keys
   static const String themeModeKey = 'theme_dark';

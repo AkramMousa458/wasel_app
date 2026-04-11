@@ -90,8 +90,8 @@ class ProfileCubit extends Cubit<ProfileState> {
         if (!isClosed) emit(ProfileError(failure.message));
       },
       (authModel) async {
-        if (authModel.token != null) {
-          await locator<LocalStorage>().saveAuthToken(authModel.token!);
+        if (authModel.accessToken != null) {
+          await locator<LocalStorage>().saveAuthToken(authModel.accessToken!);
         }
         if (authModel.user != null) {
           await locator<LocalStorage>().saveUserProfile(authModel.user!);

@@ -1,14 +1,17 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:wasel/core/utils/app_colors.dart';
 import 'package:wasel/core/utils/custom_snack_bar.dart';
 import 'package:wasel/core/utils/theme_utils.dart';
-import 'package:wasel/features/auth/presentation/widgets/login_header.dart';
-import 'package:wasel/features/auth/presentation/widgets/login_form_content.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wasel/features/app/presentation/manager/app_cubit.dart';
 import 'package:wasel/features/auth/presentation/manager/auth_cubit/auth_cubit.dart';
+import 'package:wasel/features/auth/presentation/screens/otp_screen.dart';
+import 'package:wasel/features/auth/presentation/widgets/login_form_content.dart';
+import 'package:wasel/features/auth/presentation/widgets/login_header.dart';
 
 class LoginScreenBody extends StatefulWidget {
   const LoginScreenBody({super.key});
@@ -65,54 +68,15 @@ class _LoginScreenBodyState extends State<LoginScreenBody> {
           .replaceAll(RegExp(r'[^\d]'), '')
           .trim();
       context.read<AuthCubit>().requestPhoneOtp(_phoneController.text);
+      FocusManager.instance.primaryFocus?.unfocus();
     }
   }
 
-  void _showOtpDialog(BuildContext context, String phone) {
-    final TextEditingController otpController = TextEditingController();
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (dialogContext) => AlertDialog(
-        title: Text(translate('enter_verification_code')),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(translate('code_sent_to_phone')),
-            SizedBox(height: 16),
-            TextField(
-              controller: otpController,
-              keyboardType: TextInputType.number,
-              decoration: InputDecoration(
-                hintText: translate('verification_code'),
-                border: const OutlineInputBorder(),
-              ),
-              onChanged: (value) {
-                if (value.length == 6) {
-                  Navigator.pop(dialogContext); // Close dialog
-                  context.read<AuthCubit>().verifyPhoneOtp(phone, value);
-                }
-              },
-            ),
-          ],
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(dialogContext),
-            child: Text(translate('cancel')),
-          ),
-          ElevatedButton(
-            onPressed: () {
-              final code = otpController.text;
-              Navigator.pop(dialogContext); // Close dialog
-              if (code.isNotEmpty) {
-                // Call verify on the PARENT context, not dialogContext
-                context.read<AuthCubit>().verifyPhoneOtp(phone, code);
-              }
-            },
-            child: Text(translate('verify')),
-          ),
-        ],
+  void _navigateToOtp(BuildContext context, String phone) {
+    Navigator.of(context).push(
+      MaterialPageRoute<void>(
+        builder: (_) =>
+            OtpScreen(phone: phone, authCubit: context.read<AuthCubit>()),
       ),
     );
   }
@@ -128,10 +92,10 @@ class _LoginScreenBodyState extends State<LoginScreenBody> {
           // Assuming you have a way to show snackbar, e.g. TopSnackBar
           CustomSnackBar.showError(context, state.message);
         } else if (state is AuthOtpSent) {
-          // Show OTP Dialog
+          log('otp sent: ${state.response}');
           final phone = _phoneController.text.replaceAll(RegExp(r'[^\d]'), '');
           CustomSnackBar.showInfo(context, translate('otp_sent'));
-          _showOtpDialog(context, phone);
+          _navigateToOtp(context, phone);
         } else if (state is AuthLoginSuccess) {
           context.read<AppCubit>().checkAuth();
           // Force navigation if AppGate doesn't pick it up immediately or if we want immediate feedback
@@ -159,55 +123,71 @@ class _LoginScreenBodyState extends State<LoginScreenBody> {
             ),
           ),
           child: SafeArea(
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  // Header with logo and language toggle
-                  const LoginHeader(),
-
-                  // Main card with form content
-                  Container(
-                    margin: EdgeInsets.only(top: 20.h),
-                    decoration: BoxDecoration(
-                      color: isDark ? AppColors.darkCard : AppColors.lightCard,
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(30.r),
-                        topRight: Radius.circular(30.r),
-                      ),
+            child: LayoutBuilder(
+              builder: (context, constraints) {
+                return SingleChildScrollView(
+                  child: ConstrainedBox(
+                    constraints: BoxConstraints(
+                      minHeight: constraints.maxHeight,
                     ),
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 24.w,
-                        vertical: 32.h,
-                      ),
-                      child: LoginFormContent(
-                        formKey: _formKey,
-                        phoneController: _phoneController,
-                        selectedCountryCode: _selectedCountryCode,
-                        isDark: isDark,
-                        phoneValidator: _validatePhoneNumber,
-                        onSendVerificationCode: _handleSendVerificationCode,
-                        isLoading: isLoading,
-                        onGoogleTap: () {
-                          // Handle Google login
-                        },
-                        onAppleTap: () {
-                          // Handle Apple login
-                        },
-                        onFacebookTap: () {
-                          // Handle Facebook login
-                        },
-                        onPrivacyPolicyTap: () {
-                          // Handle privacy policy
-                        },
-                        onTermsOfServiceTap: () {
-                          // Handle terms of service
-                        },
+                    child: IntrinsicHeight(
+                      child: Column(
+                        children: [
+                          // Header with logo and language toggle
+                          const LoginHeader(),
+
+                          // Main card with form content
+                          Expanded(
+                            child: Container(
+                              margin: EdgeInsets.only(top: 20.h),
+                              decoration: BoxDecoration(
+                                color: isDark
+                                    ? AppColors.darkCard
+                                    : AppColors.lightCard,
+                                borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(30.r),
+                                  topRight: Radius.circular(30.r),
+                                ),
+                              ),
+                              child: Padding(
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: 20.w,
+                                  vertical: 32.h,
+                                ),
+                                child: LoginFormContent(
+                                  formKey: _formKey,
+                                  phoneController: _phoneController,
+                                  selectedCountryCode: _selectedCountryCode,
+                                  isDark: isDark,
+                                  phoneValidator: _validatePhoneNumber,
+                                  onSendVerificationCode:
+                                      _handleSendVerificationCode,
+                                  isLoading: isLoading,
+                                  onGoogleTap: () {
+                                    // Handle Google login
+                                  },
+                                  onAppleTap: () {
+                                    // Handle Apple login
+                                  },
+                                  onFacebookTap: () {
+                                    // Handle Facebook login
+                                  },
+                                  onPrivacyPolicyTap: () {
+                                    // Handle privacy policy
+                                  },
+                                  onTermsOfServiceTap: () {
+                                    // Handle terms of service
+                                  },
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ),
-                ],
-              ),
+                );
+              },
             ),
           ),
         );

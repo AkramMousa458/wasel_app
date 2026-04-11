@@ -12,12 +12,10 @@ class NoInternetScreen extends StatelessWidget {
         final isDisconnected = state == ConnectionStatus.disconnected;
 
         return Scaffold(
-          body: AnimatedPositioned(
+          body: AnimatedSlide(
             duration: const Duration(milliseconds: 500),
             curve: Curves.fastEaseInToSlowEaseOut,
-            top: isDisconnected ? 0 : -100,
-            left: 0,
-            right: 0,
+            offset: isDisconnected ? Offset.zero : const Offset(0, -1),
             child: Material(
               color: Colors.transparent,
               child: Container(

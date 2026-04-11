@@ -18,14 +18,14 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       // backgroundColor: Colors.white,
-      appBar: PreferredSize(
-        preferredSize: Size.fromHeight(80.h),
-        child: const CustomAppBar(
-          title: 'home',
-          isBack: false,
-          action: Row(children: [LanguageToggleButton(), ThemeToggleButton()]),
-        ),
-      ),
+      // appBar: PreferredSize(
+      //   preferredSize: Size.fromHeight(80.h),
+      //   child: const CustomAppBar(
+      //     title: 'home',
+      //     isBack: false,
+      //     action: Row(children: [LanguageToggleButton(), ThemeToggleButton()]),
+      //   ),
+      // ),
       body: const SafeArea(child: HomeScreenBody()),
     );
   }

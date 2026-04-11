@@ -1,6 +1,7 @@
 class Endpoint {
   static const String requestPhoneOtp = 'api/v1/auth/request-phone-otp';
   static const String verifyPhone = 'api/v1/auth/verify-phone';
+  static const String refreshToken = 'api/v1/auth/refresh-token';
   static const String getProfile = 'api/v1/users/profile/me';
   static const String updateProfile = 'api/v1/users/profile/me';
   static const String profileImage = 'api/v1/users/profile/me/photo';

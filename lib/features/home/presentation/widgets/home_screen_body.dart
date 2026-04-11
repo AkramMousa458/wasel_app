@@ -25,6 +25,7 @@ class HomeScreenBody extends StatelessWidget {
             SingleChildScrollView(
               child: Column(
                 children: [
+                  SizedBox(height: 10.h),
                   HomeHeader(isDark: isDark),
                   SizedBox(height: 20.h),
                   HomeQuestionText(isDark: isDark),

@@ -6,16 +6,24 @@ import 'package:equatable/equatable.dart';
 class AuthModel extends Equatable {
   final bool? success;
   final String? message;
-  final String? token;
+  final String? accessToken;
+  final String? refreshToken;
   final UserModel? user;
 
-  const AuthModel({this.success, this.message, this.token, this.user});
+  const AuthModel({
+    this.success,
+    this.message,
+    this.accessToken,
+    this.refreshToken,
+    this.user,
+  });
 
   factory AuthModel.fromJson(Map<String, dynamic> json) {
     return AuthModel(
       success: json['success'],
       message: json['message'],
-      token: json['token'],
+      accessToken: json['accessToken'],
+      refreshToken: json['refreshToken'],
       user: json['user'] != null ? UserModel.fromJson(json['user']) : null,
     );
   }
@@ -24,13 +32,14 @@ class AuthModel extends Equatable {
     return {
       'success': success,
       'message': message,
-      'token': token,
+      'accessToken': accessToken,
+      'refreshToken': refreshToken,
       'user': user?.toJson(),
     };
   }
 
   @override
-  List<Object?> get props => [success, message, token, user];
+  List<Object?> get props => [success, message, accessToken, refreshToken, user];
 }
 
 /// =======================
@@ -42,9 +51,10 @@ class UserModel extends Equatable {
   final String? email;
   final String? phone;
   final String? phoneCountry;
+  final String? birthDate;
   final String? role;
   final String? image;
-
+  final String? status;
   final bool? isActive;
   final bool? isBanned;
   final bool? isDeleted;
@@ -61,10 +71,10 @@ class UserModel extends Equatable {
 
   final List<SavedAddress> savedAddresses;
 
-  final String? birthDate;
   final String? createdAt;
   final String? updatedAt;
-  final int? v;
+  final int? iV;
+  final UserLocation? location;
 
   const UserModel({
     this.id,
@@ -72,8 +82,10 @@ class UserModel extends Equatable {
     this.email,
     this.phone,
     this.phoneCountry,
+    this.birthDate,
     this.role,
     this.image,
+    this.status,
     this.isActive,
     this.isBanned,
     this.isDeleted,
@@ -85,21 +97,23 @@ class UserModel extends Equatable {
     this.wallet,
     this.pushToken,
     this.savedAddresses = const [],
-    this.birthDate,
     this.createdAt,
     this.updatedAt,
-    this.v,
+    this.iV,
+    this.location,
   });
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
     return UserModel(
-      id: json['_id'],
+      id: json['_id'] ?? json['id'],
       name: json['name'] != null ? UserName.fromJson(json['name']) : null,
       email: json['email'],
       phone: json['phone'],
       phoneCountry: json['phoneCountry'],
+      birthDate: json['birthDate'],
       role: json['role'],
       image: json['image'],
+      status: json['status'],
       isActive: json['isActive'],
       isBanned: json['isBanned'],
       isDeleted: json['isDeleted'],
@@ -115,10 +129,12 @@ class UserModel extends Equatable {
               json['savedAddresses'].map((e) => SavedAddress.fromJson(e)),
             )
           : const [],
-      birthDate: json['birthDate'],
       createdAt: json['createdAt'],
       updatedAt: json['updatedAt'],
-      v: json['__v'],
+      iV: json['__v'],
+      location: json['location'] != null
+          ? UserLocation.fromJson(json['location'])
+          : null,
     );
   }
 
@@ -129,8 +145,10 @@ class UserModel extends Equatable {
       'email': email,
       'phone': phone,
       'phoneCountry': phoneCountry,
+      'birthDate': birthDate,
       'role': role,
       'image': image,
+      'status': status,
       'isActive': isActive,
       'isBanned': isBanned,
       'isDeleted': isDeleted,
@@ -144,10 +162,10 @@ class UserModel extends Equatable {
       'savedAddresses': savedAddresses
           .map((address) => address.toJson())
           .toList(),
-      'birthDate': birthDate,
       'createdAt': createdAt,
       'updatedAt': updatedAt,
-      '__v': v,
+      '__v': iV,
+      'location': location?.toJson(),
     };
   }
 
@@ -157,8 +175,10 @@ class UserModel extends Equatable {
     String? email,
     String? phone,
     String? phoneCountry,
+    String? birthDate,
     String? role,
     String? image,
+    String? status,
     bool? isActive,
     bool? isBanned,
     bool? isDeleted,
@@ -170,10 +190,10 @@ class UserModel extends Equatable {
     dynamic wallet,
     String? pushToken,
     List<SavedAddress>? savedAddresses,
-    String? birthDate,
     String? createdAt,
     String? updatedAt,
-    int? v,
+    int? iV,
+    UserLocation? location,
   }) {
     return UserModel(
       id: id ?? this.id,
@@ -181,8 +201,10 @@ class UserModel extends Equatable {
       email: email ?? this.email,
       phone: phone ?? this.phone,
       phoneCountry: phoneCountry ?? this.phoneCountry,
+      birthDate: birthDate ?? this.birthDate,
       role: role ?? this.role,
       image: image ?? this.image,
+      status: status ?? this.status,
       isActive: isActive ?? this.isActive,
       isBanned: isBanned ?? this.isBanned,
       isDeleted: isDeleted ?? this.isDeleted,
@@ -194,10 +216,10 @@ class UserModel extends Equatable {
       wallet: wallet ?? this.wallet,
       pushToken: pushToken ?? this.pushToken,
       savedAddresses: savedAddresses ?? this.savedAddresses,
-      birthDate: birthDate ?? this.birthDate,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
-      v: v ?? this.v,
+      iV: iV ?? this.iV,
+      location: location ?? this.location,
     );
   }
 
@@ -208,8 +230,10 @@ class UserModel extends Equatable {
     email,
     phone,
     phoneCountry,
+    birthDate,
     role,
     image,
+    status,
     isActive,
     isBanned,
     isDeleted,
@@ -221,10 +245,10 @@ class UserModel extends Equatable {
     wallet,
     pushToken,
     savedAddresses,
-    birthDate,
     createdAt,
     updatedAt,
-    v,
+    iV,
+    location,
   ];
 }
 
@@ -281,7 +305,6 @@ class SavedAddress extends Equatable {
     return {
       '_id': id,
       'label': label,
-      'address': address.toJson(),
       'location': location.toJson(),
       'isDefault': isDefault,
     };

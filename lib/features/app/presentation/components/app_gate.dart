@@ -15,16 +15,31 @@ class AppGate extends StatefulWidget {
   State<AppGate> createState() => _AppGateState();
 }
 
-class _AppGateState extends State<AppGate> {
+class _AppGateState extends State<AppGate> with WidgetsBindingObserver {
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
     // Check initial state in case the listener missed the transition
     // widgets binding to ensure context is valid for navigation
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final state = context.read<AppCubit>().state;
       _onAppStateChanged(context, state);
     });
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      if (!mounted) return;
+      context.read<AppCubit>().refreshTokenOnAppResume();
+    }
   }
 
   void _onAppStateChanged(BuildContext context, AppState state) {
