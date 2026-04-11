@@ -11,6 +11,61 @@ import 'package:wasel/features/profile/data/repo/profile_repo_impl.dart';
 class AppCubit extends Cubit<AppState> {
   AppCubit() : super(AppInitial());
 
+  bool _refreshTokensInFlight = false;
+
+  /// POST [Endpoint.refreshToken] with stored refresh token; persists new tokens.
+  /// Returns `false` if refresh failed (session cleared, [AppUnauthenticated] emitted).
+  Future<bool> _refreshAccessTokenWithStoredRefresh(
+    LocalStorage localStorage,
+    String refreshToken,
+  ) async {
+    if (_refreshTokensInFlight) {
+      log('AppCubit: Token refresh already in progress, skipping duplicate.');
+      return true;
+    }
+    _refreshTokensInFlight = true;
+    try {
+      final refreshResult = await locator<AuthRepoImpl>().refreshAccessToken(
+        refreshToken: refreshToken,
+      );
+      return await refreshResult.fold<Future<bool>>(
+        (failure) async {
+          log(
+            'AppCubit: Token refresh failed — ${failure.message}. Logging out.',
+          );
+          await localStorage.logout();
+          emit(AppUnauthenticated());
+          return false;
+        },
+        (authModel) async {
+          if (authModel.accessToken != null) {
+            await localStorage.saveAuthToken(authModel.accessToken!);
+          }
+          if (authModel.refreshToken != null) {
+            await localStorage.saveRefreshToken(authModel.refreshToken!);
+          }
+          log('AppCubit: Token refreshed successfully.');
+          return true;
+        },
+      );
+    } finally {
+      _refreshTokensInFlight = false;
+    }
+  }
+
+  /// Call when the app returns to foreground so access token stays valid.
+  Future<void> refreshTokenOnAppResume() async {
+    final localStorage = locator<LocalStorage>();
+    final storedRefreshToken = localStorage.refreshToken;
+    if (storedRefreshToken == null || storedRefreshToken.isEmpty) {
+      return;
+    }
+    await _refreshAccessTokenWithStoredRefresh(
+      localStorage,
+      storedRefreshToken,
+    );
+  }
+
   Future<void> checkAuth() async {
     emit(AppInitial());
     final localStorage = locator<LocalStorage>();
@@ -29,34 +84,17 @@ class AppCubit extends Cubit<AppState> {
     }
 
     if (hasRefreshToken) {
-      final refreshResult = await locator<AuthRepoImpl>().refreshAccessToken(
-        refreshToken: storedRefreshToken,
+      final ok = await _refreshAccessTokenWithStoredRefresh(
+        localStorage,
+        storedRefreshToken,
       );
-      await refreshResult.fold(
-        (failure) async {
-          log(
-            'AppCubit: Token refresh failed — ${failure.message}. Logging out.',
-          );
-          await localStorage.logout();
-          emit(AppUnauthenticated());
-        },
-        (authModel) async {
-          if (authModel.accessToken != null) {
-            await localStorage.saveAuthToken(authModel.accessToken!);
-          }
-          if (authModel.refreshToken != null) {
-            await localStorage.saveRefreshToken(authModel.refreshToken!);
-          }
-          log('AppCubit: Token refreshed successfully.');
-        },
-      );
-      if (state is AppUnauthenticated) return;
+      if (!ok) return;
     }
 
     final result = await locator<ProfileRepoImpl>().getProfile();
 
-    result.fold(
-      (failure) {
+    await result.fold<Future<void>>(
+      (failure) async {
         log('AppCubit: API failed, falling back to local. ${failure.message}');
         _emitStateFromUser(localStorage.getUserProfile());
       },
