@@ -140,5 +140,21 @@
   "save": "Save",
   "close": "Close",
   "confirm_delete_address": "Delete Address?",
-  "delete_address_message": "Are you sure you want to delete this address?"
+  "delete_address_message": "Are you sure you want to delete this address?",
+  "order_select_route": "Select Route",
+  "order_step_format": "Step {current} of {total}",
+  "order_from": "FROM",
+  "order_to": "TO",
+  "order_current_location": "Current Location",
+  "order_where_going": "Where are we going?",
+  "order_confirm_locations": "Confirm Locations",
+  "order_favorites": "Favorites",
+  "order_pickup_label": "Pickup",
+  "order_dropoff_label": "Drop-off",
+  "order_search_pickup_hint": "Search pickup location",
+  "order_searching": "Searching…",
+  "order_search_failed": "Could not search places. Try again.",
+  "order_no_results": "No places found. Try different words.",
+  "order_select_dropoff_required": "Search and select a drop-off location.",
+  "order_no_saved_for_quick": "No saved address for this shortcut."
 }

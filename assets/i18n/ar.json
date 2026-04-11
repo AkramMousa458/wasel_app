@@ -140,5 +140,21 @@
   "save": "حفظ",
   "close": "إغلاق",
   "confirm_delete_address": "حذف العنوان؟",
-  "delete_address_message": "هل أنت متأكد من حذف هذا العنوان؟"
+  "delete_address_message": "هل أنت متأكد من حذف هذا العنوان؟",
+  "order_select_route": "اختر المسار",
+  "order_step_format": "الخطوة {current} من {total}",
+  "order_from": "من",
+  "order_to": "إلى",
+  "order_current_location": "موقعي الحالي",
+  "order_where_going": "إلى أين نذهب؟",
+  "order_confirm_locations": "تأكيد المواقع",
+  "order_favorites": "المفضلة",
+  "order_pickup_label": "استلام",
+  "order_dropoff_label": "تسليم",
+  "order_search_pickup_hint": "ابحث عن موقع الاستلام",
+  "order_searching": "جاري البحث…",
+  "order_search_failed": "تعذر البحث. حاول مرة أخرى.",
+  "order_no_results": "لا توجد نتائج. جرّب كلمات أخرى.",
+  "order_select_dropoff_required": "ابحث واختر موقع التسليم.",
+  "order_no_saved_for_quick": "لا يوجد عنوان محفوظ لهذا الاختصار."
 }

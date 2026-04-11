@@ -4,6 +4,7 @@ import 'package:wasel/features/auth/presentation/screens/login_screen.dart';
 import 'package:wasel/features/app/presentation/components/app_shell.dart';
 import 'package:wasel/features/auth/presentation/screens/complete_profile_screen.dart';
 import 'package:wasel/features/base/presentation/screens/base_screen.dart';
+import 'package:wasel/features/order/presentation/screens/order_select_route_screen.dart';
 import 'package:wasel/features/order_history/presentation/screens/order_history_screen.dart';
 import 'package:wasel/features/profile/presentation/screens/edit_profile_screen.dart';
 import 'package:wasel/features/profile/presentation/screens/profile_screen.dart';
@@ -52,6 +53,10 @@ abstract class AppRouter {
           GoRoute(
             path: BaseScreen.routeName,
             builder: (context, state) => const BaseScreen(),
+          ),
+          GoRoute(
+            path: OrderSelectRouteScreen.routeName,
+            builder: (context, state) => const OrderSelectRouteScreen(),
           ),
           GoRoute(
             path: OrderHistoryScreen.routeName,

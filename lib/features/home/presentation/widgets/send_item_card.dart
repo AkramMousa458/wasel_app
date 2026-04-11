@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:go_router/go_router.dart';
+import 'package:wasel/features/order/presentation/screens/order_select_route_screen.dart';
 import 'package:wasel/core/language/language_cubit.dart';
 import 'package:wasel/features/home/presentation/widgets/popular_widget.dart';
 
@@ -37,6 +39,7 @@ class SendItemCard extends StatelessWidget {
         clipBehavior: Clip.hardEdge,
         child: InkWell(
           onTap: () {
+            context.push(OrderSelectRouteScreen.routeName);
           },
           child: Stack(
             children: [

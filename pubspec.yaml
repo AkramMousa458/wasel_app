@@ -51,6 +51,9 @@ dependencies:
   shared_preferences: ^2.5.3
   shimmer: ^3.0.0
   top_snackbar_flutter: ^3.3.0
+  flutter_map: ^8.2.2
+  latlong2: ^0.9.1
+  geolocator: ^14.0.2
 
 dev_dependencies:
   flutter_launcher_icons: ^0.14.4

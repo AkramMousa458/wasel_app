@@ -87,7 +87,7 @@ class CustomBottomNavBar extends StatelessWidget {
             Positioned(
               left: 0,
               right: 0,
-              top: -25.h,
+              top: -15.h,
               child: Center(child: _buildCenterButton(context: context)),
             ),
           ],
