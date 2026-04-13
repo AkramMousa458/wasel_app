@@ -45,11 +45,11 @@ class MyApp extends StatelessWidget {
                   builder: (context, child) {
                     return BlocBuilder<ConnectionCubit, ConnectionStatus>(
                       builder: (context, connectionState) {
-                        if (connectionState == ConnectionStatus.disconnected) {
-                          return NoInternetScreen();
-                        } else {
-                          return child!;
-                        }
+                        // if (connectionState == ConnectionStatus.disconnected) {
+                        // return NoInternetScreen();
+                        // } else {
+                        return child!;
+                        // }
                       },
                     );
                   },

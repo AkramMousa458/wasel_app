@@ -16,6 +16,8 @@ class OrderRouteSelectionState extends Equatable {
   /// Bumps when a place is committed so UI can sync [TextEditingController]s.
   final int selectionRevision;
   final bool dropoffUserConfirmed;
+  /// Road geometry from OSRM; `null` means show straight fallback until loaded or on error.
+  final List<LatLng>? routePoints;
 
   const OrderRouteSelectionState({
     required this.pickup,
@@ -28,6 +30,7 @@ class OrderRouteSelectionState extends Equatable {
     this.activeSearchField,
     this.selectionRevision = 0,
     this.dropoffUserConfirmed = false,
+    this.routePoints,
   });
 
   OrderRouteSelectionState copyWith({
@@ -43,6 +46,8 @@ class OrderRouteSelectionState extends Equatable {
     bool clearActiveSearchField = false,
     int? selectionRevision,
     bool? dropoffUserConfirmed,
+    List<LatLng>? routePoints,
+    bool clearRoutePoints = false,
   }) {
     return OrderRouteSelectionState(
       pickup: pickup ?? this.pickup,
@@ -60,6 +65,7 @@ class OrderRouteSelectionState extends Equatable {
           : (activeSearchField ?? this.activeSearchField),
       selectionRevision: selectionRevision ?? this.selectionRevision,
       dropoffUserConfirmed: dropoffUserConfirmed ?? this.dropoffUserConfirmed,
+      routePoints: clearRoutePoints ? null : (routePoints ?? this.routePoints),
     );
   }
 
@@ -75,5 +81,6 @@ class OrderRouteSelectionState extends Equatable {
     activeSearchField,
     selectionRevision,
     dropoffUserConfirmed,
+    routePoints,
   ];
 }

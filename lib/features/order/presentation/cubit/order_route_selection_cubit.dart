@@ -5,11 +5,13 @@ import 'package:latlong2/latlong.dart';
 import 'package:wasel/features/auth/data/models/auth_model.dart';
 import 'package:wasel/features/order/data/models/order_place_suggestion.dart';
 import 'package:wasel/features/order/data/services/nominatim_place_search_service.dart';
+import 'package:wasel/features/order/data/services/order_osrm_route_service.dart';
 import 'package:wasel/features/order/presentation/cubit/order_route_selection_state.dart';
 
 class OrderRouteSelectionCubit extends Cubit<OrderRouteSelectionState> {
   OrderRouteSelectionCubit(
-    this._searchService, {
+    this._searchService,
+    this._routeService, {
     required LatLng initialPickup,
     required LatLng initialDropoff,
     required String initialPickupLabel,
@@ -21,17 +23,36 @@ class OrderRouteSelectionCubit extends Cubit<OrderRouteSelectionState> {
            pickupCommittedLabel: initialPickupLabel,
            dropoffCommittedLabel: initialDropoffLabel,
          ),
-       );
+       ) {
+    Future.microtask(_refreshRoute);
+  }
 
   final NominatimPlaceSearchService _searchService;
+  final OrderOsrmRouteService _routeService;
   Timer? _debounce;
+  int _routeRequestId = 0;
 
   static const Duration _debounceDelay = Duration(milliseconds: 450);
 
   @override
   Future<void> close() {
     _debounce?.cancel();
+    _routeRequestId++;
     return super.close();
+  }
+
+  Future<void> _refreshRoute() async {
+    final pickup = state.pickup;
+    final dropoff = state.dropoff;
+    final id = ++_routeRequestId;
+    try {
+      final points = await _routeService.getDrivingRoute(pickup, dropoff);
+      if (isClosed || id != _routeRequestId) return;
+      emit(state.copyWith(routePoints: points));
+    } catch (_) {
+      if (isClosed || id != _routeRequestId) return;
+      emit(state.copyWith(clearRoutePoints: true));
+    }
   }
 
   void focusPickupField() {
@@ -129,8 +150,10 @@ class OrderRouteSelectionCubit extends Cubit<OrderRouteSelectionState> {
         isSearching: false,
         clearActiveSearchField: true,
         selectionRevision: state.selectionRevision + 1,
+        clearRoutePoints: true,
       ),
     );
+    _refreshRoute();
   }
 
   void selectSuggestion(OrderPlaceSuggestion suggestion) {
@@ -147,6 +170,7 @@ class OrderRouteSelectionCubit extends Cubit<OrderRouteSelectionState> {
           isSearching: false,
           clearActiveSearchField: true,
           selectionRevision: state.selectionRevision + 1,
+          clearRoutePoints: true,
         ),
       );
     } else {
@@ -159,9 +183,11 @@ class OrderRouteSelectionCubit extends Cubit<OrderRouteSelectionState> {
           clearActiveSearchField: true,
           selectionRevision: state.selectionRevision + 1,
           dropoffUserConfirmed: true,
+          clearRoutePoints: true,
         ),
       );
     }
+    _refreshRoute();
   }
 
   /// Applies a saved profile address to **drop-off** (typical for Home / Work).
@@ -181,8 +207,10 @@ class OrderRouteSelectionCubit extends Cubit<OrderRouteSelectionState> {
         clearActiveSearchField: true,
         selectionRevision: state.selectionRevision + 1,
         dropoffUserConfirmed: true,
+        clearRoutePoints: true,
       ),
     );
+    _refreshRoute();
   }
 
   String _formatSavedAddressLine(SavedAddress address) {

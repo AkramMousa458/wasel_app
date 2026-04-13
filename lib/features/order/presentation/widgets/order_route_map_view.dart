@@ -13,6 +13,7 @@ class OrderRouteMapView extends StatelessWidget {
     required this.mapController,
     required this.pickup,
     required this.dropoff,
+    this.routePoints,
     this.fitPaddingBottom = 280,
   });
 
@@ -20,6 +21,8 @@ class OrderRouteMapView extends StatelessWidget {
   final MapController mapController;
   final LatLng pickup;
   final LatLng dropoff;
+  /// OSRM road geometry; when null, a dashed straight segment is shown.
+  final List<LatLng>? routePoints;
   /// Space reserved for the bottom sheet when fitting the route (logical px).
   final double fitPaddingBottom;
 
@@ -28,11 +31,19 @@ class OrderRouteMapView extends StatelessWidget {
     final template = OrderMapConfig.urlTemplate(isDark);
     final subdomains = OrderMapConfig.subdomainsForTemplate(isDark);
 
+    final hasRoad =
+        routePoints != null && routePoints!.isNotEmpty;
+    final linePoints =
+        hasRoad ? routePoints! : <LatLng>[pickup, dropoff];
+    final routeBounds = hasRoad
+        ? LatLngBounds.fromPoints(routePoints!)
+        : LatLngBounds(pickup, dropoff);
+
     return FlutterMap(
       mapController: mapController,
       options: MapOptions(
         initialCameraFit: CameraFit.bounds(
-          bounds: LatLngBounds(pickup, dropoff),
+          bounds: routeBounds,
           padding: EdgeInsets.only(
             left: 48,
             right: 48,
@@ -43,7 +54,7 @@ class OrderRouteMapView extends StatelessWidget {
         minZoom: 3,
         maxZoom: 18,
         interactionOptions: const InteractionOptions(
-          flags: InteractiveFlag.all & ~InteractiveFlag.rotate,
+          flags: InteractiveFlag.all,
         ),
         backgroundColor:
             isDark ? AppColors.darkScaffold : AppColors.lightScaffold,
@@ -57,10 +68,12 @@ class OrderRouteMapView extends StatelessWidget {
         PolylineLayer(
           polylines: [
             Polyline(
-              points: [pickup, dropoff],
+              points: linePoints,
               color: AppColors.primary,
               strokeWidth: 4,
-              pattern: StrokePattern.dashed(segments: [14, 10]),
+              pattern: hasRoad
+                  ? const StrokePattern.solid()
+                  : StrokePattern.dashed(segments: const [14, 10]),
             ),
           ],
         ),

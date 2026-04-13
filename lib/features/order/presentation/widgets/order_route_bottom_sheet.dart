@@ -5,6 +5,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:wasel/core/utils/app_colors.dart';
 import 'package:wasel/core/utils/app_styles.dart';
 import 'package:wasel/core/widgets/custom_button.dart';
+import 'package:wasel/features/auth/data/models/auth_model.dart';
 import 'package:wasel/features/order/data/models/order_place_suggestion.dart';
 import 'package:wasel/features/order/presentation/cubit/order_route_selection_state.dart';
 import 'package:wasel/features/order/presentation/widgets/order_route_search_suggestions.dart';
@@ -26,9 +27,8 @@ class OrderRouteBottomSheet extends StatelessWidget {
     required this.onDropoffChanged,
     required this.onSuggestionSelected,
     required this.onConfirm,
-    required this.onQuickHome,
-    required this.onQuickWork,
-    required this.onQuickFavorites,
+    required this.savedAddresses,
+    required this.onSavedAddressSelected,
   });
 
   /// From [DraggableScrollableSheet] — required so the sheet drags correctly.
@@ -46,9 +46,9 @@ class OrderRouteBottomSheet extends StatelessWidget {
   final ValueChanged<String> onDropoffChanged;
   final ValueChanged<OrderPlaceSuggestion> onSuggestionSelected;
   final VoidCallback onConfirm;
-  final VoidCallback onQuickHome;
-  final VoidCallback onQuickWork;
-  final VoidCallback onQuickFavorites;
+  /// From [UserModel.savedAddresses], same source as profile saved places.
+  final List<SavedAddress> savedAddresses;
+  final ValueChanged<SavedAddress> onSavedAddressSelected;
 
   @override
   Widget build(BuildContext context) {
@@ -200,36 +200,24 @@ class OrderRouteBottomSheet extends StatelessWidget {
                 connectorColor: borderColor,
               ),
               SizedBox(height: 16.h),
-              Row(
-                children: [
-                  Expanded(
-                    child: _QuickChip(
-                      isDark: isDark,
-                      icon: FontAwesomeIcons.house,
-                      labelKey: 'home',
-                      onTap: onQuickHome,
-                    ),
-                  ),
-                  SizedBox(width: 10.w),
-                  Expanded(
-                    child: _QuickChip(
-                      isDark: isDark,
-                      icon: FontAwesomeIcons.briefcase,
-                      labelKey: 'work',
-                      onTap: onQuickWork,
-                    ),
-                  ),
-                  SizedBox(width: 10.w),
-                  Expanded(
-                    child: _QuickChip(
-                      isDark: isDark,
-                      icon: FontAwesomeIcons.heart,
-                      labelKey: 'order_favorites',
-                      onTap: onQuickFavorites,
-                    ),
-                  ),
-                ],
+              Text(
+                translate('saved_places'),
+                style: AppStyles.textstyle14.copyWith(
+                  color: primaryText,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
+              SizedBox(height: 10.h),
+              if (savedAddresses.isEmpty)
+                _SavedPlacesEmptyHint(isDark: isDark, borderColor: borderColor)
+              else
+                ..._sortedSavedAddresses(savedAddresses).map(
+                  (address) => _SavedAddressQuickTile(
+                    isDark: isDark,
+                    address: address,
+                    onTap: () => onSavedAddressSelected(address),
+                  ),
+                ),
               SizedBox(height: 20.h),
               CustomButton(
                 text: 'order_confirm_locations',
@@ -362,51 +350,176 @@ class _DashedLinePainter extends CustomPainter {
   bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
 }
 
-class _QuickChip extends StatelessWidget {
-  const _QuickChip({
+/// Same ordering as [ProfileSavedPlacesSection]: default address first.
+List<SavedAddress> _sortedSavedAddresses(List<SavedAddress> addresses) {
+  final sorted = List<SavedAddress>.from(addresses);
+  sorted.sort((a, b) {
+    if (a.isDefault) return -1;
+    if (b.isDefault) return 1;
+    return 0;
+  });
+  return sorted;
+}
+
+class _SavedPlacesEmptyHint extends StatelessWidget {
+  const _SavedPlacesEmptyHint({
     required this.isDark,
-    required this.icon,
-    required this.labelKey,
+    required this.borderColor,
+  });
+
+  final bool isDark;
+  final Color borderColor;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      padding: EdgeInsets.symmetric(vertical: 16.h, horizontal: 12.w),
+      decoration: BoxDecoration(
+        color: isDark ? AppColors.darkInputFill : AppColors.lightInputFill,
+        borderRadius: BorderRadius.circular(14.r),
+        border: Border.all(color: borderColor),
+      ),
+      child: Row(
+        children: [
+          Icon(
+            Icons.location_off_outlined,
+            size: 22.sp,
+            color: isDark ? AppColors.darkTextSecondary : AppColors.grey,
+          ),
+          SizedBox(width: 10.w),
+          Expanded(
+            child: Text(
+              translate('no_saved_places'),
+              style: AppStyles.textstyle12.copyWith(
+                color: isDark ? AppColors.darkTextSecondary : AppColors.grey,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _SavedAddressQuickTile extends StatelessWidget {
+  const _SavedAddressQuickTile({
+    required this.isDark,
+    required this.address,
     required this.onTap,
   });
 
   final bool isDark;
-  final IconData icon;
-  final String labelKey;
+  final SavedAddress address;
   final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
-    final bg = isDark ? AppColors.darkInputFill : AppColors.lightInputFill;
-    final fg = isDark ? AppColors.darkTextPrimary : AppColors.lightTextPrimary;
+    final icon = _savedPlaceIcon(address.label);
+    final iconColor = _savedPlaceIconColor(address.label);
+    final subtitle = _formatSavedAddressLine(address.address);
 
-    return Material(
-      color: bg,
-      borderRadius: BorderRadius.circular(14.r),
-      clipBehavior: Clip.antiAlias,
-      child: InkWell(
-        onTap: onTap,
-        child: Padding(
-          padding: EdgeInsets.symmetric(vertical: 12.h),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Icon(icon, size: 18.sp, color: fg),
-              SizedBox(height: 6.h),
-              Text(
-                translate(labelKey),
-                style: AppStyles.textstyle12.copyWith(
-                  color: fg,
-                  fontWeight: FontWeight.w600,
+    return Padding(
+      padding: EdgeInsets.only(bottom: 12.h),
+      child: Material(
+        color: isDark ? AppColors.darkCard : AppColors.white,
+        borderRadius: BorderRadius.circular(16.r),
+        clipBehavior: Clip.antiAlias,
+        child: InkWell(
+          onTap: onTap,
+          child: Container(
+            padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 12.h),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(16.r),
+              border: address.isDefault
+                  ? Border.all(color: AppColors.primary, width: 2)
+                  : Border.all(
+                      color: isDark
+                          ? AppColors.darkInputFill
+                          : AppColors.lightBorder,
+                    ),
+            ),
+            child: Row(
+              children: [
+                Container(
+                  padding: EdgeInsets.all(10.r),
+                  decoration: BoxDecoration(
+                    color: iconColor.withValues(alpha: 0.2),
+                    borderRadius: BorderRadius.circular(12.r),
+                  ),
+                  child: Icon(icon, color: iconColor, size: 22.sp),
                 ),
-                textAlign: TextAlign.center,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-              ),
-            ],
+                SizedBox(width: 12.w),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        address.label,
+                        style: AppStyles.textstyle14.copyWith(
+                          color: isDark ? AppColors.white : AppColors.black,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      if (subtitle.isNotEmpty) ...[
+                        SizedBox(height: 4.h),
+                        Text(
+                          subtitle,
+                          style: AppStyles.textstyle12.copyWith(
+                            color: isDark
+                                ? AppColors.darkTextSecondary
+                                : AppColors.grey,
+                          ),
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ],
+                    ],
+                  ),
+                ),
+                Icon(
+                  Icons.chevron_right_rounded,
+                  color: isDark
+                      ? AppColors.darkTextSecondary
+                      : AppColors.grey,
+                ),
+              ],
+            ),
           ),
         ),
       ),
     );
   }
+}
+
+IconData _savedPlaceIcon(String label) {
+  final lower = label.toLowerCase();
+  if (lower.contains('home') || lower.contains('المنزل')) {
+    return Icons.home_rounded;
+  }
+  if (lower.contains('work') || lower.contains('العمل')) {
+    return Icons.work_rounded;
+  }
+  return Icons.location_on_rounded;
+}
+
+Color _savedPlaceIconColor(String label) {
+  final lower = label.toLowerCase();
+  if (lower.contains('home') || lower.contains('المنزل')) {
+    return AppColors.secondary;
+  }
+  if (lower.contains('work') || lower.contains('العمل')) {
+    return const Color(0xFF3B82F6);
+  }
+  return AppColors.primary;
+}
+
+String _formatSavedAddressLine(AddressDetails address) {
+  final parts = [
+    address.street,
+    address.city,
+  ].where((e) => e.trim().isNotEmpty).toList();
+  return parts.take(2).join(', ');
 }
