@@ -18,6 +18,8 @@ class OrderRouteSelectionState extends Equatable {
   final bool dropoffUserConfirmed;
   /// Road geometry from OSRM; `null` means show straight fallback until loaded or on error.
   final List<LatLng>? routePoints;
+  /// Driving distance from OSRM in kilometers.
+  final double? routeDistanceKm;
 
   const OrderRouteSelectionState({
     required this.pickup,
@@ -31,6 +33,7 @@ class OrderRouteSelectionState extends Equatable {
     this.selectionRevision = 0,
     this.dropoffUserConfirmed = false,
     this.routePoints,
+    this.routeDistanceKm,
   });
 
   OrderRouteSelectionState copyWith({
@@ -48,6 +51,8 @@ class OrderRouteSelectionState extends Equatable {
     bool? dropoffUserConfirmed,
     List<LatLng>? routePoints,
     bool clearRoutePoints = false,
+    double? routeDistanceKm,
+    bool clearRouteDistance = false,
   }) {
     return OrderRouteSelectionState(
       pickup: pickup ?? this.pickup,
@@ -66,6 +71,9 @@ class OrderRouteSelectionState extends Equatable {
       selectionRevision: selectionRevision ?? this.selectionRevision,
       dropoffUserConfirmed: dropoffUserConfirmed ?? this.dropoffUserConfirmed,
       routePoints: clearRoutePoints ? null : (routePoints ?? this.routePoints),
+      routeDistanceKm: clearRouteDistance
+          ? null
+          : (routeDistanceKm ?? this.routeDistanceKm),
     );
   }
 
@@ -82,5 +90,6 @@ class OrderRouteSelectionState extends Equatable {
     selectionRevision,
     dropoffUserConfirmed,
     routePoints,
+    routeDistanceKm,
   ];
 }

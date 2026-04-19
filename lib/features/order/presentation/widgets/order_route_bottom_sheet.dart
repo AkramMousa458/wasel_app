@@ -21,6 +21,7 @@ class OrderRouteBottomSheet extends StatelessWidget {
     required this.isSearching,
     required this.activeSearchField,
     required this.searchErrorKey,
+    required this.routeDistanceKm,
     required this.onPickupTap,
     required this.onDropoffTap,
     required this.onPickupChanged,
@@ -40,6 +41,7 @@ class OrderRouteBottomSheet extends StatelessWidget {
   final bool isSearching;
   final OrderRouteSearchField? activeSearchField;
   final String? searchErrorKey;
+  final double? routeDistanceKm;
   final VoidCallback onPickupTap;
   final VoidCallback onDropoffTap;
   final ValueChanged<String> onPickupChanged;
@@ -199,6 +201,33 @@ class OrderRouteBottomSheet extends StatelessWidget {
                 showConnector: false,
                 connectorColor: borderColor,
               ),
+              if (routeDistanceKm != null) ...[
+                SizedBox(height: 8.h),
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 10.h),
+                  decoration: BoxDecoration(
+                    color: isDark
+                        ? AppColors.darkInputFill
+                        : AppColors.lightInputFill,
+                    borderRadius: BorderRadius.circular(12.r),
+                    border: Border.all(color: borderColor),
+                  ),
+                  child: Row(
+                    children: [
+                      Icon(
+                        Icons.route_rounded,
+                        size: 18.sp,
+                        color: AppColors.primary,
+                      ),
+                      SizedBox(width: 8.w),
+                      Text(
+                        '${translate('order_distance')}: ${routeDistanceKm!.toStringAsFixed(1)} km',
+                        style: AppStyles.textstyle12.copyWith(color: primaryText),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
               SizedBox(height: 16.h),
               Text(
                 translate('saved_places'),
@@ -211,11 +240,24 @@ class OrderRouteBottomSheet extends StatelessWidget {
               if (savedAddresses.isEmpty)
                 _SavedPlacesEmptyHint(isDark: isDark, borderColor: borderColor)
               else
-                ..._sortedSavedAddresses(savedAddresses).map(
-                  (address) => _SavedAddressQuickTile(
-                    isDark: isDark,
-                    address: address,
-                    onTap: () => onSavedAddressSelected(address),
+                SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    children: _sortedSavedAddresses(savedAddresses)
+                        .map(
+                          (address) => Padding(
+                            padding: EdgeInsetsDirectional.only(end: 12.w),
+                            child: SizedBox(
+                              width: 250.w,
+                              child: _SavedAddressQuickTile(
+                                isDark: isDark,
+                                address: address,
+                                onTap: () => onSavedAddressSelected(address),
+                              ),
+                            ),
+                          ),
+                        )
+                        .toList(),
                   ),
                 ),
               SizedBox(height: 20.h),
@@ -420,7 +462,7 @@ class _SavedAddressQuickTile extends StatelessWidget {
     final subtitle = _formatSavedAddressLine(address.address);
 
     return Padding(
-      padding: EdgeInsets.only(bottom: 12.h),
+      padding: EdgeInsets.zero,
       child: Material(
         color: isDark ? AppColors.darkCard : AppColors.white,
         borderRadius: BorderRadius.circular(16.r),

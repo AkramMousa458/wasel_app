@@ -41,17 +41,22 @@ class OrderRouteSelectionCubit extends Cubit<OrderRouteSelectionState> {
     return super.close();
   }
 
-  Future<void> _refreshRoute() async {
-    final pickup = state.pickup;
-    final dropoff = state.dropoff;
+  Future<void> _refreshRoute({LatLng? pickup, LatLng? dropoff}) async {
+    final from = pickup ?? state.pickup;
+    final to = dropoff ?? state.dropoff;
     final id = ++_routeRequestId;
     try {
-      final points = await _routeService.getDrivingRoute(pickup, dropoff);
+      final route = await _routeService.getDrivingRoute(from, to);
       if (isClosed || id != _routeRequestId) return;
-      emit(state.copyWith(routePoints: points));
+      emit(
+        state.copyWith(
+        routePoints: route.points,
+          routeDistanceKm: route.distanceMeters / 1000,
+        ),
+      );
     } catch (_) {
       if (isClosed || id != _routeRequestId) return;
-      emit(state.copyWith(clearRoutePoints: true));
+      emit(state.copyWith(clearRoutePoints: true, clearRouteDistance: true));
     }
   }
 
@@ -151,6 +156,7 @@ class OrderRouteSelectionCubit extends Cubit<OrderRouteSelectionState> {
         clearActiveSearchField: true,
         selectionRevision: state.selectionRevision + 1,
         clearRoutePoints: true,
+        clearRouteDistance: true,
       ),
     );
     _refreshRoute();
@@ -171,6 +177,7 @@ class OrderRouteSelectionCubit extends Cubit<OrderRouteSelectionState> {
           clearActiveSearchField: true,
           selectionRevision: state.selectionRevision + 1,
           clearRoutePoints: true,
+          clearRouteDistance: true,
         ),
       );
     } else {
@@ -184,6 +191,7 @@ class OrderRouteSelectionCubit extends Cubit<OrderRouteSelectionState> {
           selectionRevision: state.selectionRevision + 1,
           dropoffUserConfirmed: true,
           clearRoutePoints: true,
+          clearRouteDistance: true,
         ),
       );
     }
@@ -197,10 +205,11 @@ class OrderRouteSelectionCubit extends Cubit<OrderRouteSelectionState> {
     if (c.length < 2) return;
     final lng = c[0];
     final lat = c[1];
+    final nextDropoff = LatLng(lat, lng);
     final label = _formatSavedAddressLine(address);
     emit(
       state.copyWith(
-        dropoff: LatLng(lat, lng),
+        dropoff: nextDropoff,
         dropoffCommittedLabel: label,
         suggestions: const [],
         isSearching: false,
@@ -208,9 +217,10 @@ class OrderRouteSelectionCubit extends Cubit<OrderRouteSelectionState> {
         selectionRevision: state.selectionRevision + 1,
         dropoffUserConfirmed: true,
         clearRoutePoints: true,
+        clearRouteDistance: true,
       ),
     );
-    _refreshRoute();
+    _refreshRoute(pickup: state.pickup, dropoff: nextDropoff);
   }
 
   String _formatSavedAddressLine(SavedAddress address) {

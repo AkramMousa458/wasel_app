@@ -29,10 +29,10 @@ class OrderSelectRouteScreen extends StatefulWidget {
 }
 
 class _OrderSelectRouteScreenState extends State<OrderSelectRouteScreen> {
-  static const int _totalSteps = 5;
+  static const int _totalSteps = 4;
   static const double _sheetInitial = 0.5;
   static const double _sheetMin = 0.22;
-  static const double _sheetMax = 0.95;
+  static const double _sheetMax = 0.90;
 
   final MapController _mapController = MapController();
   late final TextEditingController _pickupCtrl;
@@ -195,7 +195,12 @@ class _OrderSelectRouteScreenState extends State<OrderSelectRouteScreen> {
                     minChildSize: _sheetMin,
                     maxChildSize: _sheetMax,
                     snap: true,
-                    snapSizes: const [_sheetMin, _sheetInitial, _sheetMax],
+                    snapSizes: const [
+                      _sheetMin,
+                      _sheetInitial,
+                      _sheetInitial + 0.2,
+                      _sheetMax,
+                    ],
                     builder: (sheetContext, scrollController) {
                       return BlocBuilder<ProfileCubit, ProfileState>(
                         builder: (context, profileState) {
@@ -216,6 +221,7 @@ class _OrderSelectRouteScreenState extends State<OrderSelectRouteScreen> {
                                 isSearching: state.isSearching,
                                 activeSearchField: state.activeSearchField,
                                 searchErrorKey: state.searchError,
+                                routeDistanceKm: state.routeDistanceKm,
                                 onPickupTap: () => context
                                     .read<OrderRouteSelectionCubit>()
                                     .focusPickupField(),

@@ -20,10 +20,10 @@ class OrderOsrmRouteService {
 
   final Dio _dio;
 
-  /// Ordered points along the driving route (roads). Throws if routing fails.
-  Future<List<LatLng>> getDrivingRoute(LatLng from, LatLng to) async {
+  /// Ordered points and distance along the driving route (roads). Throws if routing fails.
+  Future<OrderDrivingRoute> getDrivingRoute(LatLng from, LatLng to) async {
     if (from.latitude == to.latitude && from.longitude == to.longitude) {
-      return [from];
+      return OrderDrivingRoute(points: [from], distanceMeters: 0);
     }
 
     final path =
@@ -50,6 +50,8 @@ class OrderOsrmRouteService {
 
     final route0 = routes.first;
     if (route0 is! Map<String, dynamic>) throw Exception('Bad route entry');
+    final distanceRaw = route0['distance'];
+    if (distanceRaw is! num) throw Exception('Bad distance');
 
     final geom = route0['geometry'];
     if (geom is! Map) throw Exception('Bad geometry');
@@ -65,6 +67,19 @@ class OrderOsrmRouteService {
       out.add(LatLng(lat, lon));
     }
     if (out.isEmpty) throw Exception('Empty geometry');
-    return out;
+    return OrderDrivingRoute(
+      points: out,
+      distanceMeters: distanceRaw.toDouble(),
+    );
   }
+}
+
+class OrderDrivingRoute {
+  const OrderDrivingRoute({
+    required this.points,
+    required this.distanceMeters,
+  });
+
+  final List<LatLng> points;
+  final double distanceMeters;
 }
