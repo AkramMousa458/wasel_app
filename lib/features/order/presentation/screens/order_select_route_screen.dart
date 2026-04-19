@@ -198,7 +198,7 @@ class _OrderSelectRouteScreenState extends State<OrderSelectRouteScreen> {
                     snapSizes: const [
                       _sheetMin,
                       _sheetInitial,
-                      _sheetInitial + 0.2,
+                      _sheetInitial + 0.1,
                       _sheetMax,
                     ],
                     builder: (sheetContext, scrollController) {

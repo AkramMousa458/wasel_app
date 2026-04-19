@@ -152,10 +152,12 @@
   "order_pickup_label": "Pickup",
   "order_dropoff_label": "Drop-off",
   "order_search_pickup_hint": "Search pickup location",
+  "search_pickup_hint": "Search location",
   "order_searching": "Searching…",
   "order_search_failed": "Could not search places. Try again.",
   "order_no_results": "No places found. Try different words.",
   "order_distance": "Distance",
   "order_select_dropoff_required": "Search and select a drop-off location.",
-  "order_no_saved_for_quick": "No saved address for this shortcut."
+  "order_no_saved_for_quick": "No saved address for this shortcut.",
+  "no_location_set": "No location set"
 }

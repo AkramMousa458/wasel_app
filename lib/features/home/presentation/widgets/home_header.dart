@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_translate/flutter_translate.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:wasel/core/utils/app_colors.dart';
@@ -47,7 +48,9 @@ class HomeHeader extends StatelessWidget {
   String _displayLocationFromState(ProfileState state) {
     final user = _userFromState(state);
 
-    if (user?.savedAddresses.isEmpty ?? true) return 'No location set';
+    if (user?.savedAddresses.isEmpty ?? true) {
+      return translate('no_location_set');
+    }
 
     return user!.savedAddresses
         .firstWhere((address) => address.isDefault)

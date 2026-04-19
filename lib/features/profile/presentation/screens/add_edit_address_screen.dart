@@ -2,11 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_translate/flutter_translate.dart';
+import 'package:latlong2/latlong.dart';
 import 'package:wasel/core/utils/app_colors.dart';
 import 'package:wasel/core/utils/app_styles.dart';
 import 'package:wasel/features/auth/data/models/auth_model.dart';
 import 'package:wasel/features/profile/presentation/manager/profile_cubit.dart';
 import 'package:wasel/features/profile/presentation/manager/profile_state.dart';
+import 'dart:async';
+
+import 'package:wasel/features/profile/presentation/screens/address_location_picker_screen.dart';
 
 class AddEditAddressScreen extends StatefulWidget {
   final SavedAddress? address;
@@ -18,6 +22,7 @@ class AddEditAddressScreen extends StatefulWidget {
 }
 
 class _AddEditAddressScreenState extends State<AddEditAddressScreen> {
+  static const LatLng _fallbackLocation = LatLng(30.0444196, 31.2357116);
   final _formKey = GlobalKey<FormState>();
 
   late TextEditingController _labelController;
@@ -27,6 +32,7 @@ class _AddEditAddressScreenState extends State<AddEditAddressScreen> {
   late TextEditingController _buildingController;
   late TextEditingController _floorController;
   late TextEditingController _doorController;
+  late LatLng _selectedLocation;
   bool _isDefault = false;
 
   @override
@@ -44,6 +50,12 @@ class _AddEditAddressScreenState extends State<AddEditAddressScreen> {
     );
     _floorController = TextEditingController(text: addr?.address.floor ?? '');
     _doorController = TextEditingController(text: addr?.address.door ?? '');
+    final coords = addr?.location.coordinates;
+    if (coords != null && coords.length >= 2) {
+      _selectedLocation = LatLng(coords[1], coords[0]);
+    } else {
+      _selectedLocation = _fallbackLocation;
+    }
     _isDefault = addr?.isDefault ?? false;
   }
 
@@ -66,9 +78,9 @@ class _AddEditAddressScreenState extends State<AddEditAddressScreen> {
         "location": {
           "type": "Point",
           "coordinates": [
-            31.2357116,
-            30.0444196,
-          ], // Mock coordinates or use current location
+            _selectedLocation.longitude,
+            _selectedLocation.latitude,
+          ],
         },
         "address": {
           "governorate": _governorateController.text,
@@ -87,6 +99,17 @@ class _AddEditAddressScreenState extends State<AddEditAddressScreen> {
         context.read<ProfileCubit>().addAddress(body);
       }
     }
+  }
+
+  Future<void> _openMapPicker() async {
+    final picked = await Navigator.of(context).push<LatLng>(
+      MaterialPageRoute(
+        builder: (_) =>
+            AddressLocationPickerScreen(initialLocation: _selectedLocation),
+      ),
+    );
+    if (picked == null || !mounted) return;
+    setState(() => _selectedLocation = picked);
   }
 
   @override
@@ -119,6 +142,59 @@ class _AddEditAddressScreenState extends State<AddEditAddressScreen> {
                   _labelController,
                   translate('label'),
                   isRequired: true,
+                ),
+                Container(
+                  margin: EdgeInsets.only(bottom: 16.h),
+                  padding: EdgeInsets.all(12.r),
+                  decoration: BoxDecoration(
+                    border: Border.all(color: AppColors.lightBorder),
+                    borderRadius: BorderRadius.circular(12.r),
+                  ),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              translate('location_from_map'),
+                              style: AppStyles.textstyle14.copyWith(
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                            SizedBox(height: 6.h),
+                            Text(
+                              '${_selectedLocation.latitude.toStringAsFixed(6)}, ${_selectedLocation.longitude.toStringAsFixed(6)}',
+                              style: AppStyles.textstyle12.copyWith(
+                                color: AppColors.grey,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(width: 10.w),
+                      ElevatedButton(
+                        onPressed: _openMapPicker,
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: AppColors.primary,
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 14.w,
+                            vertical: 10.h,
+                          ),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10.r),
+                          ),
+                        ),
+                        child: Text(
+                          translate('set_on_map'),
+                          style: AppStyles.textstyle12.copyWith(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
                 _buildTextField(
                   _governorateController,

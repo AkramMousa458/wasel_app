@@ -152,10 +152,12 @@
   "order_pickup_label": "استلام",
   "order_dropoff_label": "تسليم",
   "order_search_pickup_hint": "ابحث عن موقع الاستلام",
+  "search_pickup_hint": "ابحث عن الموقع",
   "order_searching": "جاري البحث…",
   "order_search_failed": "تعذر البحث. حاول مرة أخرى.",
   "order_no_results": "لا توجد نتائج. جرّب كلمات أخرى.",
   "order_distance": "المسافة",
   "order_select_dropoff_required": "ابحث واختر موقع التسليم.",
-  "order_no_saved_for_quick": "لا يوجد عنوان محفوظ لهذا الاختصار."
+  "order_no_saved_for_quick": "لا يوجد عنوان محفوظ لهذا الاختصار.",
+  "no_location_set": "لا يوجد موقع محدد"
 }
