@@ -7,6 +7,8 @@ import 'package:wasel/core/utils/app_styles.dart';
 import 'package:wasel/core/utils/theme_utils.dart';
 import 'package:wasel/core/widgets/custom_button.dart';
 import 'package:wasel/features/order/data/models/order_package_details_draft.dart';
+import 'package:wasel/features/order/data/models/order_review_draft.dart';
+import 'package:wasel/features/order/presentation/screens/order_step_four_review_order_screen.dart';
 import 'package:wasel/features/order/presentation/widgets/order_step_three/order_payment_method_tile.dart';
 import 'package:wasel/features/order/presentation/widgets/order_step_three/order_payment_summary_card.dart';
 import 'package:wasel/features/order/presentation/widgets/order_steps_text_widget.dart';
@@ -26,6 +28,26 @@ class OrderStepThreePickupDetailsScreen extends StatefulWidget {
 class _OrderStepThreePickupDetailsScreenState
     extends State<OrderStepThreePickupDetailsScreen> {
   String _selectedMethod = _PaymentMethod.cashOnDelivery.id;
+  static const double _deliveryFee = 5.0;
+  static const double _serviceFee = 1.5;
+
+  void _goToReview() {
+    final package = widget.draft;
+    if (package == null) return;
+    final selectedMethod = _PaymentMethod.values.firstWhere(
+      (method) => method.id == _selectedMethod,
+      orElse: () => _PaymentMethod.cashOnDelivery,
+    );
+    final reviewDraft = OrderReviewDraft(
+      packageDraft: package,
+      paymentMethodId: selectedMethod.id,
+      paymentMethodLabel: translate(selectedMethod.titleKey),
+      deliveryFee: _deliveryFee,
+      serviceFee: _serviceFee,
+      estimatedWeightKg: 2.5,
+    );
+    context.push(OrderStepFourReviewOrderScreen.routeName, extra: reviewDraft);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -109,14 +131,14 @@ class _OrderStepThreePickupDetailsScreenState
               ),
               SizedBox(height: 6.h),
               OrderPaymentSummaryCard(
-                deliveryFee: 5.0,
-                serviceFee: 1.5,
+                deliveryFee: _deliveryFee,
+                serviceFee: _serviceFee,
                 isDark: isDark,
               ),
               SizedBox(height: 16.h),
               CustomButton(
                 text: 'order_confirm_order',
-                onPressed: () {},
+                onPressed: widget.draft == null ? null : _goToReview,
                 borderRadius: 16.r,
                 icon: Icon(
                   Directionality.of(context) == TextDirection.rtl

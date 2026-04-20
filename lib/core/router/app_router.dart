@@ -5,7 +5,10 @@ import 'package:wasel/features/app/presentation/components/app_shell.dart';
 import 'package:wasel/features/auth/presentation/screens/complete_profile_screen.dart';
 import 'package:wasel/features/base/presentation/screens/base_screen.dart';
 import 'package:wasel/features/order/data/models/order_package_details_draft.dart';
+import 'package:wasel/features/order/data/models/order_review_draft.dart';
+import 'package:wasel/features/order/data/models/order_route_details_draft.dart';
 import 'package:wasel/features/order/presentation/screens/order_step_one_select_route_screen.dart';
+import 'package:wasel/features/order/presentation/screens/order_step_four_review_order_screen.dart';
 import 'package:wasel/features/order/presentation/screens/order_step_two_package_details_screen.dart';
 import 'package:wasel/features/order/presentation/screens/order_step_three_pickup_details_screen.dart';
 import 'package:wasel/features/order_history/presentation/screens/order_history_screen.dart';
@@ -63,14 +66,28 @@ abstract class AppRouter {
           ),
           GoRoute(
             path: OrderStepTwoPackageDetailsScreen.routeName,
-            builder: (context, state) =>
-                const OrderStepTwoPackageDetailsScreen(),
+            builder: (context, state) {
+              final routeDetails = state.extra as OrderRouteDetailsDraft?;
+              return OrderStepTwoPackageDetailsScreen(
+                routeDetails: routeDetails,
+              );
+            },
           ),
           GoRoute(
             path: OrderStepThreePickupDetailsScreen.routeName,
             builder: (context, state) {
               final draft = state.extra as OrderPackageDetailsDraft?;
               return OrderStepThreePickupDetailsScreen(draft: draft);
+            },
+          ),
+          GoRoute(
+            path: OrderStepFourReviewOrderScreen.routeName,
+            builder: (context, state) {
+              final reviewDraft = state.extra as OrderReviewDraft?;
+              if (reviewDraft == null) {
+                return const OrderStepThreePickupDetailsScreen();
+              }
+              return OrderStepFourReviewOrderScreen(reviewDraft: reviewDraft);
             },
           ),
           GoRoute(

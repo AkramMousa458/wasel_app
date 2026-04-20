@@ -12,6 +12,7 @@ import 'package:wasel/features/order/data/services/order_device_location_service
 import 'package:wasel/features/order/presentation/constants/order_route_defaults.dart';
 import 'package:wasel/features/order/presentation/cubit/order_route_selection_cubit.dart';
 import 'package:wasel/features/order/presentation/cubit/order_route_selection_state.dart';
+import 'package:wasel/features/order/data/models/order_route_details_draft.dart';
 import 'package:wasel/features/order/presentation/screens/order_step_two_package_details_screen.dart';
 import 'package:wasel/features/order/presentation/widgets/order_route_app_bar.dart';
 import 'package:wasel/features/order/presentation/widgets/order_route_bottom_sheet.dart';
@@ -259,6 +260,11 @@ class _OrderStepOneSelectRouteScreenState
                                       .dismissSuggestions();
                                   context.push(
                                     OrderStepTwoPackageDetailsScreen.routeName,
+                                    extra: OrderRouteDetailsDraft(
+                                      pickupAddress: state.pickupCommittedLabel,
+                                      dropoffAddress:
+                                          state.dropoffCommittedLabel,
+                                    ),
                                   );
                                 },
                                 savedAddresses: saved,
