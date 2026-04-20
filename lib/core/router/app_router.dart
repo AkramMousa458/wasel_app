@@ -70,9 +70,6 @@ abstract class AppRouter {
             path: OrderStepThreePickupDetailsScreen.routeName,
             builder: (context, state) {
               final draft = state.extra as OrderPackageDetailsDraft?;
-              if (draft == null) {
-                return const OrderStepTwoPackageDetailsScreen();
-              }
               return OrderStepThreePickupDetailsScreen(draft: draft);
             },
           ),

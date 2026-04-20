@@ -1,152 +1,167 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_translate/flutter_translate.dart';
+import 'package:go_router/go_router.dart';
 import 'package:wasel/core/utils/app_colors.dart';
 import 'package:wasel/core/utils/app_styles.dart';
 import 'package:wasel/core/utils/theme_utils.dart';
 import 'package:wasel/core/widgets/custom_button.dart';
 import 'package:wasel/features/order/data/models/order_package_details_draft.dart';
-import 'package:wasel/features/order/presentation/widgets/order_step_two/order_step_two_header.dart';
+import 'package:wasel/features/order/presentation/widgets/order_step_three/order_payment_method_tile.dart';
+import 'package:wasel/features/order/presentation/widgets/order_step_three/order_payment_summary_card.dart';
+import 'package:wasel/features/order/presentation/widgets/order_steps_text_widget.dart';
 
-class OrderStepThreePickupDetailsScreen extends StatelessWidget {
-  const OrderStepThreePickupDetailsScreen({super.key, required this.draft});
+class OrderStepThreePickupDetailsScreen extends StatefulWidget {
+  const OrderStepThreePickupDetailsScreen({super.key, this.draft});
 
   static const String routeName = '/order/pickup-details';
 
-  final OrderPackageDetailsDraft draft;
+  final OrderPackageDetailsDraft? draft;
+
+  @override
+  State<OrderStepThreePickupDetailsScreen> createState() =>
+      _OrderStepThreePickupDetailsScreenState();
+}
+
+class _OrderStepThreePickupDetailsScreenState
+    extends State<OrderStepThreePickupDetailsScreen> {
+  String _selectedMethod = _PaymentMethod.cashOnDelivery.id;
 
   @override
   Widget build(BuildContext context) {
     final isDark = ThemeUtils.isDark(context);
-    final cardColor = isDark ? AppColors.darkCard : AppColors.white;
-    final textColor = isDark ? AppColors.white : AppColors.lightTextPrimary;
-    final secondaryTextColor = isDark
+    final titleColor = isDark ? AppColors.white : AppColors.lightTextPrimary;
+    final subtitleColor = isDark
         ? AppColors.darkTextSecondary
         : AppColors.lightTextSecondary;
+    final bgColor = isDark ? AppColors.darkScaffold : const Color(0xFFEAF0F7);
 
     return Scaffold(
+      backgroundColor: bgColor,
       body: SafeArea(
-        child: Column(
-          children: [
-            OrderStepTwoHeader(
-              isDark: isDark,
-              currentStep: 3,
-              totalSteps: 5,
-              title: translate('order_pickup_details_title'),
-            ),
-            Expanded(
-              child: Padding(
-                padding: EdgeInsets.all(16.w),
-                child: Container(
-                  width: double.infinity,
-                  padding: EdgeInsets.all(16.w),
-                  decoration: BoxDecoration(
-                    color: cardColor,
-                    borderRadius: BorderRadius.circular(24.r),
+        child: SingleChildScrollView(
+          padding: EdgeInsets.fromLTRB(16.w, 10.h, 16.w, 16.h),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  Material(
+                    color: isDark ? AppColors.darkCard : AppColors.white,
+                    shape: const CircleBorder(),
+                    clipBehavior: Clip.antiAlias,
+                    child: IconButton(
+                      onPressed: () => context.pop(),
+                      icon: Icon(
+                        Icons.arrow_back_ios_new_rounded,
+                        color: titleColor,
+                        size: 18.sp,
+                      ),
+                    ),
                   ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        translate('order_step_three_connected'),
-                        style: AppStyles.textstyle16.copyWith(
-                          color: textColor,
-                          fontWeight: FontWeight.w700,
-                        ),
+                  const Spacer(),
+                  OrderStepsTextWidget(currentStep: 3, totalSteps: 4),
+                  const Spacer(),
+                  Material(
+                    color: isDark ? AppColors.darkCard : AppColors.white,
+                    shape: const CircleBorder(),
+                    clipBehavior: Clip.antiAlias,
+                    child: IconButton(
+                      onPressed: () {},
+                      icon: Icon(
+                        Icons.help_outline_rounded,
+                        color: titleColor,
+                        size: 20.sp,
                       ),
-                      SizedBox(height: 14.h),
-                      if (draft.imagePath != null) ...[
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(12.r),
-                          child: Image.file(
-                            File(draft.imagePath!),
-                            width: double.infinity,
-                            height: 130.h,
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                        SizedBox(height: 12.h),
-                      ],
-                      _InfoRow(
-                        label: translate('order_package_size'),
-                        value: _localizedPackageSize(draft.packageSize),
-                        textColor: textColor,
-                        secondaryTextColor: secondaryTextColor,
-                      ),
-                      SizedBox(height: 10.h),
-                      _InfoRow(
-                        label: translate('order_details'),
-                        value: draft.details,
-                        textColor: textColor,
-                        secondaryTextColor: secondaryTextColor,
-                      ),
-                      const Spacer(),
-                      CustomButton(
-                        text: 'order_continue',
-                        onPressed: () {},
-                        borderRadius: 16.r,
-                      ),
-                    ],
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(height: 20.h),
+              Text(
+                translate('order_payment'),
+                style: AppStyles.textstyle20.copyWith(
+                  color: titleColor,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+              SizedBox(height: 4.h),
+              Text(
+                translate('order_choose_payment_method'),
+                style: AppStyles.textstyle15.copyWith(
+                  color: subtitleColor,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              SizedBox(height: 18.h),
+              ..._PaymentMethod.values.map(
+                (method) => Padding(
+                  padding: EdgeInsets.only(bottom: 12.h),
+                  child: OrderPaymentMethodTile(
+                    icon: method.icon,
+                    title: translate(method.titleKey),
+                    subtitle: translate(method.subtitleKey),
+                    isSelected: _selectedMethod == method.id,
+                    isDark: isDark,
+                    onTap: () => setState(() => _selectedMethod = method.id),
                   ),
                 ),
               ),
-            ),
-          ],
+              SizedBox(height: 6.h),
+              OrderPaymentSummaryCard(
+                deliveryFee: 5.0,
+                serviceFee: 1.5,
+                isDark: isDark,
+              ),
+              SizedBox(height: 16.h),
+              CustomButton(
+                text: 'order_confirm_order',
+                onPressed: () {},
+                borderRadius: 16.r,
+                icon: Icon(
+                  Directionality.of(context) == TextDirection.rtl
+                      ? Icons.arrow_back_rounded
+                      : Icons.arrow_forward_rounded,
+                  color: Colors.white,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
   }
-
-  String _localizedPackageSize(String sizeId) {
-    switch (sizeId) {
-      case 'small':
-        return translate('order_package_small');
-      case 'medium':
-        return translate('order_package_medium');
-      case 'large':
-        return translate('order_package_large');
-      default:
-        return sizeId;
-    }
-  }
 }
 
-class _InfoRow extends StatelessWidget {
-  const _InfoRow({
-    required this.label,
-    required this.value,
-    required this.textColor,
-    required this.secondaryTextColor,
+enum _PaymentMethod {
+  cashOnDelivery(
+    id: 'cash_on_delivery',
+    icon: Icons.payments_outlined,
+    titleKey: 'order_payment_cash_on_delivery',
+    subtitleKey: 'order_payment_cash_on_delivery_subtitle',
+  ),
+  card(
+    id: 'debit_credit_card',
+    icon: Icons.credit_card_rounded,
+    titleKey: 'order_payment_debit_credit_card',
+    subtitleKey: 'order_payment_debit_credit_card_subtitle',
+  ),
+  applePay(
+    id: 'apple_pay',
+    icon: Icons.phone_iphone_rounded,
+    titleKey: 'order_payment_apple_pay',
+    subtitleKey: 'order_payment_apple_pay_subtitle',
+  );
+
+  const _PaymentMethod({
+    required this.id,
+    required this.icon,
+    required this.titleKey,
+    required this.subtitleKey,
   });
 
-  final String label;
-  final String value;
-  final Color textColor;
-  final Color secondaryTextColor;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          label,
-          style: AppStyles.textstyle12.copyWith(
-            color: secondaryTextColor,
-            fontWeight: FontWeight.w700,
-          ),
-        ),
-        SizedBox(height: 4.h),
-        Text(
-          value,
-          style: AppStyles.textstyle14.copyWith(
-            color: textColor,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-      ],
-    );
-  }
+  final String id;
+  final IconData icon;
+  final String titleKey;
+  final String subtitleKey;
 }
