@@ -4,6 +4,7 @@ import 'package:flutter_translate/flutter_translate.dart';
 import 'package:go_router/go_router.dart';
 import 'package:wasel/core/utils/app_colors.dart';
 import 'package:wasel/core/utils/app_styles.dart';
+import 'package:wasel/features/order/presentation/widgets/order_steps_text_widget.dart';
 
 class OrderRouteAppBar extends StatelessWidget {
   const OrderRouteAppBar({
@@ -46,23 +47,7 @@ class OrderRouteAppBar extends StatelessWidget {
                 ),
               ),
 
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
-                decoration: BoxDecoration(
-                  color: AppColors.primary,
-                  borderRadius: BorderRadius.circular(20.r),
-                ),
-                child: Text(
-                  translate(
-                    'order_step_format',
-                    args: {'current': '$currentStep', 'total': '$totalSteps'},
-                  ),
-                  style: AppStyles.textstyle12.copyWith(
-                    color: AppColors.white,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-              ),
+              OrderStepsTextWidget(currentStep: currentStep, totalSteps: totalSteps),
             ],
           ),
           Positioned(
@@ -84,3 +69,4 @@ class OrderRouteAppBar extends StatelessWidget {
     );
   }
 }
+

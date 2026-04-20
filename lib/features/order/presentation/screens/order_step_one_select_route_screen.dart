@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_translate/flutter_translate.dart';
+import 'package:go_router/go_router.dart';
 import 'package:wasel/core/utils/custom_snack_bar.dart';
 import 'package:wasel/core/utils/theme_utils.dart';
 import 'package:wasel/features/auth/data/models/auth_model.dart';
@@ -11,6 +12,7 @@ import 'package:wasel/features/order/data/services/order_device_location_service
 import 'package:wasel/features/order/presentation/constants/order_route_defaults.dart';
 import 'package:wasel/features/order/presentation/cubit/order_route_selection_cubit.dart';
 import 'package:wasel/features/order/presentation/cubit/order_route_selection_state.dart';
+import 'package:wasel/features/order/presentation/screens/order_step_two_package_details_screen.dart';
 import 'package:wasel/features/order/presentation/widgets/order_route_app_bar.dart';
 import 'package:wasel/features/order/presentation/widgets/order_route_bottom_sheet.dart';
 import 'package:wasel/features/order/presentation/widgets/order_route_map_view.dart';
@@ -19,16 +21,18 @@ import 'package:wasel/features/profile/presentation/manager/profile_cubit.dart';
 import 'package:wasel/features/profile/presentation/manager/profile_state.dart';
 
 /// Step 1 of 4 — select pickup / drop-off via search (Nominatim) or saved places.
-class OrderSelectRouteScreen extends StatefulWidget {
-  const OrderSelectRouteScreen({super.key});
+class OrderStepOneSelectRouteScreen extends StatefulWidget {
+  const OrderStepOneSelectRouteScreen({super.key});
 
   static const String routeName = '/order/select-route';
 
   @override
-  State<OrderSelectRouteScreen> createState() => _OrderSelectRouteScreenState();
+  State<OrderStepOneSelectRouteScreen> createState() =>
+      _OrderStepOneSelectRouteScreenState();
 }
 
-class _OrderSelectRouteScreenState extends State<OrderSelectRouteScreen> {
+class _OrderStepOneSelectRouteScreenState
+    extends State<OrderStepOneSelectRouteScreen> {
   static const int _totalSteps = 4;
   static const double _sheetInitial = 0.5;
   static const double _sheetMin = 0.22;
@@ -253,7 +257,9 @@ class _OrderSelectRouteScreenState extends State<OrderSelectRouteScreen> {
                                   context
                                       .read<OrderRouteSelectionCubit>()
                                       .dismissSuggestions();
-                                  // Step 2 — wire navigation when ready
+                                  context.push(
+                                    OrderStepTwoPackageDetailsScreen.routeName,
+                                  );
                                 },
                                 savedAddresses: saved,
                                 onSavedAddressSelected: (address) => context

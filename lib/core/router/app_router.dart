@@ -4,7 +4,10 @@ import 'package:wasel/features/auth/presentation/screens/login_screen.dart';
 import 'package:wasel/features/app/presentation/components/app_shell.dart';
 import 'package:wasel/features/auth/presentation/screens/complete_profile_screen.dart';
 import 'package:wasel/features/base/presentation/screens/base_screen.dart';
-import 'package:wasel/features/order/presentation/screens/order_select_route_screen.dart';
+import 'package:wasel/features/order/data/models/order_package_details_draft.dart';
+import 'package:wasel/features/order/presentation/screens/order_step_one_select_route_screen.dart';
+import 'package:wasel/features/order/presentation/screens/order_step_two_package_details_screen.dart';
+import 'package:wasel/features/order/presentation/screens/order_step_three_pickup_details_screen.dart';
 import 'package:wasel/features/order_history/presentation/screens/order_history_screen.dart';
 import 'package:wasel/features/profile/presentation/screens/edit_profile_screen.dart';
 import 'package:wasel/features/profile/presentation/screens/profile_screen.dart';
@@ -55,8 +58,23 @@ abstract class AppRouter {
             builder: (context, state) => const BaseScreen(),
           ),
           GoRoute(
-            path: OrderSelectRouteScreen.routeName,
-            builder: (context, state) => const OrderSelectRouteScreen(),
+            path: OrderStepOneSelectRouteScreen.routeName,
+            builder: (context, state) => const OrderStepOneSelectRouteScreen(),
+          ),
+          GoRoute(
+            path: OrderStepTwoPackageDetailsScreen.routeName,
+            builder: (context, state) =>
+                const OrderStepTwoPackageDetailsScreen(),
+          ),
+          GoRoute(
+            path: OrderStepThreePickupDetailsScreen.routeName,
+            builder: (context, state) {
+              final draft = state.extra as OrderPackageDetailsDraft?;
+              if (draft == null) {
+                return const OrderStepTwoPackageDetailsScreen();
+              }
+              return OrderStepThreePickupDetailsScreen(draft: draft);
+            },
           ),
           GoRoute(
             path: OrderHistoryScreen.routeName,
