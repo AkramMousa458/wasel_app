@@ -8,7 +8,6 @@ import 'package:wasel/core/theme/theme_cubit.dart';
 import 'package:wasel/core/router/app_router.dart';
 import 'package:wasel/core/utils/local_storage.dart';
 import 'package:wasel/features/no_internet/presentation/manager/connection_cubit.dart';
-import 'package:wasel/features/no_internet/presentation/screens/no_internet_screen.dart';
 
 class MyApp extends StatelessWidget {
   final LocalStorage localStorage;

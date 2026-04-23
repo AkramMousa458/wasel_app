@@ -6,6 +6,7 @@ import 'package:wasel/core/utils/app_colors.dart';
 import 'package:wasel/core/utils/app_styles.dart';
 import 'package:wasel/core/utils/theme_utils.dart';
 import 'package:wasel/core/widgets/custom_button.dart';
+import 'package:wasel/features/base/presentation/screens/base_screen.dart';
 import 'package:wasel/features/order/data/models/order_review_draft.dart';
 import 'package:wasel/features/order/presentation/widgets/order_steps_text_widget.dart';
 
@@ -123,7 +124,9 @@ class OrderStepFourReviewOrderScreen extends StatelessWidget {
               bottom: 16.h,
               child: CustomButton(
                 text: 'order_confirm_order',
-                onPressed: () {},
+                onPressed: () {
+                  context.go(BaseScreen.routeName);
+                },
                 borderRadius: 16.r,
                 icon: const Icon(Icons.check_rounded, color: Colors.white),
               ),

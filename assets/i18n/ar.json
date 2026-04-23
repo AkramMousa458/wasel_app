@@ -207,5 +207,20 @@
   "order_payment_method": "طريقة الدفع",
   "order_prohibited_items": "العناصر المحظورة غير مسموح بها.",
   "order_read_policy": "اقرأ السياسة",
-  "no_location_set": "لا يوجد موقع محدد"
+  "no_location_set": "لا يوجد موقع محدد",
+  "live_delivery_order_id": "الطلب #{id}",
+  "live_delivery_help": "مساعدة",
+  "live_delivery_arriving_in": "الوصول خلال",
+  "live_delivery_eta_mins": "{n} دقيقة",
+  "live_delivery_courier_on_way": "المندوب {name} في الطريق إليك",
+  "live_delivery_step_assigned": "تم التعيين",
+  "live_delivery_step_picking_up": "جاري الاستلام",
+  "live_delivery_step_on_the_way": "في الطريق",
+  "live_delivery_step_delivered": "تم التسليم",
+  "live_delivery_vehicle_scooter": "سكوتر",
+  "live_delivery_chat": "محادثة",
+  "live_delivery_demo_courier": "أحمد السيد",
+  "live_delivery_map_layers_soon": "طبقات الخريطة قريباً.",
+  "live_delivery_call_soon": "الاتصال متاح قريباً.",
+  "live_delivery_chat_soon": "المحادثة متاحة قريباً."
 }

@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:wasel/core/utils/app_colors.dart';
 import 'package:wasel/core/utils/app_styles.dart';
+import 'package:wasel/features/live_delivery/data/models/live_delivery_screen_args.dart';
+import 'package:wasel/features/live_delivery/presentation/screens/live_delivery_tracking_screen.dart';
 import 'package:wasel/features/order_history/data/models/order_model.dart';
 import 'package:wasel/features/order_history/presentation/widgets/order_status_chip.dart';
 
@@ -200,7 +203,14 @@ class ActiveOrderCard extends StatelessWidget {
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      if (order.type == OrderType.delivery) {
+                        context.push(
+                          LiveDeliveryTrackingScreen.routeName,
+                          extra: LiveDeliveryScreenArgs(orderId: order.id),
+                        );
+                      }
+                    },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: AppColors.primary,
                       shape: RoundedRectangleBorder(

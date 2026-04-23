@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:wasel/core/utils/app_colors.dart';
 import 'package:wasel/core/utils/app_styles.dart';
 import 'package:flutter_translate/flutter_translate.dart';
+import 'package:wasel/features/base/presentation/screens/base_screen.dart';
 import 'package:wasel/features/home/presentation/widgets/activity_card.dart';
 
 class RecentActivitySection extends StatelessWidget {
@@ -27,7 +28,16 @@ class RecentActivitySection extends StatelessWidget {
                   : AppStyles.textstyle18.copyWith(fontWeight: FontWeight.bold),
             ),
             TextButton(
-              onPressed: () {},
+              onPressed: () {
+                // 1. ارجع للـ BaseScreen
+                Navigator.popUntil(
+                  context,
+                  ModalRoute.withName(BaseScreen.routeName),
+                );
+
+                // 2. غير التاب
+                BaseScreen.navigateToTab(1);
+              },
               child: Text(
                 translate('see_all'),
                 style: AppStyles.textstyle14.copyWith(

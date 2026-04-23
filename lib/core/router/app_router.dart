@@ -11,6 +11,8 @@ import 'package:wasel/features/order/presentation/screens/order_step_one_select_
 import 'package:wasel/features/order/presentation/screens/order_step_four_review_order_screen.dart';
 import 'package:wasel/features/order/presentation/screens/order_step_two_package_details_screen.dart';
 import 'package:wasel/features/order/presentation/screens/order_step_three_pickup_details_screen.dart';
+import 'package:wasel/features/live_delivery/data/models/live_delivery_screen_args.dart';
+import 'package:wasel/features/live_delivery/presentation/screens/live_delivery_tracking_screen.dart';
 import 'package:wasel/features/order_history/presentation/screens/order_history_screen.dart';
 import 'package:wasel/features/profile/presentation/screens/edit_profile_screen.dart';
 import 'package:wasel/features/profile/presentation/screens/profile_screen.dart';
@@ -88,6 +90,23 @@ abstract class AppRouter {
                 return const OrderStepThreePickupDetailsScreen();
               }
               return OrderStepFourReviewOrderScreen(reviewDraft: reviewDraft);
+            },
+          ),
+          GoRoute(
+            path: LiveDeliveryTrackingScreen.routeName,
+            builder: (context, state) {
+              final extra = state.extra;
+              if (extra is LiveDeliveryScreenArgs) {
+                return LiveDeliveryTrackingScreen(args: extra);
+              }
+              if (extra is String) {
+                return LiveDeliveryTrackingScreen(
+                  args: LiveDeliveryScreenArgs(orderId: extra),
+                );
+              }
+              return LiveDeliveryTrackingScreen(
+                args: const LiveDeliveryScreenArgs(orderId: 'WS-8291'),
+              );
             },
           ),
           GoRoute(

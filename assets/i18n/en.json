@@ -207,5 +207,20 @@
   "order_payment_method": "PAYMENT METHOD",
   "order_prohibited_items": "Prohibited items are not allowed.",
   "order_read_policy": "Read our policy",
-  "no_location_set": "No location set"
+  "no_location_set": "No location set",
+  "live_delivery_order_id": "Order #{id}",
+  "live_delivery_help": "Help",
+  "live_delivery_arriving_in": "Arriving in",
+  "live_delivery_eta_mins": "{n} mins",
+  "live_delivery_courier_on_way": "Your courier, {name}, is on the way",
+  "live_delivery_step_assigned": "ASSIGNED",
+  "live_delivery_step_picking_up": "PICKING UP",
+  "live_delivery_step_on_the_way": "ON THE WAY",
+  "live_delivery_step_delivered": "DELIVERED",
+  "live_delivery_vehicle_scooter": "Scooter",
+  "live_delivery_chat": "Chat",
+  "live_delivery_demo_courier": "Ahmed Al-Sayed",
+  "live_delivery_map_layers_soon": "Map layers coming soon.",
+  "live_delivery_call_soon": "Calling will be available soon.",
+  "live_delivery_chat_soon": "Chat will be available soon."
 }

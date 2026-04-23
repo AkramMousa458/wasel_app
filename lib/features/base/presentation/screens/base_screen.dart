@@ -8,11 +8,17 @@ class BaseScreen extends StatefulWidget {
   const BaseScreen({super.key});
   static const String routeName = '/base-screen';
 
+  static void navigateToTab(int index) {
+    _BaseScreenState.navigateToTab(index);
+  }
+
   @override
   State<BaseScreen> createState() => _BaseScreenState();
 }
 
 class _BaseScreenState extends State<BaseScreen> {
+  static _BaseScreenState? _instance;
+
   int _selectedIndex = 0;
 
   final List<Widget> _screens = [
@@ -27,6 +33,23 @@ class _BaseScreenState extends State<BaseScreen> {
     setState(() {
       _selectedIndex = index;
     });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _instance = this;
+  }
+
+  @override
+  void dispose() {
+    _instance = null;
+    super.dispose();
+  }
+
+  static void navigateToTab(int index) {
+    
+    _instance?._onItemTapped(index);
   }
 
   @override

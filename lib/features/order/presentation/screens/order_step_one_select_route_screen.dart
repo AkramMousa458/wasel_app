@@ -167,26 +167,17 @@ class _OrderStepOneSelectRouteScreenState
                       p.routePoints != c.routePoints,
                   builder: (context, state) {
                     final h = MediaQuery.sizeOf(context).height;
-                    return Positioned.fill(
-                      child: OrderRouteMapView(
-                        isDark: isDark,
-                        mapController: _mapController,
-                        pickup: state.pickup,
-                        dropoff: state.dropoff,
-                        routePoints: state.routePoints,
-                        fitPaddingBottom: h * _sheetInitial + 48,
-                      ),
+                    return OrderRouteMapView(
+                      isDark: isDark,
+                      mapController: _mapController,
+                      pickup: state.pickup,
+                      dropoff: state.dropoff,
+                      routePoints: state.routePoints,
+                      fitPaddingBottom: h * _sheetInitial + 48,
                     );
                   },
                 ),
-                SafeArea(
-                  bottom: false,
-                  child: OrderRouteAppBar(
-                    isDark: isDark,
-                    currentStep: 1,
-                    totalSteps: _totalSteps,
-                  ),
-                ),
+
                 NotificationListener<DraggableScrollableNotification>(
                   onNotification: (notification) {
                     final next = notification.extent;
@@ -287,6 +278,18 @@ class _OrderStepOneSelectRouteScreenState
                       onPressed: () => _fitRouteBounds(fabContext),
                     );
                   },
+                ),
+                Positioned(
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  child: SafeArea(
+                    child: OrderRouteAppBar(
+                      isDark: isDark,
+                      currentStep: 1,
+                      totalSteps: _totalSteps,
+                    ),
+                  ),
                 ),
               ],
             ),
