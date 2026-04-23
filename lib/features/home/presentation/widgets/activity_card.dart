@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:wasel/core/utils/app_colors.dart';
 import 'package:wasel/core/utils/app_styles.dart';
 import 'package:flutter_translate/flutter_translate.dart';
+import 'package:wasel/features/live_delivery/data/models/live_delivery_screen_args.dart';
+import 'package:wasel/features/live_delivery/presentation/screens/live_delivery_tracking_screen.dart';
 
 class ActivityCard extends StatelessWidget {
   const ActivityCard({super.key, required this.isDark});
@@ -24,7 +27,12 @@ class ActivityCard extends StatelessWidget {
         clipBehavior: Clip.hardEdge,
         child: InkWell(
           borderRadius: BorderRadius.circular(26.r),
-          onTap: () {},
+          onTap: () {
+            context.push(
+              LiveDeliveryTrackingScreen.routeName,
+              extra: LiveDeliveryScreenArgs(orderId: 'WS-8291'),
+            );
+          },
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [

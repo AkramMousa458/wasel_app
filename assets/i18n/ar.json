@@ -222,5 +222,19 @@
   "live_delivery_demo_courier": "أحمد السيد",
   "live_delivery_map_layers_soon": "طبقات الخريطة قريباً.",
   "live_delivery_call_soon": "الاتصال متاح قريباً.",
-  "live_delivery_chat_soon": "المحادثة متاحة قريباً."
+  "live_delivery_chat_soon": "المحادثة متاحة قريباً.",
+  "live_delivery_rate_now": "تقييم المندوب",
+  "live_delivery_rating_hooray": "رائع!",
+  "live_delivery_rating_delivered": "تم تسليم الشحنة.",
+  "live_delivery_rating_reached": "وصلت شحنتك إلى",
+  "live_delivery_rating_safely": "بأمان.",
+  "live_delivery_rating_how_was": "كيف كان {name}؟",
+  "live_delivery_rating_vehicle_line": "المركبة: {vehicle} • 4.9 ★",
+  "live_delivery_tag_super_fast": "سريع جداً",
+  "live_delivery_tag_friendly": "ودود",
+  "live_delivery_tag_careful_handling": "تعامل حذر",
+  "live_delivery_tip_courier": "بقشيش للمندوب",
+  "live_delivery_tip_note": "100% تذهب للمندوب",
+  "live_delivery_send_another_item": "إرسال عنصر آخر",
+  "live_delivery_back_home": "العودة للرئيسية"
 }

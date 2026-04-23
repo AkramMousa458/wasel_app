@@ -6,7 +6,8 @@ import 'package:wasel/core/utils/app_colors.dart';
 import 'package:wasel/core/utils/app_styles.dart';
 import 'package:wasel/core/utils/theme_utils.dart';
 import 'package:wasel/core/widgets/custom_button.dart';
-import 'package:wasel/features/base/presentation/screens/base_screen.dart';
+import 'package:wasel/features/live_delivery/data/models/live_delivery_screen_args.dart';
+import 'package:wasel/features/live_delivery/presentation/screens/live_delivery_tracking_screen.dart';
 import 'package:wasel/features/order/data/models/order_review_draft.dart';
 import 'package:wasel/features/order/presentation/widgets/order_steps_text_widget.dart';
 
@@ -125,7 +126,15 @@ class OrderStepFourReviewOrderScreen extends StatelessWidget {
               child: CustomButton(
                 text: 'order_confirm_order',
                 onPressed: () {
-                  context.go(BaseScreen.routeName);
+                  context.push(
+                    LiveDeliveryTrackingScreen.routeName,
+                    extra: const LiveDeliveryScreenArgs(
+                      orderId: 'WS-8291',
+                      courierName: 'Ahmed Al-Sayed',
+                      etaMinutes: 12,
+                      currentStepIndex: 2,
+                    ),
+                  );
                 },
                 borderRadius: 16.r,
                 icon: const Icon(Icons.check_rounded, color: Colors.white),

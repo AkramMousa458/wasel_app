@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:wasel/core/utils/app_colors.dart';
 import 'package:wasel/core/utils/theme_utils.dart';
+import 'package:wasel/core/widgets/custom_button.dart';
 import 'package:wasel/features/live_delivery/presentation/widgets/live_delivery_arrival_header.dart';
 import 'package:wasel/features/live_delivery/presentation/widgets/live_delivery_chat_call_row.dart';
 import 'package:wasel/features/live_delivery/presentation/widgets/live_delivery_courier_card.dart';
@@ -17,6 +18,7 @@ class LiveDeliverySheetBody extends StatelessWidget {
     required this.courierRating,
     required this.courierAvatarUrl,
     required this.currentStepIndex,
+    this.onRateDelivery,
   });
 
   final ScrollController scrollController;
@@ -25,6 +27,7 @@ class LiveDeliverySheetBody extends StatelessWidget {
   final double courierRating;
   final String? courierAvatarUrl;
   final int currentStepIndex;
+  final VoidCallback? onRateDelivery;
 
   @override
   Widget build(BuildContext context) {
@@ -59,6 +62,15 @@ class LiveDeliverySheetBody extends StatelessWidget {
             avatarUrl: courierAvatarUrl,
           ),
           const LiveDeliveryChatCallRow(),
+          if (currentStepIndex != 3 && onRateDelivery != null) ...[
+            SizedBox(height: 12.h),
+            CustomButton(
+              text: 'live_delivery_rate_now',
+              onPressed: onRateDelivery,
+              borderRadius: 16.r,
+              icon: Icon(Icons.star_rounded, color: Colors.white, size: 20.sp),
+            ),
+          ],
         ],
       ),
     );

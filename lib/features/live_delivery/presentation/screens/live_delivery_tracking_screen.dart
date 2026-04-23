@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_translate/flutter_translate.dart';
+import 'package:go_router/go_router.dart';
 import 'package:wasel/core/utils/theme_utils.dart';
+import 'package:wasel/features/live_delivery/data/models/live_delivery_rating_args.dart';
 import 'package:wasel/features/live_delivery/data/models/live_delivery_screen_args.dart';
 import 'package:wasel/features/live_delivery/presentation/constants/live_delivery_demo_route.dart';
+import 'package:wasel/features/live_delivery/presentation/screens/live_delivery_rating_screen.dart';
 import 'package:wasel/features/live_delivery/presentation/widgets/live_delivery_map_view.dart';
 import 'package:wasel/features/live_delivery/presentation/widgets/live_delivery_sheet_body.dart';
 import 'package:wasel/features/live_delivery/presentation/widgets/live_delivery_side_fabs.dart';
@@ -61,6 +64,19 @@ class _LiveDeliveryTrackingScreenState
     );
   }
 
+  void _openRatingScreen() {
+    final courierName =
+        widget.args.courierName ?? translate('live_delivery_demo_courier');
+    context.push(
+      LiveDeliveryRatingScreen.routeName,
+      extra: LiveDeliveryRatingArgs(
+        orderId: widget.args.orderId,
+        courierName: courierName,
+        courierAvatarUrl: widget.args.courierAvatarUrl,
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final isDark = ThemeUtils.isDark(context);
@@ -101,6 +117,7 @@ class _LiveDeliveryTrackingScreenState
                   courierRating: 4.9,
                   courierAvatarUrl: widget.args.courierAvatarUrl,
                   currentStepIndex: widget.args.currentStepIndex.clamp(0, 3),
+                  onRateDelivery: _openRatingScreen,
                 );
               },
             ),

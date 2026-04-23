@@ -222,5 +222,19 @@
   "live_delivery_demo_courier": "Ahmed Al-Sayed",
   "live_delivery_map_layers_soon": "Map layers coming soon.",
   "live_delivery_call_soon": "Calling will be available soon.",
-  "live_delivery_chat_soon": "Chat will be available soon."
+  "live_delivery_chat_soon": "Chat will be available soon.",
+  "live_delivery_rate_now": "Rate Delivery",
+  "live_delivery_rating_hooray": "Hooray!",
+  "live_delivery_rating_delivered": "Shipment Delivered.",
+  "live_delivery_rating_reached": "Your package reached",
+  "live_delivery_rating_safely": "safely.",
+  "live_delivery_rating_how_was": "How was {name}?",
+  "live_delivery_rating_vehicle_line": "VEHICLE: {vehicle} • 4.9 ★",
+  "live_delivery_tag_super_fast": "Super Fast",
+  "live_delivery_tag_friendly": "Friendly",
+  "live_delivery_tag_careful_handling": "Careful Handling",
+  "live_delivery_tip_courier": "Tip Driver",
+  "live_delivery_tip_note": "100% goes to driver",
+  "live_delivery_send_another_item": "Send Another Item",
+  "live_delivery_back_home": "Back to Home"
 }
