@@ -69,6 +69,7 @@
   "saved_places": "الأماكن المحفوظة",
   "payment_methods": "طرق الدفع",
   "notifications": "الإشعارات",
+  "inbox": "الوارد",
   "log_out": "تسجيل الخروج",
   "member_since": "عضو منذ",
   "edit": "تعديل",
@@ -236,5 +237,12 @@
   "live_delivery_tip_courier": "بقشيش للمندوب",
   "live_delivery_tip_note": "100% تذهب للمندوب",
   "live_delivery_send_another_item": "إرسال عنصر آخر",
-  "live_delivery_back_home": "العودة للرئيسية"
+  "live_delivery_back_home": "العودة للرئيسية",
+  "notifications_tab_all": "الكل",
+  "notifications_tab_orders": "الطلبات",
+  "notifications_tab_offers": "العروض",
+  "notifications_today": "اليوم",
+  "notifications_yesterday": "الأمس",
+  "notifications_track_map": "تتبع الخريطة",
+  "notifications_details": "التفاصيل"
 }

@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:go_router/go_router.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:wasel/core/utils/app_colors.dart';
 import 'package:wasel/core/utils/app_string.dart';
@@ -11,6 +12,7 @@ import 'package:wasel/core/utils/app_styles.dart';
 import 'package:wasel/core/utils/local_storage.dart';
 import 'package:wasel/core/utils/service_locator.dart';
 import 'package:wasel/features/auth/data/models/auth_model.dart';
+import 'package:wasel/features/notifications/presentation/screens/notifications_screen.dart';
 import 'package:wasel/features/profile/presentation/manager/profile_cubit.dart';
 import 'package:wasel/features/profile/presentation/manager/profile_state.dart';
 import 'package:wasel/features/profile/presentation/widgets/profile_temp_image_icon.dart';
@@ -207,7 +209,9 @@ class HomeHeader extends StatelessWidget {
         ),
 
         IconButton(
-          onPressed: () {},
+          onPressed: () {
+            context.push(NotificationsScreen.routeName);
+          },
           iconSize: 22.r,
           icon: Container(
             padding: EdgeInsets.all(10.r),

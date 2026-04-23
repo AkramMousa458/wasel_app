@@ -48,7 +48,6 @@ class _BaseScreenState extends State<BaseScreen> {
   }
 
   static void navigateToTab(int index) {
-    
     _instance?._onItemTapped(index);
   }
 

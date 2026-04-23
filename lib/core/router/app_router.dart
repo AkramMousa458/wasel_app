@@ -15,6 +15,7 @@ import 'package:wasel/features/live_delivery/data/models/live_delivery_rating_ar
 import 'package:wasel/features/live_delivery/data/models/live_delivery_screen_args.dart';
 import 'package:wasel/features/live_delivery/presentation/screens/live_delivery_rating_screen.dart';
 import 'package:wasel/features/live_delivery/presentation/screens/live_delivery_tracking_screen.dart';
+import 'package:wasel/features/notifications/presentation/screens/notifications_screen.dart';
 import 'package:wasel/features/order_history/presentation/screens/order_history_screen.dart';
 import 'package:wasel/features/profile/presentation/screens/edit_profile_screen.dart';
 import 'package:wasel/features/profile/presentation/screens/profile_screen.dart';
@@ -125,6 +126,11 @@ abstract class AppRouter {
                 ),
               );
             },
+          ),
+          GoRoute(
+            path: NotificationsScreen.routeName,
+            builder: (context, state) =>
+                NotificationsScreen(isBack: state.extra as bool? ?? false),
           ),
           GoRoute(
             path: OrderHistoryScreen.routeName,

@@ -69,6 +69,7 @@
   "saved_places": "Saved Places",
   "payment_methods": "Payment Methods",
   "notifications": "Notifications",
+  "inbox": "Inbox",
   "log_out": "Log Out",
   "member_since": "Member since",
   "edit": "Edit",
@@ -236,5 +237,12 @@
   "live_delivery_tip_courier": "Tip Driver",
   "live_delivery_tip_note": "100% goes to driver",
   "live_delivery_send_another_item": "Send Another Item",
-  "live_delivery_back_home": "Back to Home"
+  "live_delivery_back_home": "Back to Home",
+  "notifications_tab_all": "All",
+  "notifications_tab_orders": "Orders",
+  "notifications_tab_offers": "Offers",
+  "notifications_today": "TODAY",
+  "notifications_yesterday": "YESTERDAY",
+  "notifications_track_map": "Track Map",
+  "notifications_details": "Details"
 }
