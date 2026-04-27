@@ -48,6 +48,7 @@ class OrderRouteBottomSheet extends StatelessWidget {
   final ValueChanged<String> onDropoffChanged;
   final ValueChanged<OrderPlaceSuggestion> onSuggestionSelected;
   final VoidCallback onConfirm;
+
   /// From [UserModel.savedAddresses], same source as profile saved places.
   final List<SavedAddress> savedAddresses;
   final ValueChanged<SavedAddress> onSavedAddressSelected;
@@ -55,18 +56,24 @@ class OrderRouteBottomSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final sheetBg = isDark ? AppColors.darkCard : AppColors.white;
-    final borderColor =
-        isDark ? AppColors.darkInputFill : AppColors.lightBorder;
-    final fillColor =
-        isDark ? AppColors.darkInputFill : AppColors.lightInputFill;
-    final primaryText =
-        isDark ? AppColors.darkTextPrimary : AppColors.lightTextPrimary;
-    final secondaryText =
-        isDark ? AppColors.darkTextSecondary : AppColors.lightTextSecondary;
+    final borderColor = isDark
+        ? AppColors.darkInputFill
+        : AppColors.lightBorder;
+    final fillColor = isDark
+        ? AppColors.darkInputFill
+        : AppColors.lightInputFill;
+    final primaryText = isDark
+        ? AppColors.darkTextPrimary
+        : AppColors.lightTextPrimary;
+    final secondaryText = isDark
+        ? AppColors.darkTextSecondary
+        : AppColors.lightTextSecondary;
 
-    final showPickupSuggestions = activeSearchField == OrderRouteSearchField.pickup &&
+    final showPickupSuggestions =
+        activeSearchField == OrderRouteSearchField.pickup &&
         (isSearching || suggestions.isNotEmpty || searchErrorKey != null);
-    final showDropSuggestions = activeSearchField == OrderRouteSearchField.dropoff &&
+    final showDropSuggestions =
+        activeSearchField == OrderRouteSearchField.dropoff &&
         (isSearching || suggestions.isNotEmpty || searchErrorKey != null);
 
     InputDecoration fieldDecoration({required bool focusedSecondary}) {
@@ -78,10 +85,7 @@ class OrderRouteBottomSheet extends StatelessWidget {
           color: secondaryText,
           size: 22.sp,
         ),
-        contentPadding: EdgeInsets.symmetric(
-          horizontal: 14.w,
-          vertical: 14.h,
-        ),
+        contentPadding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 14.h),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(14.r),
           borderSide: BorderSide(color: borderColor),
@@ -138,12 +142,13 @@ class OrderRouteBottomSheet extends StatelessWidget {
                       onTap: onPickupTap,
                       onChanged: onPickupChanged,
                       style: AppStyles.textstyle14.copyWith(color: primaryText),
-                      decoration: fieldDecoration(focusedSecondary: false).copyWith(
-                        hintText: translate('order_search_pickup_hint'),
-                        hintStyle: AppStyles.textstyle14.copyWith(
-                          color: secondaryText,
-                        ),
-                      ),
+                      decoration: fieldDecoration(focusedSecondary: false)
+                          .copyWith(
+                            hintText: translate('order_search_pickup_hint'),
+                            hintStyle: AppStyles.textstyle14.copyWith(
+                              color: secondaryText,
+                            ),
+                          ),
                     ),
                     if (showPickupSuggestions) ...[
                       SizedBox(height: 8.h),
@@ -179,12 +184,13 @@ class OrderRouteBottomSheet extends StatelessWidget {
                       onTap: onDropoffTap,
                       onChanged: onDropoffChanged,
                       style: AppStyles.textstyle14.copyWith(color: primaryText),
-                      decoration: fieldDecoration(focusedSecondary: true).copyWith(
-                        hintText: translate('order_where_going'),
-                        hintStyle: AppStyles.textstyle14.copyWith(
-                          color: secondaryText,
-                        ),
-                      ),
+                      decoration: fieldDecoration(focusedSecondary: true)
+                          .copyWith(
+                            hintText: translate('order_where_going'),
+                            hintStyle: AppStyles.textstyle14.copyWith(
+                              color: secondaryText,
+                            ),
+                          ),
                     ),
                     if (showDropSuggestions) ...[
                       SizedBox(height: 8.h),
@@ -204,7 +210,10 @@ class OrderRouteBottomSheet extends StatelessWidget {
               if (routeDistanceKm != null) ...[
                 SizedBox(height: 8.h),
                 Container(
-                  padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 10.h),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 12.w,
+                    vertical: 10.h,
+                  ),
                   decoration: BoxDecoration(
                     color: isDark
                         ? AppColors.darkInputFill
@@ -222,7 +231,9 @@ class OrderRouteBottomSheet extends StatelessWidget {
                       SizedBox(width: 8.w),
                       Text(
                         '${translate('order_distance')}: ${routeDistanceKm!.toStringAsFixed(1)} km',
-                        style: AppStyles.textstyle12.copyWith(color: primaryText),
+                        style: AppStyles.textstyle12.copyWith(
+                          color: primaryText,
+                        ),
                       ),
                     ],
                   ),
@@ -297,20 +308,24 @@ class _LabeledStop extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final secondaryText =
-        isDark ? AppColors.darkTextSecondary : AppColors.lightTextSecondary;
+    final secondaryText = isDark
+        ? AppColors.darkTextSecondary
+        : AppColors.lightTextSecondary;
 
     return Padding(
       padding: EdgeInsets.only(bottom: showConnector ? 4.h : 0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            translate(labelKey),
-            style: AppStyles.textstyle10.copyWith(
-              color: secondaryText,
-              fontWeight: FontWeight.w700,
-              letterSpacing: 0.8,
+          Padding(
+            padding: EdgeInsetsDirectional.only(start: 8.w),
+            child: Text(
+              translate(labelKey),
+              style: AppStyles.textstyle10.copyWith(
+                color: secondaryText,
+                fontWeight: FontWeight.w700,
+                letterSpacing: 0.8,
+              ),
             ),
           ),
           SizedBox(height: 8.h),
@@ -355,7 +370,8 @@ class _StopDot extends StatelessWidget {
       height: 36.r,
       decoration: BoxDecoration(color: color, shape: BoxShape.circle),
       alignment: Alignment.center,
-      child: child ??
+      child:
+          child ??
           Container(
             width: 10.r,
             height: 10.r,
@@ -523,9 +539,7 @@ class _SavedAddressQuickTile extends StatelessWidget {
                 ),
                 Icon(
                   Icons.chevron_right_rounded,
-                  color: isDark
-                      ? AppColors.darkTextSecondary
-                      : AppColors.grey,
+                  color: isDark ? AppColors.darkTextSecondary : AppColors.grey,
                 ),
               ],
             ),

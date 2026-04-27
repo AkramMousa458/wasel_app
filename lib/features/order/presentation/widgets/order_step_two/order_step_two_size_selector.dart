@@ -91,6 +91,7 @@ class _OrderPackageSizeTile extends StatelessWidget {
         child: AnimatedContainer(
           duration: const Duration(milliseconds: 180),
           padding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 8.w),
+          constraints: BoxConstraints(minHeight: 105.h),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(14.r),
             border: Border.all(

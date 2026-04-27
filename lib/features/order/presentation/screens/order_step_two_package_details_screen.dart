@@ -5,18 +5,17 @@ import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:wasel/core/utils/custom_snack_bar.dart';
 import 'package:wasel/core/utils/theme_utils.dart';
-import 'package:wasel/features/order/data/models/order_package_details_draft.dart';
-import 'package:wasel/features/order/data/models/order_route_details_draft.dart';
+import 'package:wasel/features/order/data/models/order_draft_model.dart';
 import 'package:wasel/features/order/presentation/screens/order_step_three_pickup_details_screen.dart';
 import 'package:wasel/features/order/presentation/widgets/order_step_two/order_step_two_footer_note.dart';
 import 'package:wasel/features/order/presentation/widgets/order_step_two/order_step_two_form_card.dart';
 import 'package:wasel/features/order/presentation/widgets/order_step_two/order_step_two_header.dart';
 
 class OrderStepTwoPackageDetailsScreen extends StatefulWidget {
-  const OrderStepTwoPackageDetailsScreen({super.key, this.routeDetails});
+  const OrderStepTwoPackageDetailsScreen({super.key, this.draft});
 
   static const String routeName = '/order/package-details';
-  final OrderRouteDetailsDraft? routeDetails;
+  final OrderDraftModel? draft;
 
   @override
   State<OrderStepTwoPackageDetailsScreen> createState() =>
@@ -82,19 +81,19 @@ class _OrderStepTwoPackageDetailsScreenState
       return;
     }
 
-    final draft = OrderPackageDetailsDraft(
+    final updatedDraft = widget.draft?.copyWith(
       details: _detailsController.text.trim(),
-      packageSize: _selectedSize!,
-      pickupAddress:
-          widget.routeDetails?.pickupAddress ??
-          translate('order_current_location'),
-      dropoffAddress:
-          widget.routeDetails?.dropoffAddress ??
-          translate('order_dropoff_pending'),
+      packageSize: _selectedSize,
       imagePath: _selectedImagePath,
+    ) ?? OrderDraftModel(
+      details: _detailsController.text.trim(),
+      packageSize: _selectedSize,
+      imagePath: _selectedImagePath,
+      pickupAddress: translate('order_current_location'),
+      dropoffAddress: translate('order_dropoff_pending'),
     );
 
-    context.push(OrderStepThreePickupDetailsScreen.routeName, extra: draft);
+    context.push(OrderStepThreePickupDetailsScreen.routeName, extra: updatedDraft);
   }
 
   @override

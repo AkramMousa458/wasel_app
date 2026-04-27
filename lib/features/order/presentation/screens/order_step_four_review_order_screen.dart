@@ -8,15 +8,15 @@ import 'package:wasel/core/utils/theme_utils.dart';
 import 'package:wasel/core/widgets/custom_button.dart';
 import 'package:wasel/features/live_delivery/data/models/live_delivery_screen_args.dart';
 import 'package:wasel/features/live_delivery/presentation/screens/live_delivery_tracking_screen.dart';
-import 'package:wasel/features/order/data/models/order_review_draft.dart';
+import 'package:wasel/features/order/data/models/order_draft_model.dart';
 import 'package:wasel/features/order/presentation/widgets/order_steps_text_widget.dart';
 
 class OrderStepFourReviewOrderScreen extends StatelessWidget {
-  const OrderStepFourReviewOrderScreen({super.key, required this.reviewDraft});
+  const OrderStepFourReviewOrderScreen({super.key, required this.draft});
 
   static const String routeName = '/order/review';
 
-  final OrderReviewDraft reviewDraft;
+  final OrderDraftModel draft;
 
   @override
   Widget build(BuildContext context) {
@@ -97,24 +97,24 @@ class OrderStepFourReviewOrderScreen extends StatelessWidget {
                     ],
                   ),
                   SizedBox(height: 8.h),
-                  _EstimateCard(total: reviewDraft.total, isDark: isDark),
+                  _EstimateCard(total: draft.total, isDark: isDark),
                   SizedBox(height: 14.h),
                   _RouteDetailsCard(
                     isDark: isDark,
-                    pickupAddress: reviewDraft.packageDraft.pickupAddress,
-                    dropoffAddress: reviewDraft.packageDraft.dropoffAddress,
+                    pickupAddress: draft.pickupAddress ?? '',
+                    dropoffAddress: draft.dropoffAddress ?? '',
                   ),
                   SizedBox(height: 14.h),
                   _DetailsGrid(
                     isDark: isDark,
-                    packageType: reviewDraft.packageDraft.packageSize,
-                    details: reviewDraft.packageDraft.details,
-                    weightKg: reviewDraft.estimatedWeightKg,
+                    packageType: draft.packageSize ?? 'small',
+                    details: draft.details ?? '',
+                    weightKg: draft.estimatedWeightKg ?? 2.5,
                   ),
                   SizedBox(height: 14.h),
                   _PaymentInfoCard(
                     isDark: isDark,
-                    methodLabel: reviewDraft.paymentMethodLabel,
+                    methodLabel: draft.paymentMethodLabel ?? '',
                   ),
                 ],
               ),

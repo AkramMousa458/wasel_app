@@ -34,8 +34,8 @@ class OrderStepTwoFormCard extends StatelessWidget {
     final cardColor = isDark ? AppColors.darkCard : AppColors.white;
     final titleColor = isDark ? AppColors.white : AppColors.lightTextPrimary;
     final inputColor = isDark
-        ? const Color(0xFF0F1D3C)
-        : const Color(0xFF1C2B4A);
+        ? AppColors.darkInputFill
+        : AppColors.lightInputFill;
 
     return Container(
       width: double.infinity,
@@ -143,10 +143,7 @@ class OrderStepTwoFormCard extends StatelessWidget {
               },
               decoration: InputDecoration(
                 filled: true,
-                fillColor: isDark
-                    ? AppColors.darkInputFill
-                    : AppColors.lightInputFill,
-                // fillColor: inputColor,
+                fillColor:inputColor,
                 hintText: translate('order_details_hint'),
                 hintStyle: AppStyles.textstyle16.copyWith(
                   color: Colors.white.withValues(alpha: 0.6),

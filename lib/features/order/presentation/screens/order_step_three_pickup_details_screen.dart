@@ -6,8 +6,7 @@ import 'package:wasel/core/utils/app_colors.dart';
 import 'package:wasel/core/utils/app_styles.dart';
 import 'package:wasel/core/utils/theme_utils.dart';
 import 'package:wasel/core/widgets/custom_button.dart';
-import 'package:wasel/features/order/data/models/order_package_details_draft.dart';
-import 'package:wasel/features/order/data/models/order_review_draft.dart';
+import 'package:wasel/features/order/data/models/order_draft_model.dart';
 import 'package:wasel/features/order/presentation/screens/order_step_four_review_order_screen.dart';
 import 'package:wasel/features/order/presentation/widgets/order_step_three/order_payment_method_tile.dart';
 import 'package:wasel/features/order/presentation/widgets/order_step_three/order_payment_summary_card.dart';
@@ -18,7 +17,7 @@ class OrderStepThreePickupDetailsScreen extends StatefulWidget {
 
   static const String routeName = '/order/pickup-details';
 
-  final OrderPackageDetailsDraft? draft;
+  final OrderDraftModel? draft;
 
   @override
   State<OrderStepThreePickupDetailsScreen> createState() =>
@@ -38,8 +37,7 @@ class _OrderStepThreePickupDetailsScreenState
       (method) => method.id == _selectedMethod,
       orElse: () => _PaymentMethod.cashOnDelivery,
     );
-    final reviewDraft = OrderReviewDraft(
-      packageDraft: package,
+    final reviewDraft = package.copyWith(
       paymentMethodId: selectedMethod.id,
       paymentMethodLabel: translate(selectedMethod.titleKey),
       deliveryFee: _deliveryFee,
