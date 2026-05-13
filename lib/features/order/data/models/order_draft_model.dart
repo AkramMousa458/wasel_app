@@ -2,6 +2,10 @@ class OrderDraftModel {
   const OrderDraftModel({
     this.pickupAddress,
     this.dropoffAddress,
+    this.pickupLatitude,
+    this.pickupLongitude,
+    this.dropoffLatitude,
+    this.dropoffLongitude,
     this.details,
     this.packageSize,
     this.imagePath,
@@ -14,6 +18,13 @@ class OrderDraftModel {
 
   final String? pickupAddress;
   final String? dropoffAddress;
+
+  /// WGS84 latitude for pickup (required to submit order to API).
+  final double? pickupLatitude;
+  /// WGS84 longitude for pickup.
+  final double? pickupLongitude;
+  final double? dropoffLatitude;
+  final double? dropoffLongitude;
 
   final String? details;
   final String? packageSize;
@@ -30,6 +41,10 @@ class OrderDraftModel {
   OrderDraftModel copyWith({
     String? pickupAddress,
     String? dropoffAddress,
+    double? pickupLatitude,
+    double? pickupLongitude,
+    double? dropoffLatitude,
+    double? dropoffLongitude,
     String? details,
     String? packageSize,
     String? imagePath,
@@ -42,6 +57,10 @@ class OrderDraftModel {
     return OrderDraftModel(
       pickupAddress: pickupAddress ?? this.pickupAddress,
       dropoffAddress: dropoffAddress ?? this.dropoffAddress,
+      pickupLatitude: pickupLatitude ?? this.pickupLatitude,
+      pickupLongitude: pickupLongitude ?? this.pickupLongitude,
+      dropoffLatitude: dropoffLatitude ?? this.dropoffLatitude,
+      dropoffLongitude: dropoffLongitude ?? this.dropoffLongitude,
       details: details ?? this.details,
       packageSize: packageSize ?? this.packageSize,
       imagePath: imagePath ?? this.imagePath,

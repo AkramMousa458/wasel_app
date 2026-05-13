@@ -85,13 +85,18 @@ class _OrderStepTwoPackageDetailsScreenState
       details: _detailsController.text.trim(),
       packageSize: _selectedSize,
       imagePath: _selectedImagePath,
-    ) ?? OrderDraftModel(
-      details: _detailsController.text.trim(),
-      packageSize: _selectedSize,
-      imagePath: _selectedImagePath,
-      pickupAddress: translate('order_current_location'),
-      dropoffAddress: translate('order_dropoff_pending'),
-    );
+    ) ??
+        OrderDraftModel(
+          details: _detailsController.text.trim(),
+          packageSize: _selectedSize,
+          imagePath: _selectedImagePath,
+          pickupAddress: translate('order_current_location'),
+          dropoffAddress: translate('order_dropoff_pending'),
+          pickupLatitude: widget.draft?.pickupLatitude,
+          pickupLongitude: widget.draft?.pickupLongitude,
+          dropoffLatitude: widget.draft?.dropoffLatitude,
+          dropoffLongitude: widget.draft?.dropoffLongitude,
+        );
 
     context.push(OrderStepThreePickupDetailsScreen.routeName, extra: updatedDraft);
   }

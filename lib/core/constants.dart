@@ -11,6 +11,7 @@ class AppConstants {
   
   // App state keys
   static const String firstLaunchKey = 'first_launch';
+  static const String customerDeviceIdKey = 'customer_device_id';
   
   // Log messages
   static const String saveSuccessLog = 'Saved to local storage';

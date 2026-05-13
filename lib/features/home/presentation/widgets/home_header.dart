@@ -12,16 +12,20 @@ import 'package:wasel/core/utils/app_styles.dart';
 import 'package:wasel/core/utils/local_storage.dart';
 import 'package:wasel/core/utils/service_locator.dart';
 import 'package:wasel/features/auth/data/models/auth_model.dart';
+import 'package:wasel/features/home/presentation/widgets/home_saved_addresses_sheet.dart';
 import 'package:wasel/features/notifications/presentation/screens/notifications_screen.dart';
 import 'package:wasel/features/profile/presentation/manager/profile_cubit.dart';
 import 'package:wasel/features/profile/presentation/manager/profile_state.dart';
 import 'package:wasel/features/profile/presentation/widgets/profile_temp_image_icon.dart';
 
+/// Top bar on the home screen: avatar, name, saved-address picker, notifications.
 class HomeHeader extends StatelessWidget {
   const HomeHeader({super.key, required this.isDark});
   final bool isDark;
 
   static const double _avatarRadius = 26;
+
+  // --- Profile state (shared by avatar + labels) ---
 
   UserModel? _userFromState(ProfileState state) {
     if (state is ProfileLoaded) return state.user;
@@ -54,10 +58,18 @@ class HomeHeader extends StatelessWidget {
       return translate('no_location_set');
     }
 
-    return user!.savedAddresses
-        .firstWhere((address) => address.isDefault)
-        .label;
+    final addresses = user!.savedAddresses;
+    SavedAddress? defaultAddr;
+    for (final a in addresses) {
+      if (a.isDefault) {
+        defaultAddr = a;
+        break;
+      }
+    }
+    return (defaultAddr ?? addresses.first).label;
   }
+
+  // --- Build ---
 
   @override
   Widget build(BuildContext context) {
@@ -66,79 +78,14 @@ class HomeHeader extends StatelessWidget {
       children: [
         Row(
           children: [
-            // User Avatar
             BlocBuilder<ProfileCubit, ProfileState>(
               builder: (context, state) {
                 final user = _userFromState(state);
-                final networkUrl = _profileImageUrl(user);
-
-                late final Widget avatar;
-                if (state is ProfileLoaded && state.localImage != null) {
-                  avatar = CircleAvatar(
-                    radius: _avatarRadius.r,
-                    backgroundColor: isDark
-                        ? AppColors.darkCard
-                        : AppColors.lightCard,
-                    backgroundImage: FileImage(state.localImage!),
-                  );
-                } else if (networkUrl != null) {
-                  avatar = CachedNetworkImage(
-                    imageUrl: networkUrl,
-                    imageBuilder: (context, imageProvider) => CircleAvatar(
-                      radius: _avatarRadius.r,
-                      backgroundColor: isDark
-                          ? AppColors.darkCard
-                          : AppColors.lightCard,
-                      backgroundImage: imageProvider,
-                    ),
-                    placeholder: (context, url) => Shimmer.fromColors(
-                      baseColor: isDark
-                          ? AppColors.shimmerDarkBaseColor
-                          : AppColors.shimmerLightBaseColor,
-                      highlightColor: isDark
-                          ? AppColors.shimmerDarkHighlightColor
-                          : AppColors.shimmerLightHighlightColor,
-                      child: CircleAvatar(
-                        radius: _avatarRadius.r,
-                        backgroundColor: isDark
-                            ? AppColors.darkCard
-                            : AppColors.lightCard,
-                      ),
-                    ),
-                    errorWidget: (context, url, error) => ProfileTempImageIcon(
-                      isDark: isDark,
-                      radius: _avatarRadius,
-                    ),
-                  );
-                } else {
-                  avatar = ProfileTempImageIcon(
-                    isDark: isDark,
-                    radius: _avatarRadius,
-                  );
-                }
-
-                return Stack(
-                  children: [
-                    avatar,
-                    Positioned(
-                      bottom: 0,
-                      left: 0,
-                      child: Container(
-                        width: 15.r,
-                        height: 15.r,
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                            color: isDark
-                                ? AppColors.lightTextPrimary
-                                : AppColors.white,
-                            width: 2,
-                          ),
-                          color: AppColors.success500,
-                          shape: BoxShape.circle,
-                        ),
-                      ),
-                    ),
-                  ],
+                return _HomeHeaderAvatar(
+                  isDark: isDark,
+                  radius: _avatarRadius,
+                  state: state,
+                  networkUrl: _profileImageUrl(user),
                 );
               },
             ),
@@ -162,7 +109,8 @@ class HomeHeader extends StatelessWidget {
                 SizedBox(height: 4.h),
                 InkWell(
                   borderRadius: BorderRadius.circular(100),
-                  onTap: () {},
+                  onTap: () =>
+                      showHomeSavedAddressesSheet(context, isDark: isDark),
                   child: Padding(
                     padding: const EdgeInsets.symmetric(
                       horizontal: 6.0,
@@ -207,45 +155,139 @@ class HomeHeader extends StatelessWidget {
             SizedBox(width: 10.w),
           ],
         ),
+        _HomeHeaderNotificationButton(isDark: isDark),
+      ],
+    );
+  }
+}
 
-        IconButton(
-          onPressed: () {
-            context.push(NotificationsScreen.routeName);
-          },
-          iconSize: 22.r,
-          icon: Container(
-            padding: EdgeInsets.all(10.r),
+class _HomeHeaderAvatar extends StatelessWidget {
+  const _HomeHeaderAvatar({
+    required this.isDark,
+    required this.radius,
+    required this.state,
+    required this.networkUrl,
+  });
+
+  final bool isDark;
+  final double radius;
+  final ProfileState state;
+  final String? networkUrl;
+
+  @override
+  Widget build(BuildContext context) {
+    late final Widget avatar;
+    if (state is ProfileLoaded) {
+      final loaded = state as ProfileLoaded;
+      if (loaded.localImage != null) {
+        avatar = CircleAvatar(
+          radius: radius.r,
+          backgroundColor: isDark ? AppColors.darkCard : AppColors.lightCard,
+          backgroundImage: FileImage(loaded.localImage!),
+        );
+      } else if (networkUrl != null) {
+        avatar = _networkAvatar(networkUrl!);
+      } else {
+        avatar = ProfileTempImageIcon(isDark: isDark, radius: radius);
+      }
+    } else if (networkUrl != null) {
+      avatar = _networkAvatar(networkUrl!);
+    } else {
+      avatar = ProfileTempImageIcon(isDark: isDark, radius: radius);
+    }
+
+    return Stack(
+      children: [
+        avatar,
+        Positioned(
+          bottom: 0,
+          left: 0,
+          child: Container(
+            width: 15.r,
+            height: 15.r,
             decoration: BoxDecoration(
-              color: Colors.white.withValues(alpha: 0.1),
-              borderRadius: BorderRadius.circular(100),
-            ),
-            child: Stack(
-              clipBehavior: Clip.none,
-              children: [
-                Icon(FontAwesomeIcons.solidBell),
-                Positioned(
-                  top: -5,
-                  right: -3,
-                  child: Container(
-                    width: 11.r,
-                    height: 11.r,
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        color: isDark
-                            ? AppColors.lightTextPrimary
-                            : AppColors.white,
-                        width: 2,
-                      ),
-                      color: isDark ? AppColors.error500 : AppColors.error500,
-                      shape: BoxShape.circle,
-                    ),
-                  ),
-                ),
-              ],
+              border: Border.all(
+                color: isDark ? AppColors.lightTextPrimary : AppColors.white,
+                width: 2,
+              ),
+              color: AppColors.success500,
+              shape: BoxShape.circle,
             ),
           ),
         ),
       ],
+    );
+  }
+
+  Widget _networkAvatar(String url) {
+    return CachedNetworkImage(
+      imageUrl: url,
+      imageBuilder: (context, imageProvider) => CircleAvatar(
+        radius: radius.r,
+        backgroundColor: isDark ? AppColors.darkCard : AppColors.lightCard,
+        backgroundImage: imageProvider,
+      ),
+      placeholder: (context, url) => Shimmer.fromColors(
+        baseColor: isDark
+            ? AppColors.shimmerDarkBaseColor
+            : AppColors.shimmerLightBaseColor,
+        highlightColor: isDark
+            ? AppColors.shimmerDarkHighlightColor
+            : AppColors.shimmerLightHighlightColor,
+        child: CircleAvatar(
+          radius: radius.r,
+          backgroundColor: isDark ? AppColors.darkCard : AppColors.lightCard,
+        ),
+      ),
+      errorWidget: (context, url, error) => ProfileTempImageIcon(
+        isDark: isDark,
+        radius: radius,
+      ),
+    );
+  }
+}
+
+class _HomeHeaderNotificationButton extends StatelessWidget {
+  const _HomeHeaderNotificationButton({required this.isDark});
+
+  final bool isDark;
+
+  @override
+  Widget build(BuildContext context) {
+    return IconButton(
+      onPressed: () => context.push(NotificationsScreen.routeName),
+      iconSize: 22.r,
+      icon: Container(
+        padding: EdgeInsets.all(10.r),
+        decoration: BoxDecoration(
+          color: Colors.white.withValues(alpha: 0.1),
+          borderRadius: BorderRadius.circular(100),
+        ),
+        child: Stack(
+          clipBehavior: Clip.none,
+          children: [
+            Icon(FontAwesomeIcons.solidBell),
+            Positioned(
+              top: -5,
+              right: -3,
+              child: Container(
+                width: 11.r,
+                height: 11.r,
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    color: isDark
+                        ? AppColors.lightTextPrimary
+                        : AppColors.white,
+                    width: 2,
+                  ),
+                  color: AppColors.error500,
+                  shape: BoxShape.circle,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

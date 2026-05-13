@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:go_router/go_router.dart';
@@ -6,9 +7,12 @@ import 'package:wasel/core/utils/app_colors.dart';
 import 'package:wasel/core/utils/app_styles.dart';
 import 'package:wasel/core/utils/theme_utils.dart';
 import 'package:wasel/core/widgets/custom_button.dart';
+import 'package:wasel/core/utils/custom_snack_bar.dart';
 import 'package:wasel/features/live_delivery/data/models/live_delivery_screen_args.dart';
 import 'package:wasel/features/live_delivery/presentation/screens/live_delivery_tracking_screen.dart';
 import 'package:wasel/features/order/data/models/order_draft_model.dart';
+import 'package:wasel/features/order/presentation/manager/create_order_cubit.dart';
+import 'package:wasel/features/order/presentation/manager/create_order_state.dart';
 import 'package:wasel/features/order/presentation/widgets/order_steps_text_widget.dart';
 
 class OrderStepFourReviewOrderScreen extends StatelessWidget {
@@ -28,121 +32,146 @@ class OrderStepFourReviewOrderScreen extends StatelessWidget {
     final bgColor = isDark ? AppColors.darkScaffold : const Color(0xFFEAF0F7);
     final cardColor = isDark ? AppColors.darkCard : AppColors.white;
 
-    return Scaffold(
-      backgroundColor: bgColor,
-      body: SafeArea(
-        child: Stack(
-          children: [
-            SingleChildScrollView(
-              padding: EdgeInsets.fromLTRB(16.w, 10.h, 16.w, 110.h),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
+    return BlocConsumer<CreateOrderCubit, CreateOrderState>(
+      listener: (context, state) {
+        if (state is CreateOrderSuccess) {
+          final order = state.response.order!;
+          final eta = state.response.sla?.promisedMinutes ??
+              order.slaPromisedMinutes ??
+              15;
+          context.push(
+            LiveDeliveryTrackingScreen.routeName,
+            extra: LiveDeliveryScreenArgs(
+              orderId: order.id,
+              courierName: null,
+              etaMinutes: eta,
+              currentStepIndex: 0,
+            ),
+          );
+        } else if (state is CreateOrderFailure) {
+          final m = state.message;
+          if (m.startsWith('order_')) {
+            CustomSnackBar.showError(context, m);
+          } else {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text(m)),
+            );
+          }
+        }
+      },
+      builder: (context, state) {
+        final submitting = state is CreateOrderLoading;
+
+        return Scaffold(
+          backgroundColor: bgColor,
+          body: SafeArea(
+            child: Stack(
+              children: [
+                SingleChildScrollView(
+                  padding: EdgeInsets.fromLTRB(16.w, 10.h, 16.w, 110.h),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Material(
-                        color: cardColor,
-                        shape: const CircleBorder(),
-                        clipBehavior: Clip.antiAlias,
-                        child: IconButton(
-                          onPressed: () => context.pop(),
-                          icon: Icon(
-                            Icons.arrow_back_ios_new_rounded,
-                            color: titleColor,
-                            size: 18.sp,
+                      Row(
+                        children: [
+                          Material(
+                            color: cardColor,
+                            shape: const CircleBorder(),
+                            clipBehavior: Clip.antiAlias,
+                            child: IconButton(
+                              onPressed: () => context.pop(),
+                              icon: Icon(
+                                Icons.arrow_back_ios_new_rounded,
+                                color: titleColor,
+                                size: 18.sp,
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
-                      const Spacer(),
-                      Text(
-                        translate('order_review_order'),
-                        style: AppStyles.textstyle18.copyWith(
-                          color: titleColor,
-                          fontWeight: FontWeight.w700,
-                        ),
-                      ),
-                      const Spacer(),
-                      Material(
-                        color: cardColor,
-                        shape: const CircleBorder(),
-                        clipBehavior: Clip.antiAlias,
-                        child: IconButton(
-                          onPressed: () {},
-                          icon: Icon(
-                            Icons.help_outline_rounded,
-                            color: titleColor,
-                            size: 20.sp,
+                          const Spacer(),
+                          Text(
+                            translate('order_review_order'),
+                            style: AppStyles.textstyle18.copyWith(
+                              color: titleColor,
+                              fontWeight: FontWeight.w700,
+                            ),
                           ),
-                        ),
+                          const Spacer(),
+                          Material(
+                            color: cardColor,
+                            shape: const CircleBorder(),
+                            clipBehavior: Clip.antiAlias,
+                            child: IconButton(
+                              onPressed: () {},
+                              icon: Icon(
+                                Icons.help_outline_rounded,
+                                color: titleColor,
+                                size: 20.sp,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 24.h),
+                      Row(
+                        children: [
+                          Text(
+                            translate('order_summary'),
+                            style: AppStyles.textstyle12.copyWith(
+                              color: subtitleColor,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                          const Spacer(),
+                          OrderStepsTextWidget(
+                            currentStep: 4,
+                            totalSteps: 4,
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 8.h),
+                      _EstimateCard(total: draft.total, isDark: isDark),
+                      SizedBox(height: 14.h),
+                      _RouteDetailsCard(
+                        isDark: isDark,
+                        pickupAddress: draft.pickupAddress ?? '',
+                        dropoffAddress: draft.dropoffAddress ?? '',
+                      ),
+                      SizedBox(height: 14.h),
+                      _DetailsGrid(
+                        isDark: isDark,
+                        packageType: draft.packageSize ?? 'small',
+                        details: draft.details ?? '',
+                        weightKg: draft.estimatedWeightKg ?? 2.5,
+                      ),
+                      SizedBox(height: 14.h),
+                      _PaymentInfoCard(
+                        isDark: isDark,
+                        methodLabel: draft.paymentMethodLabel ?? '',
                       ),
                     ],
                   ),
-                  SizedBox(height: 24.h),
-                  Row(
-                    children: [
-                      Text(
-                        translate('order_summary'),
-                        style: AppStyles.textstyle12.copyWith(
-                          color: subtitleColor,
-                          fontWeight: FontWeight.w700,
-                        ),
-                      ),
-                      const Spacer(),
-                      OrderStepsTextWidget(
-                        currentStep: 4,
-                        totalSteps: 4,
-                        // color: Colors.transparent,
-                        // textColor: subtitleColor,
-                      ),
-                    ],
+                ),
+                Positioned(
+                  left: 16.w,
+                  right: 16.w,
+                  bottom: 16.h,
+                  child: CustomButton(
+                    text: 'order_confirm_order',
+                    isLoading: submitting,
+                    onPressed: submitting
+                        ? null
+                        : () => context
+                            .read<CreateOrderCubit>()
+                            .submit(draft),
+                    borderRadius: 16.r,
+                    icon: const Icon(Icons.check_rounded, color: Colors.white),
                   ),
-                  SizedBox(height: 8.h),
-                  _EstimateCard(total: draft.total, isDark: isDark),
-                  SizedBox(height: 14.h),
-                  _RouteDetailsCard(
-                    isDark: isDark,
-                    pickupAddress: draft.pickupAddress ?? '',
-                    dropoffAddress: draft.dropoffAddress ?? '',
-                  ),
-                  SizedBox(height: 14.h),
-                  _DetailsGrid(
-                    isDark: isDark,
-                    packageType: draft.packageSize ?? 'small',
-                    details: draft.details ?? '',
-                    weightKg: draft.estimatedWeightKg ?? 2.5,
-                  ),
-                  SizedBox(height: 14.h),
-                  _PaymentInfoCard(
-                    isDark: isDark,
-                    methodLabel: draft.paymentMethodLabel ?? '',
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
-            Positioned(
-              left: 16.w,
-              right: 16.w,
-              bottom: 16.h,
-              child: CustomButton(
-                text: 'order_confirm_order',
-                onPressed: () {
-                  context.push(
-                    LiveDeliveryTrackingScreen.routeName,
-                    extra: const LiveDeliveryScreenArgs(
-                      orderId: 'WS-8291',
-                      courierName: 'Ahmed Al-Sayed',
-                      etaMinutes: 12,
-                      currentStepIndex: 2,
-                    ),
-                  );
-                },
-                borderRadius: 16.r,
-                icon: const Icon(Icons.check_rounded, color: Colors.white),
-              ),
-            ),
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
 }
@@ -177,7 +206,7 @@ class _EstimateCard extends StatelessWidget {
           ),
           SizedBox(height: 6.h),
           Text(
-            '\$${total.toStringAsFixed(2)}',
+            'EGP ${total.toStringAsFixed(2)}',
             style: AppStyles.textstyle40.copyWith(
               color: titleColor,
               fontWeight: FontWeight.w700,

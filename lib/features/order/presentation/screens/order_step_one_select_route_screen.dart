@@ -255,6 +255,10 @@ class _OrderStepOneSelectRouteScreenState
                                         pickupAddress: state.pickupCommittedLabel,
                                         dropoffAddress:
                                             state.dropoffCommittedLabel,
+                                        pickupLatitude: state.pickup.latitude,
+                                        pickupLongitude: state.pickup.longitude,
+                                        dropoffLatitude: state.dropoff.latitude,
+                                        dropoffLongitude: state.dropoff.longitude,
                                       ),
                                     );
                                 },

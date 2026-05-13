@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'package:logger/logger.dart';
 import 'package:wasel/core/constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -39,6 +40,7 @@ class LocalStorage {
 
   /// Saves the authentication token
   Future<bool> saveAuthToken(String token) {
+    log('saveAuthToken: $token');
     return setString(AppConstants.authTokenKey, token);
   }
 
@@ -48,10 +50,11 @@ class LocalStorage {
   /// Clears the authentication token
   Future<bool> clearAuthToken() => remove(AppConstants.authTokenKey);
 
-
-    /// Saves the refresh token
-  Future<bool> saveRefreshToken(String token) =>
-      setString(AppConstants.refreshTokenKey, token);
+  /// Saves the refresh token
+  Future<bool> saveRefreshToken(String token) {
+    log('saveRefreshToken: $token');
+    return setString(AppConstants.refreshTokenKey, token);
+  }
 
   /// Retrieves the refresh token
   String? get refreshToken => getString(AppConstants.refreshTokenKey);
@@ -90,6 +93,14 @@ class LocalStorage {
   /// Marks the app as launched (not first launch anymore)
   Future<bool> markAppLaunched() => setBool(AppConstants.firstLaunchKey, false);
 
+  /// Stable anonymous device id for order APIs (created once, then reused).
+  Future<String> getOrCreateCustomerDeviceId() async {
+    final existing = getString(AppConstants.customerDeviceIdKey);
+    if (existing != null && existing.isNotEmpty) return existing;
+    final id = 'wasel_${DateTime.now().millisecondsSinceEpoch}';
+    await setString(AppConstants.customerDeviceIdKey, id);
+    return id;
+  }
 
   // ================== Profile Data ================== //
   // حفظ الملف الشخصي
