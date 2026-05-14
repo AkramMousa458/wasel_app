@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:wasel/core/utils/app_colors.dart';
+import 'package:wasel/core/utils/service_locator.dart';
+import 'package:wasel/features/order/data/repo/order_repo_impl.dart';
 import 'package:wasel/core/utils/app_styles.dart';
 import 'package:wasel/core/utils/theme_utils.dart';
 import 'package:wasel/features/order_history/data/models/order_model.dart';
@@ -30,7 +32,8 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen> {
     final isDark = ThemeUtils.isDark(context);
 
     return BlocProvider(
-      create: (context) => OrderHistoryCubit()..loadOrders(),
+      create: (context) =>
+          OrderHistoryCubit(locator<OrderRepoImpl>())..loadOrders(),
       child: Scaffold(
         backgroundColor: isDark
             ? AppColors.darkScaffold

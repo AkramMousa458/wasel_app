@@ -85,6 +85,7 @@
   "in_progress": "في النشاط",
   "yesterday": "الأمس",
   "no_orders_found": "لم يتم العثور على طلبات",
+  "order_status_placed": "جديد",
   "track_order": "تتبع الطلب",
   "view_pickup_details": "عرض تفاصيل الاستلام",
   "in_transit": "في الطريق",
@@ -247,5 +248,7 @@
   "notifications_today": "اليوم",
   "notifications_yesterday": "الأمس",
   "notifications_track_map": "تتبع الخريطة",
-  "notifications_details": "التفاصيل"
+  "notifications_details": "التفاصيل",
+  "delivery": "المندوب",
+  "not_assigned": "لم يتم تعيين مندوب"
 }

@@ -54,15 +54,24 @@ class ActiveOrderCard extends StatelessWidget {
                       width: 48.w,
                       height: 48.w,
                       decoration: BoxDecoration(
-                        color: const Color(
-                          0xFF2C2C2E,
-                        ), // Dark grey placeholder BG
+                        color: const Color(0xFF2C2C2E),
                         borderRadius: BorderRadius.circular(12.r),
-                        image: DecorationImage(
-                          image: CachedNetworkImageProvider(order.imageUrl),
-                          fit: BoxFit.cover,
-                        ),
+                        image: order.customerImage.isEmpty
+                            ? null
+                            : DecorationImage(
+                                image: CachedNetworkImageProvider(
+                                  order.customerImage,
+                                ),
+                                fit: BoxFit.cover,
+                              ),
                       ),
+                      child: order.customerImage.isEmpty
+                          ? Icon(
+                              Icons.local_shipping_outlined,
+                              color: isDark ? Colors.white38 : Colors.black38,
+                              size: 24.sp,
+                            )
+                          : null,
                     ),
                     SizedBox(width: 12.w),
                     Expanded(
@@ -70,7 +79,7 @@ class ActiveOrderCard extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            order.storeName,
+                            order.customerName,
                             style: AppStyles.textstyle16.copyWith(
                               fontWeight: FontWeight.bold,
                               color: isDark ? AppColors.white : AppColors.black,
@@ -91,112 +100,81 @@ class ActiveOrderCard extends StatelessWidget {
                     OrderStatusChip(status: order.status),
                   ],
                 ),
+                SizedBox(height: 4.h),
+                order.driver != null
+                    ? Row(
+                        children: [
+                          Icon(
+                            Icons.delivery_dining,
+                            color: isDark ? AppColors.white : AppColors.black,
+                            size: 16.sp,
+                          ),
+                          SizedBox(width: 4.w),
+                          Text(
+                            '${translate('delivery')}: ',
+                            style: AppStyles.textstyle12.copyWith(
+                              color: isDark ? AppColors.white : AppColors.black,
+                            ),
+                          ),
+                          Text(
+                            '${order.driver?.name} ',
+                            style: AppStyles.textstyle12.copyWith(
+                              color: isDark ? AppColors.white : AppColors.black,
+                            ),
+                          ),
+                        ],
+                      )
+                    : Row(
+                        children: [
+                          Icon(
+                            Icons.delivery_dining,
+                            color: isDark ? AppColors.white : AppColors.black,
+                            size: 16.sp,
+                          ),
+                          SizedBox(width: 4.w),
+                          Text(
+                            '${translate('delivery')}: ${translate('not_assigned')}',
+                            style: AppStyles.textstyle12.copyWith(
+                              color: isDark ? AppColors.white : AppColors.black,
+                            ),
+                          ),
+                        ],
+                      ),
                 SizedBox(height: 16.h),
 
-                // Main Content (Visual)
-                Container(
-                  height: 120.h,
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    color: isDark
-                        ? const Color(0xFF0F172A)
-                        : const Color(0xFFF1F5F9), // Darker/Lighter inset
-                    borderRadius: BorderRadius.circular(16.r),
-                  ),
-                  padding: EdgeInsets.all(12.r),
-                  child: Stack(
-                    children: [
-                      Center(
-                        child: Text(
-                          'Map / Details Placeholder',
-                          style: TextStyle(
-                            color: isDark ? Colors.white24 : Colors.black26,
-                          ),
-                        ),
+                // Arrival time tag (minutes)
+                if (order.slaMinutes != null)
+                  Align(
+                    alignment: AlignmentDirectional.centerStart,
+                    child: Container(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 12.w,
+                        vertical: 8.h,
                       ),
-                      // If profiles exist (Group Order)
-                      if (order.profileImages.isNotEmpty)
-                        Positioned(
-                          bottom: 0,
-                          left: 0,
-                          child: Row(
-                            children: [
-                              for (
-                                int i = 0;
-                                i < order.profileImages.length && i < 3;
-                                i++
-                              )
-                                Align(
-                                  widthFactor: 0.7,
-                                  child: CircleAvatar(
-                                    radius: 14.r,
-                                    backgroundColor: isDark
-                                        ? AppColors.darkCard
-                                        : AppColors.lightCard,
-                                    child: CircleAvatar(
-                                      radius: 12.r,
-                                      backgroundImage:
-                                          CachedNetworkImageProvider(
-                                            order.profileImages[i],
-                                          ),
-                                    ),
-                                  ),
-                                ),
-                              if (order.newItemCount > 0)
-                                Align(
-                                  widthFactor: 0.7,
-                                  child: CircleAvatar(
-                                    radius: 14.r,
-                                    backgroundColor: isDark
-                                        ? AppColors.darkCard
-                                        : AppColors.lightCard,
-                                    child: CircleAvatar(
-                                      radius: 12.r,
-                                      backgroundColor: const Color(0xFF1E293B),
-                                      child: Text(
-                                        '+${order.newItemCount}',
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 10.sp,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                            ],
+                      decoration: BoxDecoration(
+                        color: const Color(0xFF0F172A),
+                        borderRadius: BorderRadius.circular(12.r),
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(
+                            Icons.schedule_rounded,
+                            color: Colors.white.withValues(alpha: 0.85),
+                            size: 18.sp,
                           ),
-                        ),
-
-                      // Arrival Time Tag
-                      if (order.arrivalTime.isNotEmpty)
-                        Positioned(
-                          bottom: 0,
-                          right: 0,
-                          child: Container(
-                            padding: EdgeInsets.symmetric(
-                              horizontal: 12.w,
-                              vertical: 6.h,
-                            ),
-                            decoration: BoxDecoration(
-                              color: const Color(0xFF0F172A), // Very dark navy
-                              borderRadius: BorderRadius.circular(12.r),
-                            ),
-                            child: Text(
-                              order.status == OrderStatus.inTransit
-                                  ? '${translate('arriving_in')} ${order.arrivalTime}'
-                                  : order.arrivalTime,
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 12.sp,
-                                fontWeight: FontWeight.bold,
-                              ),
+                          SizedBox(width: 8.w),
+                          Text(
+                            '${translate('live_delivery_arriving_in')} ${translate('live_delivery_eta_mins', args: {'n': '${order.slaMinutes}'})}',
+                            style: AppStyles.textstyle12.copyWith(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
                             ),
                           ),
-                        ),
-                    ],
+                        ],
+                      ),
+                    ),
                   ),
-                ),
                 SizedBox(height: 16.h),
 
                 // Action Button
@@ -204,12 +182,19 @@ class ActiveOrderCard extends StatelessWidget {
                   width: double.infinity,
                   child: ElevatedButton(
                     onPressed: () {
-                      if (order.type == OrderType.delivery) {
-                        context.push(
-                          LiveDeliveryTrackingScreen.routeName,
-                          extra: LiveDeliveryScreenArgs(orderId: order.id),
-                        );
-                      }
+                      final eta = int.tryParse(
+                        order.slaMinutes.toString().replaceAll(
+                          RegExp(r'[^0-9]'),
+                          '',
+                        ),
+                      );
+                      context.push(
+                        LiveDeliveryTrackingScreen.routeName,
+                        extra: LiveDeliveryScreenArgs(
+                          orderId: order.id,
+                          etaMinutes: eta,
+                        ),
+                      );
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: AppColors.primary,
@@ -307,7 +292,7 @@ class PastOrderCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        order.storeName,
+                        order.customerName,
                         style: AppStyles.textstyle16.copyWith(
                           fontWeight: FontWeight.bold,
                           color: isDark ? AppColors.white : AppColors.black,
@@ -326,17 +311,34 @@ class PastOrderCard extends StatelessWidget {
                                 : AppColors.error500,
                           ),
                           SizedBox(width: 4.w),
-                          Text(
-                            order.description, // "Delivered" or "Cancelled"
-                            style: AppStyles.textstyle12.copyWith(
-                              color: order.status == OrderStatus.delivered
-                                  ? AppColors.success500
-                                  : AppColors.error500,
-                              fontWeight: FontWeight.bold,
+                          Expanded(
+                            child: Text(
+                              order.status == OrderStatus.delivered
+                                  ? translate('delivered')
+                                  : translate('cancelled'),
+                              style: AppStyles.textstyle12.copyWith(
+                                color: order.status == OrderStatus.delivered
+                                    ? AppColors.success500
+                                    : AppColors.error500,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ),
                         ],
                       ),
+                      if (order.description.isNotEmpty) ...[
+                        SizedBox(height: 4.h),
+                        Text(
+                          order.description,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: AppStyles.textstyle12.copyWith(
+                            color: isDark
+                                ? AppColors.darkTextSecondary
+                                : AppColors.lightTextSecondary,
+                          ),
+                        ),
+                      ],
                     ],
                   ),
                 ),

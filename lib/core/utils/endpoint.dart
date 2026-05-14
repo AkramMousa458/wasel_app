@@ -8,5 +8,6 @@ class Endpoint {
   static const String requestEmailOtp = 'api/v1/auth/request-email-otp';
   static const String verifyEmail = 'api/v1/auth/verify-email';
   static const String addresses = 'api/v1/users/addresses';
-  static const String createOrder = 'api/v1/orders';
+  /// Customer orders: `GET` (list) and `POST` (create).
+  static const String orders = 'api/v1/orders';
 }

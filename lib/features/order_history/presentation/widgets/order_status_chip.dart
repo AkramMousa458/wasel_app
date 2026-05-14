@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_translate/flutter_translate.dart';
 import 'package:wasel/core/utils/app_colors.dart';
 import 'package:wasel/core/utils/app_styles.dart';
 import 'package:wasel/features/order_history/data/models/order_model.dart';
@@ -14,16 +15,34 @@ class OrderStatusChip extends StatelessWidget {
     Color backgroundColor;
     Color textColor;
     String text;
-    IconData? icon;
 
     switch (status) {
+      case OrderStatus.created:
+        backgroundColor = AppColors.primary.withValues(alpha: 0.12);
+        textColor = AppColors.primary;
+        text = translate('order_status_placed');
+        break;
+      case OrderStatus.accepted:
+        backgroundColor = AppColors.primary.withValues(alpha: 0.12);
+        textColor = AppColors.primary;
+        text = 'Accepted';
+        break;
+      case OrderStatus.pickedUp:
+        backgroundColor = Colors.amber.withValues(alpha: 0.12);
+        textColor = Colors.amber.shade800;
+        text = 'Picked up';
+        break;
+      case OrderStatus.disputed:
+        backgroundColor = AppColors.error500.withValues(alpha: 0.1);
+        textColor = AppColors.error500;
+        text = 'Disputed';
+        break;
       case OrderStatus.inTransit:
         backgroundColor = const Color(
           0xFF1E3A8A,
         ).withValues(alpha: 0.5); // Example dark blue tint
         textColor = const Color(0xFF60A5FA);
         text = 'In Transit';
-        icon = Icons.circle; // Dot
         break;
       case OrderStatus.courierAssigned:
         backgroundColor = Colors.purple.withValues(alpha: 0.1);

@@ -85,6 +85,7 @@
   "in_progress": "In Progress",
   "yesterday": "Yesterday",
   "no_orders_found": "No orders found",
+  "order_status_placed": "Placed",
   "track_order": "Track Order",
   "view_pickup_details": "View Pick-up details",
   "in_transit": "In Transit",
@@ -247,5 +248,7 @@
   "notifications_today": "TODAY",
   "notifications_yesterday": "YESTERDAY",
   "notifications_track_map": "Track Map",
-  "notifications_details": "Details"
+  "notifications_details": "Details",
+  "delivery": "Delivery",
+  "not_assigned": "Not Assigned"
 }
